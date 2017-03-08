@@ -5,6 +5,7 @@ body {
   	background-attachment: fixed;
   	background-position: center;
     background-size: cover;
+    font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
@@ -14,10 +15,10 @@ h1 {
 
 #wrapper {
     padding-left: 0;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
 }
 
 #wrapper.toggled {
@@ -33,10 +34,10 @@ h1 {
     margin-left: -250px;
     overflow-y: auto;
     background: #000;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
     opacity: 0.7;
 }
 
@@ -138,4 +139,9 @@ h1 {
   position: absolute;
   bottom: 3%;
   color: white;
+}
+
+@-webkit-keyframes example {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(180deg); }
 }

@@ -12,7 +12,7 @@
     <title>Event Manager</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet">
-
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=latin' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -52,24 +52,14 @@
             </div>
 
             <a href="#menu-toggle" id="menu-toggle">
-              <span id="menu-toggle-left-icon" class="glyphicon glyphicon-menu-left"></span>
-              <span id="menu-toggle-right-icon"></span>
+              <span class="glyphicon glyphicon-menu-left"></span>
             </a>
         </div>
     </div>
 
     <script src="js/jquery-3.1.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-      $("#menu-toggle").click(function(e) {
-          e.preventDefault();
-          $("#wrapper").toggleClass("toggled");
-          $("#menu-toggle-left-icon").toggleClass("glyphicon glyphicon-menu-left");
-          $("#menu-toggle-right-icon").toggleClass("glyphicon glyphicon-menu-right");
-      });
-    </script>
+    <script src="js/base.js"></script>
 
 </body>
 
