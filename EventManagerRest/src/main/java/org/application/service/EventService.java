@@ -7,14 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EventService {
-    private long lastId;
     
     @Autowired(required = true)
     private EventRepository eventRepository;
-    
-    public synchronized long getAndIncrementId() {
-        return ++lastId;
-    }
 
     public Event createEvent(Event event) {
     	return eventRepository.save(event);
@@ -22,6 +17,17 @@ public class EventService {
 
     public Event findOne(Long id){
         return eventRepository.findOne(id);
-    };
+    }
     
+    public Iterable<Event> findAll() {
+    	return eventRepository.findAll();
+    }
+
+	public Event update(Event event) {
+		return eventRepository.save(event);
+	}
+	
+	public void delete(Long id) {
+		eventRepository.delete(id);
+	}
 }

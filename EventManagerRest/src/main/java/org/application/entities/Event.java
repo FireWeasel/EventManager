@@ -15,13 +15,17 @@ public class Event {
 	
 	@Column(nullable = false)
     private String address;
+	
+	@Column(nullable = false)
+	private String description;
 
-    public Event(){ }
+	public Event(){ }
 
-    public Event(long id, String name, String address) {
+    public Event(long id, String name, String address, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.description = description;
     }
 
     public String getAddress() {
@@ -41,11 +45,20 @@ public class Event {
     public long getId() { return id; }
 
     public void setId(long id) { this.id = id; }
+    
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
     public static class EventBuilder {
         private long id;
         private String name;
         private String address;
+        private String description;
 
         public EventBuilder id(long id) {
             this.id = id;
@@ -61,9 +74,14 @@ public class Event {
             this.address = address;
             return this;
         }
+        
+        public EventBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
 
         public Event build() {
-            return new Event(id, name, address);
+            return new Event(id, name, address, description);
         }
     }
 }

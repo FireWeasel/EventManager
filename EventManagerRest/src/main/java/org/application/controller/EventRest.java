@@ -22,9 +22,30 @@ public class EventRest {
         return eventService.createEvent(event);
     }
     
+    @RequestMapping(value = "/events", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Iterable<Event> getAllEvents() {
+    	return eventService.findAll();
+    }
+    
     @RequestMapping(value = "/events/{eventId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Event getEventByName(@PathVariable("eventId") Long id) {
         return eventService.findOne(id);
+    }
+    
+    @RequestMapping(value = "/events/{eventId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Event updateEvent(@RequestBody Event event, @PathVariable("eventId") Long id) {
+    	Event fromDb = eventService.findOne(id);
+    	fromDb.setName(event.getName());
+    	fromDb.setAddress(event.getAddress());
+    	fromDb.setDescription(event.getDescription());
+    	return eventService.update(fromDb);
+    }
+    
+    @RequestMapping(value = "/events/{eventId}", method = RequestMethod.DELETE)
+    public void deleteEvent(@PathVariable("eventId") Long id) {
+    	eventService.delete(id);
     }
 }
