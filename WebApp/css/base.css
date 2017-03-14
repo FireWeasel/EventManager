@@ -145,3 +145,22 @@ h1 {
     from { -webkit-transform: rotate(0deg); }
     to { -webkit-transform: rotate(180deg); }
 }
+
+.news-container {
+  height: 75vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  margin: 2%;
+  border-radius: 25px;
+  padding: 2%;
+  overflow: scroll;
+}
+
+.news-container::-webkit-scrollbar {
+    display: none;
+}
+
+.news-container h2 {
+  margin-top: 0px;
+  text-align: center;
+}
