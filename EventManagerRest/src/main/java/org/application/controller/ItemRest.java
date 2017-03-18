@@ -1,0 +1,36 @@
+package org.application.controller;
+
+import org.application.entities.Item;
+import org.application.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ItemRest {
+	
+	@Autowired
+	private ItemService itemService;
+	
+	@RequestMapping(value = "/items/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Item createItem(@RequestBody Item item) {
+        return itemService.createItem(item);
+    }
+	
+	@RequestMapping(value = "/items", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Iterable<Item> getAllItems() {
+    	return itemService.getAllItems();
+    }
+	
+	@RequestMapping(value = "/items/{itemId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Item getItem(@PathVariable("itemId") long itemId) {
+    	return itemService.getItem(itemId);
+    }
+}

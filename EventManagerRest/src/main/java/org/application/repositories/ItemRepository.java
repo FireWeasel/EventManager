@@ -1,0 +1,8 @@
+package org.application.repositories;
+
+import org.application.entities.Item;
+import org.springframework.data.repository.CrudRepository;
+
+public interface ItemRepository extends CrudRepository<Item, Long>{
+
+}
