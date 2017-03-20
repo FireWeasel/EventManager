@@ -1,4 +1,4 @@
-package org.application.controller;
+package org.application.controllers;
 
 import org.application.entities.User;
 import org.application.service.UserService;
