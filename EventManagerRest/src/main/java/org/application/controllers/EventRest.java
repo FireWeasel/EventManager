@@ -30,7 +30,7 @@ public class EventRest {
     
     @RequestMapping(value = "/events/{eventId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Event getEventByName(@PathVariable("eventId") Long id) {
+    public Event getEvent(@PathVariable("eventId") Long id) {
         return eventService.getEvent(id);
     }
     

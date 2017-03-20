@@ -30,7 +30,7 @@ public class TicketRest {
 	
 	@RequestMapping(value = "/tickets/{ticketId}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Ticket getTicketById(@PathVariable("ticketId") Long id) {
+	public Ticket getTicket(@PathVariable("ticketId") Long id) {
 		return ticketService.getTicket(id);
 	}
 	
