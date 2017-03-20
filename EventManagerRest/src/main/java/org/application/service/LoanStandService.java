@@ -11,6 +11,10 @@ public class LoanStandService {
 	@Autowired(required = true)
 	private LoanStandRepository loanStandRepository;
 	
+	public LoanStand createLoanStand(LoanStand loanStand) {
+		return loanStandRepository.save(loanStand);
+	}
+	
 	public Iterable<LoanStand> getAllLoanStands() {
 		return loanStandRepository.findAll();
 	}

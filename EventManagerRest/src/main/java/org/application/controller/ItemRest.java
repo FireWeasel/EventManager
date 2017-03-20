@@ -16,12 +16,6 @@ public class ItemRest {
 	@Autowired
 	private ItemService itemService;
 	
-	@RequestMapping(value = "/items/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    @ResponseBody
-    public Item createItem(@RequestBody Item item) {
-        return itemService.createItem(item);
-    }
-	
 	@RequestMapping(value = "/items", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Iterable<Item> getAllItems() {
@@ -32,5 +26,23 @@ public class ItemRest {
     @ResponseBody
     public Item getItem(@PathVariable("itemId") long itemId) {
     	return itemService.getItem(itemId);
+    }
+	
+    @RequestMapping(value = "/items/{itemId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Item updateItem(@RequestBody Item item, @PathVariable("itemId") Long id) {
+    	Item fromDb = itemService.getItem(id);
+    	fromDb.setName(item.getName());
+    	fromDb.setDescription(item.getDescription());
+    	fromDb.setFee(item.getFee());
+    	fromDb.setQuantity(item.getQuantity());
+    	fromDb.setType(item.getType());
+    	fromDb.setLoanStand(item.getLoanStand());
+    	return itemService.createItem(fromDb);
+    }
+    
+    @RequestMapping(value = "/items/{itemId}", method = RequestMethod.DELETE)
+    public void deleteItem(@PathVariable("itemId") Long id) {
+    	itemService.delete(id);
     }
 }

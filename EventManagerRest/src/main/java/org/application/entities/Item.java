@@ -4,9 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Item {
@@ -30,15 +34,20 @@ public class Item {
 	@Enumerated(EnumType.STRING)
 	private ItemType type;
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnore
+	private LoanStand loanStand;
+	
 	public Item() {}
 	
-	public Item(long id, String name, String description, double fee, int quantity, ItemType type) {
+	public Item(long id, String name, String description, double fee, int quantity, ItemType type, LoanStand loanStand) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.fee = fee;
 		this.quantity = quantity;
 		this.type = type;
+		this.loanStand = loanStand;
 	}
 
 	public long getId() {
@@ -89,6 +98,14 @@ public class Item {
 		this.type = type;
 	}
 	
+	public LoanStand getLoanStand() {
+		return loanStand;
+	}
+
+	public void setLoanStand(LoanStand loanStand) {
+		this.loanStand = loanStand;
+	}
+	
 	public static class ItemBuilder {
 		private long id;
 		private String name;
@@ -96,6 +113,7 @@ public class Item {
 		private double fee;
 		private int quantity;
 		private ItemType type;
+		private LoanStand loanStand;
 		
 		public ItemBuilder id(long id) {
 			this.id = id;
@@ -127,8 +145,13 @@ public class Item {
 			return this;
 		}
 		
+		public ItemBuilder loanStand(LoanStand loanStand) {
+			this.loanStand = loanStand;
+			return this;
+		}
+		
 		public Item build() {
-			return new Item(id, name, description, fee, quantity, type);
+			return new Item(id, name, description, fee, quantity, type, loanStand);
 		}
 	}
 }

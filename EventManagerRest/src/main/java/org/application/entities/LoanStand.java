@@ -1,10 +1,14 @@
 package org.application.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class LoanStand {
@@ -14,6 +18,10 @@ public class LoanStand {
 	
 	@Column(nullable = false)
 	private double revenue;
+
+	@Column
+	@OneToMany
+	private List<Item> items;
 
 	public long getId() {
 		return id;
@@ -31,11 +39,24 @@ public class LoanStand {
 		this.revenue = revenue;
 	}
 
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+	
+	public void addItem(Item item) {
+		this.items.add(item);
+	}
+	
 	public LoanStand() {}
 	
 	public LoanStand(long id, double revenue) {
 		this.id = id;
 		this.revenue = revenue;
+		this.items = new ArrayList<Item>();
 	}
 	
 	public static class LoanStandBuilder {
