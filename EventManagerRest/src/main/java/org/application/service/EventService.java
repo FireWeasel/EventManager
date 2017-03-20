@@ -8,24 +8,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventService {
     
-    @Autowired(required = true)
+    @Autowired
     private EventRepository eventRepository;
 
     public Event createEvent(Event event) {
     	return eventRepository.save(event);
     }
 
-    public Event findOne(Long id){
+    public Event getEvent(Long id){
         return eventRepository.findOne(id);
     }
     
-    public Iterable<Event> findAll() {
+    public Iterable<Event> getAllEvents() {
     	return eventRepository.findAll();
     }
-
-	public Event update(Event event) {
-		return eventRepository.save(event);
-	}
 	
 	public void delete(Long id) {
 		eventRepository.delete(id);
