@@ -11,6 +11,10 @@ public class ShopService {
 	@Autowired(required = true)
 	private ShopRepository shopRepository;
 	
+	public Shop createShop(Shop shop) {
+		return shopRepository.save(shop);
+	}
+	
 	public Iterable<Shop> getAllShops() {
 		return shopRepository.findAll();
 	}

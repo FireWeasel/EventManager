@@ -16,12 +16,6 @@ public class ProductRest {
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping(value = "/products/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    @ResponseBody
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
-    }
-	
 	@RequestMapping(value = "/products", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Iterable<Product> getAllProducts() {
@@ -32,5 +26,19 @@ public class ProductRest {
     @ResponseBody
     public Product getProduct(@PathVariable("productId") long productId) {
     	return productService.getProduct(productId);
+    }
+	
+	@RequestMapping(value = "/products/{productId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) {
+    	Product fromDb = productService.getProduct(id);
+    	fromDb.setName(product.getName());
+    	fromDb.setDescription(product.getDescription());
+    	return productService.createProduct(fromDb);
+    }
+	
+	@RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE)
+    public void deleteProduct(@PathVariable("productId") Long id) {
+    	productService.delete(id);
     }
 }

@@ -22,4 +22,8 @@ public class ProductService {
 	public Product getProduct(long id) {
 		return productRepository.findOne(id);
 	}
+	
+	public void delete(long id) {
+		productRepository.delete(id);
+	}
 }

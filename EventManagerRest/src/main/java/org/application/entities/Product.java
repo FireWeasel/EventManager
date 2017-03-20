@@ -4,9 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
@@ -29,16 +33,21 @@ public class Product {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ProductType type;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnore
+	private Shop shop;
 
 	public Product() {}
 	
-	public Product(long id, String name, String description, double price, int quantity, ProductType type) {
+	public Product(long id, String name, String description, double price, int quantity, ProductType type, Shop shop) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.quantity = quantity;
 		this.type = type;
+		this.shop = shop;
 	}
 
 	public long getId() {
@@ -89,6 +98,14 @@ public class Product {
 		this.type = type;
 	}
 	
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+	
 	public static class ProductBuilder {
 		private long id;
 		private String name;
@@ -96,6 +113,7 @@ public class Product {
 		private double price;
 		private int quantity;
 		private ProductType type;
+		private Shop shop;
 		
 		public ProductBuilder id(long id) {
 			this.id = id;
@@ -127,8 +145,13 @@ public class Product {
 			return this;
 		}
 		
+		public ProductBuilder shop(Shop shop) {
+			this.shop = shop;
+			return this;
+		}
+		
 		public Product build() {
-			return new Product(id, name, description, price, quantity, type);
+			return new Product(id, name, description, price, quantity, type, shop);
 		}
 	}
 }
