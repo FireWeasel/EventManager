@@ -8,23 +8,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     
-    @Autowired(required = true)
+    @Autowired
     private UserRepository userRepository;
 
     public User createUser(User user) {
     	return userRepository.save(user);
     }
 
-    public Iterable<User> findAll() {
+    public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
     
-    public User findOne(Long id) {
+    public User getUser(Long id) {
         return userRepository.findOne(id);
-    }
-    
-    public User update(User user) {
-        return userRepository.save(user);
     }
     
     public void delete(Long id) {

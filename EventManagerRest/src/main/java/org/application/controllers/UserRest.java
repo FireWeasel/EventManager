@@ -25,23 +25,23 @@ public class UserRest {
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Iterable<User> getAllUsers() {
-        return userService.findAll();
+        return userService.getAllUsers();
     }
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public User getUserByName(@PathVariable("userId") Long id) {
-        return userService.findOne(id);
+        return userService.getUser(id);
     }
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
     public User updateUser(@RequestBody User user, @PathVariable("userId") Long id) {
-    	User fromDb = userService.findOne(id);
+    	User fromDb = userService.getUser(id);
     	fromDb.setUsername(user.getUsername());
     	fromDb.setEmail(user.getEmail());
     	fromDb.setPassword(user.getPassword());
-        return userService.update(fromDb);
+        return userService.createUser(fromDb);
     }
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
