@@ -1,6 +1,8 @@
 package org.application.controllers;
 
+import org.application.entities.Reservation;
 import org.application.entities.User;
+import org.application.service.ReservationService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,8 @@ public class UserRest {
 	
 	@Autowired
     private UserService userService;
+	@Autowired
+	private ReservationService reservationService;
 
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -30,7 +34,7 @@ public class UserRest {
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public User getUserByName(@PathVariable("userId") Long id) {
+    public User getUser(@PathVariable("userId") Long id) {
         return userService.getUser(id);
     }
     
@@ -47,6 +51,17 @@ public class UserRest {
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("userId") Long id) {
         userService.delete(id);
+    }
+    
+	@RequestMapping(value = "/users/{userId}/reservations/create", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public User createReservation(@PathVariable("userId") long userId) {
+		Reservation reservation = new Reservation();
+		User user = userService.getUser(userId);
+        reservation.addReservedBy(user);
+		user.setReservation(reservation);
+		reservationService.createReservation(reservation);
+		return userService.createUser(user);
     }
     
 }

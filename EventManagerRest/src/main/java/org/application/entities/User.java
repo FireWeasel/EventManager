@@ -2,7 +2,12 @@ package org.application.entities;
 
 
 import javax.persistence.Column;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class User {
@@ -18,6 +23,9 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Reservation reservation;
 
     public User() { }
 
@@ -28,7 +36,7 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
+	public String getUsername() {
         return username;
     }
 
@@ -56,6 +64,15 @@ public class User {
 
     public void setId(long id) { this.id = id; }
 
+
+    public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+    
     public static class UserBuilder {
         private long id;
         private String username;
