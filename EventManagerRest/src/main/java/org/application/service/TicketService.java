@@ -36,4 +36,8 @@ public class TicketService {
 		fromDb.checkOut();
 		return ticketRepository.save(fromDb);
 	}
+	
+	public void delete(Long id) {
+		ticketRepository.delete(id);
+    }
 }
