@@ -1,7 +1,9 @@
 package org.application.controllers;
 
 import org.application.entities.Item;
+import org.application.entities.LoanStand;
 import org.application.service.ItemService;
+import org.application.service.LoanStandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,9 @@ public class ItemRest {
 	
 	@Autowired
 	private ItemService itemService;
+	
+	@Autowired
+	private LoanStandService loanStandService;
 	
 	@RequestMapping(value = "/items", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -43,6 +48,10 @@ public class ItemRest {
     
     @RequestMapping(value = "/items/{itemId}", method = RequestMethod.DELETE)
     public void deleteItem(@PathVariable("itemId") Long id) {
+    	Item item = itemService.getItem(id);
+    	LoanStand loanStand = item.getLoanStand();
+    	loanStand.getItems().remove(item);
+    	loanStandService.createLoanStand(loanStand);
     	itemService.delete(id);
     }
 }

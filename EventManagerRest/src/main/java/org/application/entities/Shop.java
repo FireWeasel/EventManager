@@ -3,6 +3,7 @@ package org.application.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Shop {
 	private double revenue;
 	
 	@Column(nullable = false)
-	@OneToMany(mappedBy="shop")
+	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Product> products;
 
