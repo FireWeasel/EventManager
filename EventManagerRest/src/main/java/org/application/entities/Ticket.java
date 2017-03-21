@@ -1,10 +1,14 @@
 package org.application.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Ticket {
@@ -20,6 +24,10 @@ public class Ticket {
 	
 	@Column(nullable = false)
 	private float balance;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private User owner;
 
 	public long getId() {
 		return id;
@@ -53,13 +61,25 @@ public class Ticket {
 		this.balance = balance;
 	}
 	
-	public Ticket() {}
+	public User getOwner() {
+		return owner;
+	}
 
-	public Ticket(long id, float balance) {
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public Ticket() {
+		this.checkedIn = false;
+		this.checkedOut = false;
+	}
+
+	public Ticket(long id, float balance, User owner) {
 		this.id = id;
 		this.checkedIn = false;
 		this.checkedOut = false;
 		this.balance = balance;
+		this.owner = owner;
 	}
 	
 	public void checkIn() {
@@ -73,6 +93,7 @@ public class Ticket {
 	public static class TicketBuilder {
 		private long id;
 		private float balance;
+		private User owner;
 		
 		public TicketBuilder id(long id) {
 			this.id = id;
@@ -84,8 +105,13 @@ public class Ticket {
 			return this;
 		}
 		
+		public TicketBuilder owner(User owner) {
+			this.owner = owner;
+			return this;
+		}
+		
 		public Ticket build() {
-			return new Ticket(id, balance);
+			return new Ticket(id, balance, owner);
 		}
 	}
 }

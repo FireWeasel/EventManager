@@ -4,7 +4,6 @@ import org.application.entities.Ticket;
 import org.application.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,12 +14,6 @@ public class TicketRest {
 
 	@Autowired
 	private TicketService ticketService;
-	
-	@RequestMapping(value = "/tickets/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    @ResponseBody
-    public Ticket createTicket(@RequestBody Ticket ticket) {
-        return ticketService.createTicket(ticket);
-    }
 	
 	@RequestMapping(value = "/tickets", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody

@@ -1,8 +1,10 @@
 package org.application.controllers;
 
 import org.application.entities.Reservation;
+import org.application.entities.Ticket;
 import org.application.entities.User;
 import org.application.service.ReservationService;
+import org.application.service.TicketService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,8 @@ public class UserRest {
     private UserService userService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private TicketService ticketService;
 
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -61,6 +65,16 @@ public class UserRest {
         reservation.addReservedBy(user);
 		user.setReservation(reservation);
 		reservationService.createReservation(reservation);
+		return userService.createUser(user);
+    }
+	
+	@RequestMapping(value = "/users/{userId}/tickets/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public User createTicket(@PathVariable("userId") long userId, @RequestBody Ticket ticket) {
+		User user = userService.getUser(userId);
+		ticket.setOwner(user);
+		user.setTicket(ticket);
+		ticketService.createTicket(ticket);
 		return userService.createUser(user);
     }
     

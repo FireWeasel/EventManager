@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TicketService {
 
-	@Autowired(required = true)
+	@Autowired
     private TicketRepository ticketRepository;
 
     public Ticket createTicket(Ticket ticket) {
-    	Ticket newTicket = new Ticket(ticket.getId(), ticket.getBalance());
-    	return ticketRepository.save(newTicket);
+    	return ticketRepository.save(ticket);
     }
 
 	public Iterable<Ticket> getAllTickets() {

@@ -3,11 +3,11 @@ package org.application.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -24,16 +24,20 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private Reservation reservation;
+	
+	@OneToOne(mappedBy = "owner")
+	private Ticket ticket;
 
     public User() { }
 
-    public User(long id, String username, String email, String password) {
+    public User(long id, String username, String email, String password, Ticket ticket) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.ticket = ticket;
     }
 
 	public String getUsername() {
@@ -53,17 +57,20 @@ public class User {
     }
 
     public String getPassword() {
-			return password;
-		}
+		return password;
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
     
-    public long getId() { return id; }
+    public long getId() { 
+    	return id; 
+    }
 
-    public void setId(long id) { this.id = id; }
-
+    public void setId(long id) {
+    	this.id = id; 
+    }
 
     public Reservation getReservation() {
 		return reservation;
@@ -73,11 +80,20 @@ public class User {
 		this.reservation = reservation;
 	}
     
-    public static class UserBuilder {
+    public Ticket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+
+	public static class UserBuilder {
         private long id;
         private String username;
         private String email;
         private String password;
+        private Ticket ticket;
 
 		public UserBuilder id(long id) {
             this.id = id;
@@ -93,9 +109,14 @@ public class User {
             this.email = email;
             return this;
         }
+        
+        public UserBuilder ticket(Ticket ticket) {
+        	this.ticket = ticket;
+        	return this;
+        }
 
         public User build() {
-            return new User(id, username, email, password);
+            return new User(id, username, email, password, ticket);
         }
     }
 }
