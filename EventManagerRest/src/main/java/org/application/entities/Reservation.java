@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,6 +26,9 @@ public class Reservation {
 	@OneToMany(mappedBy="reservation")
 	@JsonIgnore
 	private List<User> reservedBy;
+	
+	@OneToOne(mappedBy = "reservation")
+	private Camp camp;
 
 	public long getId() {
 		return id;
@@ -54,20 +58,30 @@ public class Reservation {
 		this.reservedBy.add(user);
 	}
 	
+	public Camp getCamp() {
+		return camp;
+	}
+
+	public void setCamp(Camp camp) {
+		this.camp = camp;
+	}
+
 	public Reservation() {
 		this.paid = false;
 		this.reservedBy = new ArrayList<User>();
 	}
 
-	public Reservation(long id, Boolean paid) {
+	public Reservation(long id, Boolean paid, Camp camp) {
 		this.id = id;
 		this.paid = paid;
 		this.reservedBy = new ArrayList<User>();
+		this.camp = camp;
 	}
 	
 	public static class ReservationBuilder {
 		private long id;
 		private Boolean paid;
+		private Camp camp;
 		
 		public ReservationBuilder id(long id) {
 			this.id = id;
@@ -79,8 +93,13 @@ public class Reservation {
 			return this;
 		}
 		
+		public ReservationBuilder camp(Camp camp) {
+			this.camp = camp;
+			return this;
+		}
+		
 		public Reservation build() {
-			return new Reservation(id, paid);
+			return new Reservation(id, paid, camp);
 		}
 	}
 }

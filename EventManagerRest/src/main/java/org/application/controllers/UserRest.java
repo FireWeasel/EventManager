@@ -1,8 +1,10 @@
 package org.application.controllers;
 
+import org.application.entities.Camp;
 import org.application.entities.Reservation;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.service.CampService;
 import org.application.service.ReservationService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
@@ -23,6 +25,8 @@ public class UserRest {
 	private ReservationService reservationService;
 	@Autowired
 	private TicketService ticketService;
+	@Autowired
+	private CampService campService;
 
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -57,14 +61,18 @@ public class UserRest {
         userService.delete(id);
     }
     
-	@RequestMapping(value = "/users/{userId}/reservations/create", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/users/{userId}/reservations/create/{campId}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public User createReservation(@PathVariable("userId") long userId) {
+    public User createReservation(@PathVariable("userId") long userId, @PathVariable("campId") long campId) {
 		Reservation reservation = new Reservation();
 		User user = userService.getUser(userId);
+		Camp camp = campService.getCamp(campId);
         reservation.addReservedBy(user);
+        reservation.setCamp(camp);
+        reservationService.createReservation(reservation);
+        camp.setReservation(reservation);
 		user.setReservation(reservation);
-		reservationService.createReservation(reservation);
+		campService.createCamp(camp);
 		return userService.createUser(user);
     }
 	

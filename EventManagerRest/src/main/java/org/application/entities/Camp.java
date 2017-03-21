@@ -1,7 +1,8 @@
 package org.application.entities;
 
-import javax.persistence.Column;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Camp {
@@ -20,8 +21,12 @@ public class Camp {
 	
 	@Column(nullable = false)
 	private boolean checkedIn;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Reservation reservation;
 
-	public Camp(){ }
+	public Camp() { }
 
     public Camp(long id, String name, String description, double price) {
         this.id = id;
@@ -29,17 +34,24 @@ public class Camp {
         this.description = description;
         this.price = price;
         this.checkedIn = false;
+        this.reservation = null;
     }
 
-    public String getName() { return name; }
+    public String getName() { 
+    	return name;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public long getId() { return id; }
+    public long getId() { 
+    	return id; 
+    }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(long id) { 
+    	this.id = id; 
+    }
     
     public String getDescription() {
 		return description;
@@ -65,7 +77,15 @@ public class Camp {
 		this.checkedIn = checkedIn;
 	}
 	
-    public static class CampBuilder {
+    public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+
+	public static class CampBuilder {
         private long id;
         private String name;
         private String description;
