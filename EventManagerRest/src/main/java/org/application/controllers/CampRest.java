@@ -1,7 +1,9 @@
 package org.application.controllers;
 
 import org.application.entities.Camp;
+import org.application.entities.Reservation;
 import org.application.service.CampService;
+import org.application.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,9 @@ public class CampRest {
 	
 	@Autowired
     private CampService campService;
+	
+	@Autowired
+	private ReservationService reservationService;
 
     @RequestMapping(value = "/camps/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -47,6 +52,9 @@ public class CampRest {
     
     @RequestMapping(value = "/camps/{campId}", method = RequestMethod.DELETE)
     public void deleteCamp(@PathVariable("campId") Long id) {
+    	Camp camp = campService.getCamp(id);
+    	Reservation reservation = camp.getReservation();
+    	reservationService.deleteReservation(reservation.getId());
     	campService.delete(id);
     }
 }
