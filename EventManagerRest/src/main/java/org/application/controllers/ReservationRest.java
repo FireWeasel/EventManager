@@ -49,4 +49,17 @@ public class ReservationRest {
     public List<User> getReservationUsers(@PathVariable("reservationId") Long id) {
         return reservationService.getReservation(id).getReservedBy();
     }
+    
+    @RequestMapping(value = "/reservations/{reservationId}", method = RequestMethod.DELETE)
+    public void deleteReservation(@PathVariable("reservationId") Long id) {
+    	reservationService.deleteReservation(id);
+    }
+    
+    @RequestMapping(value = "/reservations/{reservationId}/payment", method = RequestMethod.PUT)
+    @ResponseBody
+    public Reservation reservationPayment(@PathVariable("reservationId") Long id) {
+    	Reservation fromDB = reservationService.getReservation(id);
+    	fromDB.setPaid(true); // TODO: Check if already the reservation is paid
+    	return reservationService.createReservation(fromDB);
+    }
 }

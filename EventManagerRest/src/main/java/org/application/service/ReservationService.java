@@ -22,4 +22,8 @@ public class ReservationService {
 	public Iterable<Reservation> getAllReservations() {
 		return reservationRepository.findAll();
 	}
+
+	public void deleteReservation(Long id) {
+		reservationRepository.delete(id);
+	}
 }
