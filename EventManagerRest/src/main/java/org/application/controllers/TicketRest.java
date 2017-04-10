@@ -1,7 +1,11 @@
 package org.application.controllers;
 
+import java.util.List;
+
+import org.application.entities.Product;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.service.ProductService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,9 @@ public class TicketRest {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@RequestMapping(value = "/tickets", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -52,5 +59,25 @@ public class TicketRest {
 		ticket.setOwner(null);
 		userService.createUser(user);
         ticketService.delete(id);
+    }
+	
+    @RequestMapping(value = "/tickets/{ticketId}/products/{productId}", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) {
+    	Ticket ticket = ticketService.getTicket(ticketId);
+    	Product product = productService.getProduct(productId);
+    	ticket.setBalance(ticket.getBalance()-product.getPrice());
+    	product.setQuantity(product.getQuantity()-1);
+    	ticket.getPurchases().add(product);
+    	product.getPurchasedBy().add(ticket);
+    	// TODO: check if ticket balance and product quantity is enough
+    	productService.createProduct(product);
+        return ticketService.createTicket(ticket);
+    }
+    
+    @RequestMapping(value = "/tickets/{ticketId}/products", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<Product> getTicketProducts(@PathVariable("ticketId") long ticketId) {
+    	return ticketService.getTicket(ticketId).getPurchases();
     }
 }

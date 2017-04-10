@@ -1,5 +1,8 @@
 package org.application.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,6 +41,10 @@ public class Product {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JsonIgnore
 	private Shop shop;
+	
+	@ManyToMany(mappedBy = "purchases")
+	@JsonIgnore
+    private List<Ticket> purchasedBy;
 
 	public Product() {}
 	
@@ -48,6 +56,7 @@ public class Product {
 		this.quantity = quantity;
 		this.type = type;
 		this.shop = shop;
+		this.purchasedBy = new ArrayList<Ticket>();
 	}
 
 	public long getId() {
@@ -104,6 +113,14 @@ public class Product {
 
 	public void setShop(Shop shop) {
 		this.shop = shop;
+	}
+	
+	public List<Ticket> getPurchasedBy() {
+		return purchasedBy;
+	}
+	
+	public void setPurchasedBy(List<Ticket> purchasedBy) {
+		this.purchasedBy = purchasedBy;
 	}
 	
 	public static class ProductBuilder {

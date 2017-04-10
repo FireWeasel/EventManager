@@ -1,11 +1,16 @@
 package org.application.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,11 +28,16 @@ public class Ticket {
 	private Boolean checkedOut;
 	
 	@Column(nullable = false)
-	private float balance;
+	private double balance;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private User owner;
+	
+	@JoinTable
+	@ManyToMany
+	@JsonIgnore
+	private List<Product> purchases;
 
 	public long getId() {
 		return id;
@@ -53,11 +63,11 @@ public class Ticket {
 		this.checkedOut = checkedOut;
 	}
 
-	public float getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(float balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	
@@ -68,18 +78,28 @@ public class Ticket {
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
+	
+	public List<Product> getPurchases() {
+		return purchases;
+	}
+	
+	public void setPurchases(List<Product> purchases) {
+		this.purchases = purchases;
+	}
 
 	public Ticket() {
 		this.checkedIn = false;
 		this.checkedOut = false;
+		this.purchases = new ArrayList<Product>();
 	}
 
-	public Ticket(long id, float balance, User owner) {
+	public Ticket(long id, double balance, User owner) {
 		this.id = id;
 		this.checkedIn = false;
 		this.checkedOut = false;
 		this.balance = balance;
 		this.owner = owner;
+		this.purchases = new ArrayList<Product>();
 	}
 	
 	public void checkIn() {
@@ -92,7 +112,7 @@ public class Ticket {
 	
 	public static class TicketBuilder {
 		private long id;
-		private float balance;
+		private double balance;
 		private User owner;
 		
 		public TicketBuilder id(long id) {
@@ -100,7 +120,7 @@ public class Ticket {
 			return this;
 		}
 		
-		public TicketBuilder balance(float balance) {
+		public TicketBuilder balance(double balance) {
 			this.balance = balance;
 			return this;
 		}
