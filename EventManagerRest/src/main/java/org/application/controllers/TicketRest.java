@@ -2,9 +2,13 @@ package org.application.controllers;
 
 import java.util.List;
 
+import org.application.entities.BorrowedItem;
+import org.application.entities.Item;
 import org.application.entities.Product;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.service.BorrowedItemService;
+import org.application.service.ItemService;
 import org.application.service.ProductService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
@@ -26,6 +30,12 @@ public class TicketRest {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ItemService itemService;
+	
+	@Autowired
+	private BorrowedItemService borrowedItemService;
 	
 	@RequestMapping(value = "/tickets", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -79,5 +89,44 @@ public class TicketRest {
     @ResponseBody
     public List<Product> getTicketProducts(@PathVariable("ticketId") long ticketId) {
     	return ticketService.getTicket(ticketId).getPurchases();
+    }
+    
+    @RequestMapping(value = "/tickets/{ticketId}/items/{itemId}", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public Ticket borrowItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) {
+    	Ticket ticket = ticketService.getTicket(ticketId);
+    	Item item = itemService.getItem(itemId);
+    	item.setQuantity(item.getQuantity() - 1);
+    	BorrowedItem borrowedItem = new BorrowedItem();
+    	borrowedItem.setItem(item);
+    	borrowedItem.setTicket(ticket);
+    	ticket.getBorrowedItems().add(borrowedItem);
+    	itemService.createItem(item);
+    	borrowedItemService.createBorrowedItem(borrowedItem);
+        return ticketService.createTicket(ticket);
+    }
+    
+    @RequestMapping(value = "/tickets/{ticketId}/items", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<BorrowedItem> getTicketItems(@PathVariable("ticketId") long ticketId) {
+    	return ticketService.getTicket(ticketId).getBorrowedItems();
+    }
+    
+    @RequestMapping(value = "/tickets/{ticketId}/items/{itemId}/return", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) {
+    	Ticket ticket = ticketService.getTicket(ticketId);
+    	Item item = itemService.getItem(itemId);
+    	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
+    	if(borrowedItem != null) {
+    		item.setQuantity(item.getQuantity() + 1);
+    		borrowedItem.setReturned(true);
+    		// TODO: check if ticket balance is enough
+    		ticket.setBalance(ticket.getBalance() - item.getFee());
+    		itemService.createItem(item);
+    		borrowedItemService.createBorrowedItem(borrowedItem);
+    		return ticketService.createTicket(ticket);
+    	}
+    	return null;
     }
 }

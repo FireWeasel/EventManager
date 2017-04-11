@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,6 +39,10 @@ public class Ticket {
 	@ManyToMany
 	@JsonIgnore
 	private List<Product> purchases;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<BorrowedItem> borrowedItems;
 
 	public long getId() {
 		return id;
@@ -87,10 +92,19 @@ public class Ticket {
 		this.purchases = purchases;
 	}
 
+	public List<BorrowedItem> getBorrowedItems() {
+		return borrowedItems;
+	}
+
+	public void setBorrowedItems(List<BorrowedItem> borrowedItems) {
+		this.borrowedItems = borrowedItems;
+	}
+
 	public Ticket() {
 		this.checkedIn = false;
 		this.checkedOut = false;
 		this.purchases = new ArrayList<Product>();
+		this.borrowedItems = new ArrayList<BorrowedItem>();
 	}
 
 	public Ticket(long id, double balance, User owner) {
@@ -100,6 +114,7 @@ public class Ticket {
 		this.balance = balance;
 		this.owner = owner;
 		this.purchases = new ArrayList<Product>();
+		this.borrowedItems = new ArrayList<BorrowedItem>();
 	}
 	
 	public void checkIn() {

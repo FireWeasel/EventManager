@@ -1,5 +1,7 @@
 package org.application.service;
 
+import org.application.entities.BorrowedItem;
+import org.application.entities.Item;
 import org.application.entities.Ticket;
 import org.application.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +42,13 @@ public class TicketService {
 	public void delete(Long id) {
 		ticketRepository.delete(id);
     }
+	
+	public BorrowedItem getBorrowedItem(Ticket ticket, Item item) {
+		for(BorrowedItem bi : ticket.getBorrowedItems()) {
+			if(bi.getItem() == item) {
+				return bi;
+			}
+		}
+		return null;
+	}
 }
