@@ -1,9 +1,12 @@
 package org.application.controllers;
 
+import java.security.Principal;
+
 import org.application.entities.Camp;
 import org.application.entities.Reservation;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.service.AuthenticationService;
 import org.application.service.CampService;
 import org.application.service.ReservationService;
 import org.application.service.TicketService;
@@ -27,6 +30,8 @@ public class UserRest {
 	private TicketService ticketService;
 	@Autowired
 	private CampService campService;
+	@Autowired
+	private AuthenticationService authenticationService;
 
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -45,7 +50,7 @@ public class UserRest {
     public User getUser(@PathVariable("userId") Long id) {
         return userService.getUser(id);
     }
-    
+
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
     public User updateUser(@RequestBody User user, @PathVariable("userId") Long id) {
@@ -85,5 +90,10 @@ public class UserRest {
 		ticketService.createTicket(ticket);
 		return userService.createUser(user);
     }
-    
+	
+	@RequestMapping(value = "/users/current", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public User getCurrentUser(Principal principal) {
+		return authenticationService.getCurrentlyLoggedInUser(principal);
+    }
 }
