@@ -1,7 +1,6 @@
 package org.application.security;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

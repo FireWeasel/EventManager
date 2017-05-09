@@ -29,6 +29,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/users/current/**").authenticated();
+        http.authorizeRequests().antMatchers("/users/reservations/create/**").authenticated();
+        http.authorizeRequests().antMatchers("/users/tickets/create/**").authenticated();
         http.csrf().disable();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.formLogin().successHandler(authenticationSuccessHandler);

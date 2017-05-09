@@ -12,6 +12,7 @@ import org.application.service.ReservationService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,8 @@ public class UserRest {
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
     public User createUser(@RequestBody User user) {
+    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    	user.setPassword(encoder.encode(user.getPassword()));
         return userService.createUser(user);
     }
     
@@ -57,7 +60,8 @@ public class UserRest {
     	User fromDb = userService.getUser(id);
     	fromDb.setUsername(user.getUsername());
     	fromDb.setEmail(user.getEmail());
-    	fromDb.setPassword(user.getPassword());
+    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    	fromDb.setPassword(encoder.encode(user.getPassword()));
         return userService.createUser(fromDb);
     }
     
@@ -66,11 +70,11 @@ public class UserRest {
         userService.delete(id);
     }
     
-	@RequestMapping(value = "/users/{userId}/reservations/create/{campId}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/users/reservations/create/{campId}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public User createReservation(@PathVariable("userId") long userId, @PathVariable("campId") long campId) {
+    public User createReservation(Principal principal, @PathVariable("campId") long campId) {
 		Reservation reservation = new Reservation();
-		User user = userService.getUser(userId);
+		User user = userService.getUser(authenticationService.getCurrentlyLoggedInUser(principal).getId());
 		Camp camp = campService.getCamp(campId);
         reservation.addReservedBy(user);
         reservation.setCamp(camp);
@@ -81,10 +85,10 @@ public class UserRest {
 		return userService.createUser(user);
     }
 	
-	@RequestMapping(value = "/users/{userId}/tickets/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/users/tickets/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public User createTicket(@PathVariable("userId") long userId, @RequestBody Ticket ticket) {
-		User user = userService.getUser(userId);
+    public User createTicket(Principal principal, @RequestBody Ticket ticket) {
+		User user = authenticationService.getCurrentlyLoggedInUser(principal);
 		ticket.setOwner(user);
 		user.setTicket(ticket);
 		ticketService.createTicket(ticket);
