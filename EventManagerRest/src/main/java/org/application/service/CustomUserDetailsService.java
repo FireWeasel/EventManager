@@ -1,5 +1,8 @@
 package org.application.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.application.entities.User;
 import org.application.repositories.UserRepository;
 import org.application.security.CustomUserDetails;
@@ -21,6 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (user == null){
 			throw new UsernameNotFoundException("No user present with username: " + username);
 		}
-		return new CustomUserDetails(user);
+		List<String> userRoles = new ArrayList<String>();
+		userRoles.add(user.getUserRole().toString());
+		return new CustomUserDetails(user, userRoles);
 	}
 }

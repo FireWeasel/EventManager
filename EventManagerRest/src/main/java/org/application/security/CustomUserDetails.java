@@ -1,22 +1,28 @@
 package org.application.security;
 
 import java.util.Collection;
+import java.util.List;
+
 import org.application.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 public class CustomUserDetails extends User implements UserDetails { 
 
 	private static final long serialVersionUID = 1L;
+	private List<String> userRoles;
 
-	public CustomUserDetails(User user){
+	public CustomUserDetails(User user, List<String> userRoles){
 		super(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), user.getTicket());
+		this.userRoles = userRoles;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.commaSeparatedStringToAuthorityList("USER");
+		String roles=StringUtils.collectionToCommaDelimitedString(userRoles);
+		return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
 	}
 
 	@Override

@@ -28,8 +28,13 @@ public class User {
 	
 	@OneToOne(mappedBy = "owner")
 	private Ticket ticket;
+	
+	@Column(nullable = false)
+	private UserRole userRole;
 
-    public User() { }
+    public User() { 
+    	this.userRole = UserRole.USER;
+    }
 
     public User(long id, String username, String email, String password, Ticket ticket) {
         this.id = id;
@@ -37,6 +42,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.ticket = ticket;
+        this.userRole = UserRole.USER;
     }
 
 	public String getUsername() {
@@ -85,6 +91,14 @@ public class User {
 
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
+	}
+
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 
 	public static class UserBuilder {

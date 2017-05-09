@@ -62,6 +62,7 @@ public class UserRest {
     	fromDb.setEmail(user.getEmail());
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     	fromDb.setPassword(encoder.encode(user.getPassword()));
+    	// fromDb.setUserRole(user.getUserRole()); // in case of changing role
         return userService.createUser(fromDb);
     }
     
