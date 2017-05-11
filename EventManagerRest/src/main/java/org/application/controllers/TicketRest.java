@@ -7,6 +7,9 @@ import org.application.entities.Item;
 import org.application.entities.Product;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.handlers.TicketAlreadyCheckedInException;
+import org.application.handlers.TicketAlreadyCheckedOutException;
+import org.application.handlers.TicketNotCheckedInException;
 import org.application.service.BorrowedItemService;
 import org.application.service.ItemService;
 import org.application.service.ProductService;
@@ -51,13 +54,22 @@ public class TicketRest {
 	
 	@RequestMapping(value = "/tickets/checkIn/{ticketId}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Ticket checkInTicket(@PathVariable("ticketId") Long id) {
+	public Ticket checkInTicket(@PathVariable("ticketId") Long id) throws Exception {
+		if(ticketService.getTicket(id).getCheckedIn() == true) {
+			throw new TicketAlreadyCheckedInException();
+		}
 		return ticketService.checkInTicket(id);
 	}
 	
 	@RequestMapping(value = "/tickets/checkOut/{ticketId}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Ticket checkOutTicket(@PathVariable("ticketId") Long id) {
+	public Ticket checkOutTicket(@PathVariable("ticketId") Long id) throws Exception {
+		if(ticketService.getTicket(id).getCheckedIn() == false) {
+			throw new TicketNotCheckedInException();
+		}
+		if(ticketService.getTicket(id).getCheckedOut() == true) {
+			throw new TicketAlreadyCheckedOutException();
+		}
 		return ticketService.checkOutTicket(id);
 	}
 	
