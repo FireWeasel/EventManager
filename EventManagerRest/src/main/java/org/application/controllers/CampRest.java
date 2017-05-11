@@ -2,6 +2,7 @@ package org.application.controllers;
 
 import org.application.entities.Camp;
 import org.application.entities.Reservation;
+import org.application.handlers.NotFoundException;
 import org.application.service.CampService;
 import org.application.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,21 @@ public class CampRest {
     
     @RequestMapping(value = "/camps/{campId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Camp getCamp(@PathVariable("campId") Long id) {
-        return campService.getCamp(id);
+    public Camp getCamp(@PathVariable("campId") Long id) throws Exception {
+        Camp camp = campService.getCamp(id);
+        if(camp == null) {
+        	throw new NotFoundException();
+        }
+        return camp;
     }
     
     @RequestMapping(value = "/camps/{campId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Camp updateCamp(@RequestBody Camp camp, @PathVariable("campId") Long id) {
+    public Camp updateCamp(@RequestBody Camp camp, @PathVariable("campId") Long id) throws Exception {
     	Camp fromDb = campService.getCamp(id);
+    	if(fromDb == null) {
+        	throw new NotFoundException();
+        }
     	fromDb.setName(camp.getName());
     	fromDb.setDescription(camp.getDescription());
     	fromDb.setPrice(camp.getPrice());
@@ -51,8 +59,11 @@ public class CampRest {
     }
     
     @RequestMapping(value = "/camps/{campId}", method = RequestMethod.DELETE)
-    public void deleteCamp(@PathVariable("campId") Long id) {
+    public void deleteCamp(@PathVariable("campId") Long id) throws Exception {
     	Camp camp = campService.getCamp(id);
+    	if(camp == null) {
+        	throw new NotFoundException();
+        }
     	Reservation reservation = camp.getReservation();
     	reservationService.deleteReservation(reservation.getId());
     	campService.delete(id);
