@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.application.entities.Item;
 import org.application.entities.LoanStand;
+import org.application.handlers.NotFoundException;
 import org.application.service.ItemService;
 import org.application.service.LoanStandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,21 @@ public class LoanStandRest {
 	
 	@RequestMapping(value = "/stands/{loanStandId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public LoanStand getLoanStand(@PathVariable("loanStandId") long loanStandId) {
-    	return loanStandService.getLoanStand(loanStandId);
+    public LoanStand getLoanStand(@PathVariable("loanStandId") long loanStandId) throws Exception {
+		LoanStand loanStand = loanStandService.getLoanStand(loanStandId);
+		if(loanStand == null) {
+			throw new NotFoundException();
+		}
+    	return loanStand;
     }
 	
 	@RequestMapping(value = "/stands/{loanStandId}/items/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public LoanStand addItem(@RequestBody Item item, @PathVariable("loanStandId") long loanStandId) {
+    public LoanStand addItem(@RequestBody Item item, @PathVariable("loanStandId") long loanStandId) throws Exception {
 		LoanStand loanStand = loanStandService.getLoanStand(loanStandId);
+		if(loanStand == null) {
+			throw new NotFoundException();
+		}
 		item.setLoanStand(loanStand);
 		loanStand.addItem(item);
 		itemService.createItem(item);
@@ -53,7 +61,11 @@ public class LoanStandRest {
 	
 	@RequestMapping(value = "/stands/{loanStandId}/items", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List<Item> getLoanStandItems(@PathVariable("loanStandId") long loanStandId) {
-    	return loanStandService.getLoanStand(loanStandId).getItems();
+    public List<Item> getLoanStandItems(@PathVariable("loanStandId") long loanStandId) throws Exception {
+		LoanStand loanStand = loanStandService.getLoanStand(loanStandId);
+		if(loanStand == null) {
+			throw new NotFoundException();
+		}
+    	return loanStand.getItems();
     }
 }

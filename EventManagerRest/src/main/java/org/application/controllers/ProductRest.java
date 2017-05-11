@@ -2,6 +2,7 @@ package org.application.controllers;
 
 import org.application.entities.Product;
 import org.application.entities.Shop;
+import org.application.handlers.NotFoundException;
 import org.application.service.ProductService;
 import org.application.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,21 @@ public class ProductRest {
 	
 	@RequestMapping(value = "/products/{productId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Product getProduct(@PathVariable("productId") long productId) {
-    	return productService.getProduct(productId);
+    public Product getProduct(@PathVariable("productId") long productId) throws Exception {
+		Product product = productService.getProduct(productId);
+    	if(product == null) {
+    		throw new NotFoundException();
+    	}
+		return product;
     }
 	
 	@RequestMapping(value = "/products/{productId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) {
+    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) throws Exception {
     	Product fromDb = productService.getProduct(id);
+    	if(fromDb == null) {
+    		throw new NotFoundException();
+    	}
     	fromDb.setName(product.getName());
     	fromDb.setDescription(product.getDescription());
     	fromDb.setPrice(product.getPrice());
@@ -47,8 +55,11 @@ public class ProductRest {
     }
 	
 	@RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE)
-    public void deleteProduct(@PathVariable("productId") Long id) {
+    public void deleteProduct(@PathVariable("productId") Long id) throws Exception {
 		Product product = productService.getProduct(id);
+		if(product == null) {
+    		throw new NotFoundException();
+    	}
     	Shop shop = product.getShop();
     	shop.getProducts().remove(product);
     	shopService.createShop(shop);

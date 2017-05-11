@@ -1,6 +1,7 @@
 package org.application.controllers;
 
 import org.application.entities.Event;
+import org.application.handlers.NotFoundException;
 import org.application.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,14 +31,21 @@ public class EventRest {
     
     @RequestMapping(value = "/events/{eventId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Event getEvent(@PathVariable("eventId") Long id) {
-        return eventService.getEvent(id);
+    public Event getEvent(@PathVariable("eventId") Long id) throws Exception {
+    	Event event = eventService.getEvent(id);
+    	if(event == null) {
+    		throw new NotFoundException();
+    	}
+        return event;
     }
     
     @RequestMapping(value = "/events/{eventId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Event updateEvent(@RequestBody Event event, @PathVariable("eventId") Long id) {
+    public Event updateEvent(@RequestBody Event event, @PathVariable("eventId") Long id) throws Exception {
     	Event fromDb = eventService.getEvent(id);
+    	if(fromDb == null) {
+    		throw new NotFoundException();
+    	}
     	fromDb.setName(event.getName());
     	fromDb.setAddress(event.getAddress());
     	fromDb.setDescription(event.getDescription());
@@ -45,7 +53,10 @@ public class EventRest {
     }
     
     @RequestMapping(value = "/events/{eventId}", method = RequestMethod.DELETE)
-    public void deleteEvent(@PathVariable("eventId") Long id) {
+    public void deleteEvent(@PathVariable("eventId") Long id) throws Exception {
+    	if(eventService.getEvent(id) == null) {
+    		throw new NotFoundException();
+    	}
     	eventService.delete(id);
     }
 }
