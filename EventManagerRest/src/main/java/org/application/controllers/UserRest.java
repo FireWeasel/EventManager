@@ -6,6 +6,7 @@ import org.application.entities.Camp;
 import org.application.entities.Reservation;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.handlers.NotFoundException;
 import org.application.service.AuthenticationService;
 import org.application.service.CampService;
 import org.application.service.ReservationService;
@@ -50,14 +51,21 @@ public class UserRest {
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public User getUser(@PathVariable("userId") Long id) {
-        return userService.getUser(id);
+    public User getUser(@PathVariable("userId") Long id) throws Exception {
+    	User user = userService.getUser(id);
+    	if (user == null) {
+    		throw new NotFoundException();
+    	}
+        return user;
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public User updateUser(@RequestBody User user, @PathVariable("userId") Long id) {
+    public User updateUser(@RequestBody User user, @PathVariable("userId") Long id) throws Exception {
     	User fromDb = userService.getUser(id);
+    	if (fromDb == null) {
+    		throw new NotFoundException();
+    	}
     	fromDb.setUsername(user.getUsername());
     	fromDb.setEmail(user.getEmail());
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -67,16 +75,23 @@ public class UserRest {
     }
     
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("userId") Long id) {
+    public void deleteUser(@PathVariable("userId") Long id) throws Exception {
+    	User user = userService.getUser(id);
+    	if (user == null) {
+    		throw new NotFoundException();
+    	}
         userService.delete(id);
     }
     
 	@RequestMapping(value = "/users/reservations/create/{campId}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public User createReservation(Principal principal, @PathVariable("campId") long campId) {
-		Reservation reservation = new Reservation();
+    public User createReservation(Principal principal, @PathVariable("campId") long campId) throws Exception {		
 		User user = userService.getUser(authenticationService.getCurrentlyLoggedInUser(principal).getId());
 		Camp camp = campService.getCamp(campId);
+		if (user == null || camp == null) {
+    		throw new NotFoundException();
+    	}
+		Reservation reservation = new Reservation();
         reservation.addReservedBy(user);
         reservation.setCamp(camp);
         reservationService.createReservation(reservation);
@@ -88,8 +103,11 @@ public class UserRest {
 	
 	@RequestMapping(value = "/users/tickets/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public User createTicket(Principal principal, @RequestBody Ticket ticket) {
+    public User createTicket(Principal principal, @RequestBody Ticket ticket) throws Exception {
 		User user = authenticationService.getCurrentlyLoggedInUser(principal);
+		if (user == null) {
+    		throw new NotFoundException();
+    	}
 		ticket.setOwner(user);
 		user.setTicket(ticket);
 		ticketService.createTicket(ticket);
@@ -98,7 +116,11 @@ public class UserRest {
 	
 	@RequestMapping(value = "/users/current", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public User getCurrentUser(Principal principal) {
-		return authenticationService.getCurrentlyLoggedInUser(principal);
+    public User getCurrentUser(Principal principal) throws Exception {
+		User user = authenticationService.getCurrentlyLoggedInUser(principal);
+		if (user == null) {
+    		throw new NotFoundException();
+    	}
+		return user;
     }
 }

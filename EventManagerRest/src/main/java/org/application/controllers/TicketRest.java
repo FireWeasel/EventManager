@@ -10,6 +10,7 @@ import org.application.entities.Product;
 import org.application.entities.Ticket;
 import org.application.entities.User;
 import org.application.handlers.InsufficientBalanceException;
+import org.application.handlers.NotFoundException;
 import org.application.handlers.NotInStockException;
 import org.application.handlers.TicketAlreadyCheckedInException;
 import org.application.handlers.TicketAlreadyCheckedOutException;
@@ -52,14 +53,22 @@ public class TicketRest {
 	
 	@RequestMapping(value = "/tickets/{ticketId}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Ticket getTicket(@PathVariable("ticketId") Long id) {
-		return ticketService.getTicket(id);
+	public Ticket getTicket(@PathVariable("ticketId") Long id) throws Exception {
+		Ticket ticket = ticketService.getTicket(id);
+		if (ticket == null) {
+			throw new NotFoundException();
+		}
+		return ticket;
 	}
 	
 	@RequestMapping(value = "/tickets/checkIn/{ticketId}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Ticket checkInTicket(@PathVariable("ticketId") Long id) throws Exception {
-		if(ticketService.getTicket(id).getCheckedIn() == true) {
+		Ticket ticket = ticketService.getTicket(id);
+		if (ticket == null) {
+			throw new NotFoundException();
+		}
+		if (ticket.getCheckedIn() == true) {
 			throw new TicketAlreadyCheckedInException();
 		}
 		return ticketService.checkInTicket(id);
@@ -68,19 +77,29 @@ public class TicketRest {
 	@RequestMapping(value = "/tickets/checkOut/{ticketId}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Ticket checkOutTicket(@PathVariable("ticketId") Long id) throws Exception {
-		if(ticketService.getTicket(id).getCheckedIn() == false) {
+		Ticket ticket = ticketService.getTicket(id);
+		if (ticket == null) {
+			throw new NotFoundException();
+		}
+		if (ticket.getCheckedIn() == false) {
 			throw new TicketNotCheckedInException();
 		}
-		if(ticketService.getTicket(id).getCheckedOut() == true) {
+		if (ticket.getCheckedOut() == true) {
 			throw new TicketAlreadyCheckedOutException();
 		}
 		return ticketService.checkOutTicket(id);
 	}
 	
 	@RequestMapping(value = "/tickets/{ticketId}", method = RequestMethod.DELETE)
-    public void deleteTicket(@PathVariable("ticketId") Long id) {
+    public void deleteTicket(@PathVariable("ticketId") Long id) throws Exception {
 		Ticket ticket = ticketService.getTicket(id);
+		if (ticket == null) {
+			throw new NotFoundException();
+		}
 		User user = ticket.getOwner();
+		if (user == null) {
+			throw new NotFoundException();
+		}
 		user.setTicket(null);
 		ticket.setOwner(null);
 		userService.createUser(user);
@@ -92,6 +111,9 @@ public class TicketRest {
     public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Product product = productService.getProduct(productId);
+    	if (ticket == null || product == null) {
+    		throw new NotFoundException();
+    	}
     	if (product.getQuantity() <= 0) {
     		throw new NotInStockException();
     	}
@@ -117,6 +139,9 @@ public class TicketRest {
     public Ticket borrowItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Item item = itemService.getItem(itemId);
+    	if (ticket == null || item == null) {
+    		throw new NotFoundException();
+    	}
     	if (item.getQuantity() <= 0) {
     		throw new NotInStockException();
     	}
@@ -141,25 +166,28 @@ public class TicketRest {
     public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Item item = itemService.getItem(itemId);
-    	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
-    	if(borrowedItem != null) {
-    		Date currentDate = new Date();
-    		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    		long diff = currentDate.getTime() - formatter.parse(borrowedItem.getDateBorrowed()).getTime();
-    		int days = (int) (diff / (1000 * 60 * 60 * 24));
-    		if (days == 0) {
-    			days++;
-    		}
-    		if (ticket.getBalance() - (item.getFee() * days) < 0) {
-    			throw new InsufficientBalanceException();
-    		}
-    		item.setQuantity(item.getQuantity() + 1);
-    		borrowedItem.setReturned(true);
-    		ticket.setBalance(ticket.getBalance() - item.getFee() * days);
-    		itemService.createItem(item);
-    		borrowedItemService.createBorrowedItem(borrowedItem);
-    		return ticketService.createTicket(ticket);
+    	if (ticket == null || item == null) {
+    		throw new NotFoundException();
     	}
-    	return null;
+    	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
+    	if (borrowedItem == null) {
+    		throw new NotFoundException();
+    	}
+		Date currentDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		long diff = currentDate.getTime() - formatter.parse(borrowedItem.getDateBorrowed()).getTime();
+		int days = (int) (diff / (1000 * 60 * 60 * 24));
+		if (days == 0) {
+			days++;
+		}
+		if (ticket.getBalance() - (item.getFee() * days) < 0) {
+			throw new InsufficientBalanceException();
+		}
+		item.setQuantity(item.getQuantity() + 1);
+		borrowedItem.setReturned(true);
+		ticket.setBalance(ticket.getBalance() - item.getFee() * days);
+		itemService.createItem(item);
+		borrowedItemService.createBorrowedItem(borrowedItem);
+		return ticketService.createTicket(ticket);
     }
 }

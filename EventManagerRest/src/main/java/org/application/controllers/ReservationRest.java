@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.application.entities.Reservation;
 import org.application.entities.User;
+import org.application.handlers.AlreadyPaidException;
+import org.application.handlers.NotFoundException;
 import org.application.service.ReservationService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +31,23 @@ public class ReservationRest {
     
     @RequestMapping(value = "/reservations/{reservationId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Reservation getReservation(@PathVariable("reservationId") Long id) {
-        return reservationService.getReservation(id);
+    public Reservation getReservation(@PathVariable("reservationId") Long reservationId) throws Exception {
+    	Reservation reservation = reservationService.getReservation(reservationId);
+    	if (reservation == null) {
+			throw new NotFoundException();
+		}
+        return reservation;
     }
     
     @RequestMapping(value = "/reservations/{reservationId}/addUser/{userId}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
-    public Reservation addUserToReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("userId") Long userId) {
+    public Reservation addUserToReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("userId") Long userId) throws Exception {
+    	// TODO: Check current user participates in the reservation
         Reservation reservation = reservationService.getReservation(reservationId);
         User user = userService.getUser(userId);
+    	if (reservation == null || user == null) {
+			throw new NotFoundException();
+		}
         reservation.addReservedBy(user);
         user.setReservation(reservation);
         userService.createUser(user);
@@ -51,15 +61,25 @@ public class ReservationRest {
     }
     
     @RequestMapping(value = "/reservations/{reservationId}", method = RequestMethod.DELETE)
-    public void deleteReservation(@PathVariable("reservationId") Long id) {
-    	reservationService.deleteReservation(id);
+    public void deleteReservation(@PathVariable("reservationId") Long reservationId) throws Exception {
+    	Reservation reservation = reservationService.getReservation(reservationId);
+    	if (reservation == null) {
+    		throw new NotFoundException();
+    	}
+    	reservationService.deleteReservation(reservationId);
     }
     
     @RequestMapping(value = "/reservations/{reservationId}/payment", method = RequestMethod.PUT)
     @ResponseBody
-    public Reservation reservationPayment(@PathVariable("reservationId") Long id) {
+    public Reservation reservationPayment(@PathVariable("reservationId") Long id) throws Exception {
     	Reservation fromDB = reservationService.getReservation(id);
-    	fromDB.setPaid(true); // TODO: Check if already the reservation is paid
+    	if (fromDB == null) {
+    		throw new NotFoundException();
+    	}
+    	if (fromDB.getPaid()) {
+    		throw new AlreadyPaidException();
+    	}
+    	fromDB.setPaid(true);
     	return reservationService.createReservation(fromDB);
     }
 }

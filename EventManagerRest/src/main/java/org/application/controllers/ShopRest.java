@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.application.entities.Product;
 import org.application.entities.Shop;
+import org.application.handlers.NotFoundException;
 import org.application.service.ProductService;
 import org.application.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,21 @@ public class ShopRest {
 	
 	@RequestMapping(value = "/shops/{shopId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Shop getShop(@PathVariable("shopId") long shopId) {
-    	return shopService.getShop(shopId);
+    public Shop getShop(@PathVariable("shopId") long shopId) throws Exception {
+		Shop shop = shopService.getShop(shopId);
+		if (shop == null) {
+			throw new NotFoundException();
+		}
+    	return shop;
     }
 	
 	@RequestMapping(value = "/shops/{shopId}/products/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Shop addProduct(@PathVariable("shopId") long shopId, @RequestBody Product product) {
+    public Shop addProduct(@PathVariable("shopId") long shopId, @RequestBody Product product) throws Exception {
     	Shop shop = shopService.getShop(shopId);
+    	if (shop == null) {
+			throw new NotFoundException();
+		}
 		product.setShop(shop);
 		shop.addProduct(product);
 		productService.createProduct(product);
