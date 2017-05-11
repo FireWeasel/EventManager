@@ -1,5 +1,8 @@
 package org.application.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.application.entities.BorrowedItem;
@@ -7,6 +10,8 @@ import org.application.entities.Item;
 import org.application.entities.Product;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.handlers.InsufficientBalanceException;
+import org.application.handlers.NotInStockException;
 import org.application.handlers.TicketAlreadyCheckedInException;
 import org.application.handlers.TicketAlreadyCheckedOutException;
 import org.application.handlers.TicketNotCheckedInException;
@@ -85,14 +90,19 @@ public class TicketRest {
 	
     @RequestMapping(value = "/tickets/{ticketId}/products/{productId}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) {
+    public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Product product = productService.getProduct(productId);
+    	if (product.getQuantity() <= 0) {
+    		throw new NotInStockException();
+    	}
+    	if (ticket.getBalance() - product.getPrice() < 0) {
+    		throw new InsufficientBalanceException();
+    	}
     	ticket.setBalance(ticket.getBalance()-product.getPrice());
     	product.setQuantity(product.getQuantity()-1);
     	ticket.getPurchases().add(product);
     	product.getPurchasedBy().add(ticket);
-    	// TODO: check if ticket balance and product quantity is enough
     	productService.createProduct(product);
         return ticketService.createTicket(ticket);
     }
@@ -105,9 +115,12 @@ public class TicketRest {
     
     @RequestMapping(value = "/tickets/{ticketId}/items/{itemId}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Ticket borrowItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) {
+    public Ticket borrowItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Item item = itemService.getItem(itemId);
+    	if (item.getQuantity() <= 0) {
+    		throw new NotInStockException();
+    	}
     	item.setQuantity(item.getQuantity() - 1);
     	BorrowedItem borrowedItem = new BorrowedItem();
     	borrowedItem.setItem(item);
@@ -126,15 +139,24 @@ public class TicketRest {
     
     @RequestMapping(value = "/tickets/{ticketId}/items/{itemId}/return", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) {
+    public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
     	Item item = itemService.getItem(itemId);
     	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
     	if(borrowedItem != null) {
+    		Date currentDate = new Date();
+    		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    		long diff = currentDate.getTime() - formatter.parse(borrowedItem.getDateBorrowed()).getTime();
+    		int days = (int) (diff / (1000 * 60 * 60 * 24));
+    		if (days == 0) {
+    			days++;
+    		}
+    		if (ticket.getBalance() - (item.getFee() * days) < 0) {
+    			throw new InsufficientBalanceException();
+    		}
     		item.setQuantity(item.getQuantity() + 1);
     		borrowedItem.setReturned(true);
-    		// TODO: check if ticket balance is enough
-    		ticket.setBalance(ticket.getBalance() - item.getFee());
+    		ticket.setBalance(ticket.getBalance() - item.getFee() * days);
     		itemService.createItem(item);
     		borrowedItemService.createBorrowedItem(borrowedItem);
     		return ticketService.createTicket(ticket);
