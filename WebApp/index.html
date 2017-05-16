@@ -10,6 +10,8 @@
     <title>Event Manager</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet">
+    <link href="css/ticket.css" rel="stylesheet">
+    <link href="css/user-modal.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=latin' rel='stylesheet' type='text/css'>
 </head>
 
@@ -23,13 +25,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a href="#" id="dashboard-link">Dashboard</a>
                 </li>
                 <li>
                     <a href="#">Events</a>
                 </li>
                 <li>
                     <a href="#">Camps</a>
+                </li>
+                <li>
+                    <a href="#" id="tickets-link">Tickets</a>
                 </li>
                 <li>
                     <a href="#">About</a>
@@ -101,7 +106,7 @@
                 </div>
             </div>
             <div class="row">
-              <div class="col-lg-6 news-container">
+              <div class="col-lg-6 news-container" id="events-container">
                 <h2>Events</h2>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
@@ -153,7 +158,7 @@
                   proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </p>
               </div>
-              <div class="col-lg-5 news-container">
+              <div class="col-lg-5 news-container" id="recent-news-container">
                 <h2>Recent News</h2>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
@@ -205,6 +210,32 @@
                   proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </p>
               </div>
+              <div class="news-container" id="tickets-container" style="display: none;">
+                <h2>Tickets</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore eu
+                  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                </p>
+                <hr>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore eu
+                  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                </p>
+                <hr>
+                <p>
+                  <a id="purchase-btn" href="#" class="btn btn-outlined btn-theme btn-lg" data-wow-delay="0.7s">Purchase Now</a>
+                </p>
+              </div>
             </div>
             <a href="#menu-toggle" id="menu-toggle">
               <span class="glyphicon glyphicon-menu-left"></span>
@@ -218,5 +249,6 @@
     <script src="js/forms.js"></script>
     <script src="js/base.js"></script>
     <script src="js/userControl.js"></script>
+    <script src="js/ticketControl.js"></script>
 </body>
 </html>

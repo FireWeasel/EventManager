@@ -1,0 +1,52 @@
+.btn-outlined {
+    border-radius: 0;
+    -webkit-transition: all 0.3s;
+       -moz-transition: all 0.3s;
+            transition: all 0.3s;
+}
+
+.btn-outlined.btn-theme {
+    background: none;
+    color: #FFA600;
+  border-color: #FFA600;
+}
+
+.btn-outlined.btn-theme:hover,
+.btn-outlined.btn-theme:active {
+    color: #FFF;
+    background: #FFA600;
+    border-color: #FFA600;
+}
+
+.btn-outlined.btn-black {
+    background: none;
+    color: #000000;
+  border-color: #000000;
+}
+
+.btn-outlined.btn-black:hover,
+.btn-outlined.btn-black:active {
+    color: #FFF;
+    background: #000000;
+    border-color: #000000;
+}
+
+.btn-outlined.btn-white {
+    background: none;
+    color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.btn-outlined.btn-white:hover,
+.btn-outlined.btn-white:active {
+    color: #FFA600;
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+#purchase-btn {
+  display: block;
+  width: 40%;
+  margin: auto;
+  border-radius: 25px;
+}

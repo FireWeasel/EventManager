@@ -21,10 +21,12 @@ function isLogged() {
     success: function() {
       $("#userControl").hide();
       $("#logout").show();
+      $("#tickets-link").show();
     },
     error: function() {
       $("#logout").hide();
-      $("#userControl").show(); 
+      $("#userControl").show();
+      $("#tickets-link").hide();
     }
   });
 }
@@ -57,6 +59,29 @@ $(document).ready(function() {
 
   $("#logout").click(function() {
     logout();
+  });
+
+  $("#tickets-link").click(function(e) {
+    $("#tickets-container").show(1000);
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);
+    getTicket().then(function(data) {
+      if(data.ticket != null) {
+        $("#purchase-btn").hide();
+      }
+    });
+  });
+
+  $("#dashboard-link").click(function(e) {
+    $("#events-container").show(1000);
+    $("#recent-news-container").show(1000);
+    $("#tickets-container").hide(1000);
+  });
+
+  $("#purchase-btn").click(function(e) {
+    purchaseTicket().then(function(data) {
+      $("#purchase-btn").hide();
+    });
   });
 
   isLogged();
