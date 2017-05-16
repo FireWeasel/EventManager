@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
@@ -39,9 +37,61 @@
                 <li>
                     <a href="#">Contact</a>
                 </li>
+                <div id="userControl">
+                  <li>
+                    <a class="cd-signin" href="#">Log in</a>
+                  </li>
+                  <li>
+                    <a class="cd-signup" href="#">Register</a>
+                  </li>
+                </div>
+                <li>
+                  <a id="logout" href="#">Logout</a>
+                </li>
             </ul>
         </div>
-
+        <div class="cd-user-modal">
+          <div class="cd-user-modal-container">
+            <ul class="cd-switcher">
+              <li><a href="#">Log in</a></li>
+              <li><a href="#">Register</a></li>
+            </ul>
+            <div id="cd-login">
+              <form class="cd-form" id="login-form">
+                <p class="fieldset">
+                  <label class="image-replace cd-username" for="signin-username">Username</label>
+                  <input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="Username" name="username">
+                </p>
+                <p class="fieldset">
+                  <label class="image-replace cd-password" for="signin-password">Password</label>
+                  <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password" name="password">
+                </p>
+                <p class="fieldset">
+                  <input class="full-width" type="submit" value="Login">
+                </p>
+              </form>
+            </div>
+            <div id="cd-signup">
+              <form class="cd-form" id="register-form">
+                <p class="fieldset">
+                  <label class="image-replace cd-username" for="signup-username">Username</label>
+                  <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
+                </p>
+                <p class="fieldset">
+                  <label class="image-replace cd-email" for="signup-email">E-mail</label>
+                  <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+                </p>
+                <p class="fieldset">
+                  <label class="image-replace cd-password" for="signup-password">Password</label>
+                  <input class="full-width has-padding has-border" id="signup-password" type="password" placeholder="Password">
+                </p>
+                <p class="fieldset">
+                  <input class="full-width has-padding" type="submit" value="Register">
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
@@ -163,9 +213,10 @@
     </div>
 
     <script src="js/jquery-3.1.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>    
+    <script src="js/modernizr.js"></script>
+    <script src="js/forms.js"></script>
     <script src="js/base.js"></script>
-
+    <script src="js/userControl.js"></script>
 </body>
-
 </html>
