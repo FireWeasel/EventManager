@@ -13,20 +13,28 @@ namespace ShopApplication
 {
     public partial class ShopForm : Form
     {
-        Thread t;
+        private List<Product> order;
+        private int selectedIndex;
+        public static Shop shop;
         public ShopForm()
         {
             InitializeComponent();
-            
-            MessageBox.Show(LogInForm.rClient.GetRequest("http://localhost:8080/users/current"));
+            order = new List<Product>();
+            shop = LogInForm.rClient.GetShop();
+            shop.Products = new List<Product>();
+
+            //MessageBox.Show(LogInForm.rClient.GetRequest("http://localhost:8080/users/current"));
+
             List<Product> list = LogInForm.rClient.GetAllProducts();
-            //foreach (Product p in list)
-            //{
-            //    lbOrder.Items.Add(p.Name);
-            //}
+            if (list!=null)
+            {
+                foreach (Product p in list)
+                {
+                    shop.Products.Add(p);
+                    cmbItemName.Items.Add(p);
+                }
+            }  
         }
-
-
 
         private void ShopForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -40,6 +48,17 @@ namespace ShopApplication
         private void OpenAddProductForm()
         {
             Application.Run(new AddProductForm());
+        }
+
+        private void btnAddToOrder_Click(object sender, EventArgs e)
+        {
+            lbOrder.Items.Add(((Product)cmbItemName.SelectedItem));
+        }
+
+        private void cmbItemName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndex = cmbItemName.SelectedIndex;
+            this.lblDescription.Text = shop.Products[selectedIndex].Description;
         }
 
         //shop class has revenue and id

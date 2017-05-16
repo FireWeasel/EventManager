@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAddProduct = new System.Windows.Forms.Button();
             this.cbType = new System.Windows.Forms.ComboBox();
             this.nudNewQuantity = new System.Windows.Forms.NumericUpDown();
             this.nudNewPrice = new System.Windows.Forms.NumericUpDown();
@@ -48,7 +48,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.CadetBlue;
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnAddProduct);
             this.groupBox1.Controls.Add(this.cbType);
             this.groupBox1.Controls.Add(this.nudNewQuantity);
             this.groupBox1.Controls.Add(this.nudNewPrice);
@@ -68,14 +68,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add product:";
             // 
-            // button1
+            // btnAddProduct
             // 
-            this.button1.Location = new System.Drawing.Point(249, 277);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(130, 34);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Add product";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Location = new System.Drawing.Point(249, 277);
+            this.btnAddProduct.Name = "btnAddProduct";
+            this.btnAddProduct.Size = new System.Drawing.Size(130, 34);
+            this.btnAddProduct.TabIndex = 10;
+            this.btnAddProduct.Text = "Add product";
+            this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
             // cbType
             // 
@@ -181,7 +182,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAddProduct;
         private System.Windows.Forms.ComboBox cbType;
         private System.Windows.Forms.NumericUpDown nudNewQuantity;
         private System.Windows.Forms.NumericUpDown nudNewPrice;

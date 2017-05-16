@@ -12,11 +12,11 @@ namespace ShopApplication
         private double revenue;
         private List<Product> products;
 
-        public long Id { get { return id; } }
+        public long Id { get { return id; } set { id = value; } }
 
         public double Revenue { get { return revenue; } set { revenue = value; } }
 
-        public List<Product> Products { get { return products; } }
+        public List<Product> Products { get { return products; } set { products = value; } }
 
         public Shop() { }
         

@@ -154,6 +154,7 @@
             this.cmbItemName.Name = "cmbItemName";
             this.cmbItemName.Size = new System.Drawing.Size(145, 21);
             this.cmbItemName.TabIndex = 4;
+            this.cmbItemName.SelectedIndexChanged += new System.EventHandler(this.cmbItemName_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -181,6 +182,7 @@
             this.btnAddToOrder.TabIndex = 12;
             this.btnAddToOrder.Text = "Add to order";
             this.btnAddToOrder.UseVisualStyleBackColor = true;
+            this.btnAddToOrder.Click += new System.EventHandler(this.btnAddToOrder_Click);
             // 
             // btnRemoveFromOrder
             // 

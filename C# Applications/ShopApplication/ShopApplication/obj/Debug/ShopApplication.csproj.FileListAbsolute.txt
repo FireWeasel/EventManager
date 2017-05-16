@@ -9,14 +9,3 @@ D:\ProjectsC#\PCS4\ShopApplication\ShopApplication\obj\Debug\ShopApplication.csp
 D:\ProjectsC#\PCS4\ShopApplication\ShopApplication\obj\Debug\ShopApplication.exe
 D:\ProjectsC#\PCS4\ShopApplication\ShopApplication\obj\Debug\ShopApplication.pdb
 D:\ProjectsC#\PCS4\ShopApplication\ShopApplication\obj\Debug\ShopApplication.AddProductForm.resources
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\bin\Debug\ShopApplication.exe.config
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.exe
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.pdb
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\bin\Debug\ShopApplication.exe
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\bin\Debug\ShopApplication.pdb
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.csprojResolveAssemblyReference.cache
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.AddProductForm.resources
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.ShopForm.resources
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.LogInForm.resources
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.Properties.Resources.resources
-C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.csproj.GenerateResource.Cache

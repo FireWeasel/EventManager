@@ -14,29 +14,61 @@ namespace ShopApplication
         private String description;
         private double price;
         private int quantity;
-        private ProductType type;
+        private String type;
         private Shop shop;
 
-        public long Id { get { return id; } }
-        public String Name { get { return name; } }
-        public String Description { get { return description; } }
-        public double Price { get { return price; } }
-        public ProductType Type { get { return type; } }
+        public long Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        public String Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        public String Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+        public double Price
+        {
+            get { return price; }
+            set { price = value; }
+        }
+        public int Quantity
+        {
+            get { return quantity; }
+            set { quantity = value; }
+        }
+        public String Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
 
-        public Shop Shop { get { return shop; } }
+        public Shop Shop
+        {
+            get { return shop; }
+            set { shop = value; }
+        }
 
 
         public Product() { }
 
-        public Product(long id, String name, String description, double price, int quantity, ProductType type, Shop shop)
+        public Product(String name, String description, double price, int quantity, ProductType type)
         {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.price = price;
-            this.quantity = quantity;
-            this.type = type;
-            this.shop = shop;
+            this.Name = name;
+            this.Description = description;
+            this.Price = price;
+            this.Quantity = quantity;
+            this.Type = type.ToString();
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

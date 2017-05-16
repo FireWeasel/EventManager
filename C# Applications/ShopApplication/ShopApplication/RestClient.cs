@@ -15,18 +15,6 @@ namespace ShopApplication
     {
         private CookieContainer cookieContainer = new CookieContainer();
 
-        public CookieContainer CookieContainer
-        {
-            get
-            {
-                return cookieContainer;
-            }
-
-            set
-            {
-                cookieContainer = value;
-            }
-        }
 
         public RestClient() { }
 
@@ -61,7 +49,6 @@ namespace ShopApplication
             {
                 MessageBox.Show(we.Message);
             }
-
 
             return responseValue;
         }
@@ -101,7 +88,8 @@ namespace ShopApplication
         public List<Product> GetAllProducts()
         {
             string json = "";
-
+            List<Product> products = new List<Product>();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products");
 
             request.ContentType = "application/json";
@@ -118,7 +106,8 @@ namespace ShopApplication
                             using (StreamReader reader = new StreamReader(responseStream))
                             {
                                 json = reader.ReadToEnd();
-                                MessageBox.Show(json);
+                                products = serializer.Deserialize<List<Product>>(json);
+
                             }
                         }
                     }
@@ -127,13 +116,88 @@ namespace ShopApplication
             catch (WebException we)
             {
                 MessageBox.Show("Error!" + we.Message);
+                return null;
             }
-            return null;
-            //JavaScriptSerializer serializer = new JavaScriptSerializer();
-            //List<String> jsonProducts = serializer.Deserialize<List<String>>(json);
 
+            return products;
         }
 
+        public Shop GetShop()
+        {
+            string json = "";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1");
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Shop returnValue;
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                json = reader.ReadToEnd();
+                                returnValue = serializer.Deserialize<Shop>(json);
+                                return returnValue;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException we)
+            {
+                MessageBox.Show(we.Message);
+            }
+            return null;
+        }
+
+        public bool AddProduct(Product p)
+        {
+            //{ "id":1,"name":"kompir","description":"nai-hubaviq kompir","price":3.5,"quantity":3,"type":"DRINKS"}
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/create");
+
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            request.CookieContainer = cookieContainer;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string jsonOfProduct = serializer.Serialize(new {
+                name = p.Name,
+                description = p.Description,
+                price = p.Price,
+                quantity = p.Quantity,
+                type = p.Type,
+                shop= ShopForm.shop.Id
+            });
+
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
+                {
+                    sw.Write(jsonOfProduct);
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    String responseString = sr.ReadToEnd();
+                }
+
+                return true;
+            }
+            catch (WebException we )
+            {
+                MessageBox.Show("Error! Could not add this product." + we.Message);
+            }
+            return false;
+        }
 
     }
 }
