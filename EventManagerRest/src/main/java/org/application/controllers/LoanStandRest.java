@@ -68,4 +68,20 @@ public class LoanStandRest {
 		}
     	return loanStand.getItems();
     }
+	
+	@RequestMapping(value = "/stands/{loanStandId}/items/{itemId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Item updateItem(@RequestBody Item item, @PathVariable("itemId") Long id) throws Exception {
+    	Item fromDb = itemService.getItem(id);
+    	if(item == null) {
+			throw new NotFoundException();
+		}
+    	fromDb.setName(item.getName());
+    	fromDb.setDescription(item.getDescription());
+    	fromDb.setFee(item.getFee());
+    	fromDb.setQuantity(item.getQuantity());
+    	fromDb.setType(item.getType());
+    	fromDb.setLoanStand(loanStandService.getLoanStand(id));
+    	return itemService.createItem(fromDb);
+    }
 }
