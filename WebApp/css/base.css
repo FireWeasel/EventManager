@@ -170,3 +170,8 @@ h1 {
   position: absolute;
   background-color: #FFFFFF;
 }
+
+#add-user-reservation {
+  width: 40%;
+  margin: 1% auto;
+}

@@ -1,7 +1,7 @@
 function registerUser(user) {
   $.ajax("http://localhost:8080/users/create", {
     method: "POST",
-    contentType: "application/json",
+    contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: JSON.stringify(user),
     success: function() {
@@ -32,21 +32,45 @@ function loginUser() {
   });
 }
 
-$(document).ready(function() {
-  "use strict";
-
-  $("#register-form").submit(function(e) {
-    e.preventDefault();
-    var user = {
-      username: $("#signup-username").val(),
-      email: $("#signup-email").val(),
-      password: $("#signup-password").val()
-    };
-    registerUser(user);
+function getUser() {
+  return $.ajax("http://localhost:8080/users/current", {
+    method: "GET",
+    xhrFields: {
+      withCredentials: true
+    }
   });
+}
 
-  $("#login-form").submit(function(e) {
-    e.preventDefault();
-    loginUser();
+function isLogged() {
+  $.ajax("http://localhost:8080/users/current", {
+    method: "GET",
+    xhrFields: {
+        withCredentials: true
+    },
+    success: function() {
+      $("#user-control").hide();
+      $("#logout, #tickets-link, #camps-link").show();
+    },
+    error: function() {
+      $("#logout, #tickets-link, #camps-link").hide();
+      $("#user-control").show();
+    }
   });
-});
+}
+
+function logout() {
+  $.ajax("http://localhost:8080/logout", {
+    method: "GET",
+    xhrFields: {
+        withCredentials: true
+    },
+    success: function() {
+      location.reload();   
+    },
+    error: function(xhr) {
+      if (xhr.status == 404) {
+        location.reload();
+      }
+    }
+  });
+}

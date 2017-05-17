@@ -12,42 +12,6 @@ function RotateArrow() {
     });
 }
 
-function isLogged() {
-  $.ajax("http://localhost:8080/users/current", {
-    method: "GET",
-    xhrFields: {
-        withCredentials: true
-    },
-    success: function() {
-      $("#userControl").hide();
-      $("#logout").show();
-      $("#tickets-link").show();
-    },
-    error: function() {
-      $("#logout").hide();
-      $("#userControl").show();
-      $("#tickets-link").hide();
-    }
-  });
-}
-
-function logout() {
-  $.ajax("http://localhost:8080/logout", {
-    method: "GET",
-    xhrFields: {
-        withCredentials: true
-    },
-    success: function() {
-      location.reload();   
-    },
-    error: function(xhr) {
-      if (xhr.status == 404) {
-        location.reload();
-      }
-    }
-  });
-}
-
 $(document).ready(function() {
   "use strict";
 
@@ -65,7 +29,8 @@ $(document).ready(function() {
     $("#tickets-container").show(1000);
     $("#events-container").hide(1000);
     $("#recent-news-container").hide(1000);
-    getTicket().then(function(data) {
+    $("#camps-container").hide(1000);
+    getUser().then(function(data) {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
         $("#download-ticket-btn").show();
@@ -77,6 +42,7 @@ $(document).ready(function() {
     $("#events-container").show(1000);
     $("#recent-news-container").show(1000);
     $("#tickets-container").hide(1000);
+    $("#camps-container").hide(1000);
     $("#ticket").hide();
   });
 
@@ -91,6 +57,44 @@ $(document).ready(function() {
     generateTicket();
     $("#download-ticket-btn").hide();
     $("#ticket").show();
+  });
+
+  $("#register-form").submit(function(e) {
+    e.preventDefault();
+    var user = {
+      username: $("#signup-username").val(),
+      email: $("#signup-email").val(),
+      password: $("#signup-password").val()
+    };
+    registerUser(user);
+  });
+
+  $("#login-form").submit(function(e) {
+    e.preventDefault();
+    loginUser();
+  });
+
+  $("#camps-link").click(function(e) {
+    $("#camps-container").show(1000);
+    $("#tickets-container").hide(1000);
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);   
+    $("#ticket").hide();
+    getUser().then(function(data) {
+      if(data.reservation != null) {
+        $("#reserve-btn").hide();
+        if (!data.reservation.paid) {
+          $("#user-reservation, #finalize-reservation-btn").show();
+        }
+      }
+    });
+  });
+
+  $("#reserve-btn").click(function(e) {
+    createReservation().then(function(data) {
+      $("#reserve-btn").hide();
+      $("#reservation-details").show();
+    });
   });
 
   isLogged();

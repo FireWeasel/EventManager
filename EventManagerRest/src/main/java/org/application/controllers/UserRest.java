@@ -83,11 +83,11 @@ public class UserRest {
         userService.delete(id);
     }
     
-	@RequestMapping(value = "/users/reservations/create/{campId}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/users/reservations/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public User createReservation(Principal principal, @PathVariable("campId") long campId) throws Exception {		
+    public User createReservation(Principal principal) throws Exception {		
 		User user = userService.getUser(authenticationService.getCurrentlyLoggedInUser(principal).getId());
-		Camp camp = campService.getCamp(campId);
+		Camp camp = campService.getNextFree();
 		if (user == null || camp == null) {
     		throw new NotFoundException();
     	}

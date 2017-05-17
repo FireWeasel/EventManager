@@ -29,9 +29,7 @@ function signup_selected() {
 
 $(document).ready(function() {
   "use strict";
-
-	
-
+  
 	mainNav.on('click', function(event){
 		$(event.target).is(mainNav) && mainNav.children('ul').toggleClass('is-visible');
 	});

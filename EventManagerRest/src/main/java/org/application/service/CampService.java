@@ -22,6 +22,10 @@ public class CampService {
     public Iterable<Camp> getAllCamps() {
     	return campRepository.findAll();
     }
+    
+    public Camp getNextFree() {
+    	return campRepository.findFree().get(0);
+    }
 	
 	public void delete(Long id) {
 		campRepository.delete(id);
