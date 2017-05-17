@@ -27,3 +27,6 @@ C:\Users\MarinaC\Desktop\New folder\Rent-Items-Test\obj\Debug\Rent_Items_Test.Ad
 C:\Users\MarinaC\Desktop\New folder\Rent-Items-Test\obj\Debug\Rent_Items_Test.UpdateItem.resources
 C:\Users\MarinaC\Desktop\New folder\Rent-Items-Test\obj\Debug\Rent_Items_Test.Properties.Resources.resources
 C:\Users\MarinaC\Desktop\New folder\Rent-Items-Test\obj\Debug\Rent-Items-Test.csproj.GenerateResource.Cache
+C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\LoanStand Application\Rent-Items-Test\bin\Debug\Rent-Items-Test.exe.config
+C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\LoanStand Application\Rent-Items-Test\obj\Debug\Rent-Items-Test.exe
+C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\LoanStand Application\Rent-Items-Test\obj\Debug\Rent-Items-Test.pdb
