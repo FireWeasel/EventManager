@@ -143,7 +143,7 @@ namespace Rent_Items_Test
             List<Item> items = RequestItems();
             Type type = Type.OTHER;
 
-            string endPoint = "http://localhost:8080/items/" + id;
+            string endPoint = "http://localhost:8080/stands/1/items/" + id;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
             request.Method = "PUT";
             request.ContentType = "application/json";
