@@ -68,6 +68,7 @@ $(document).ready(function() {
     getTicket().then(function(data) {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
+        $("#download-ticket-btn").show();
       }
     });
   });
@@ -76,12 +77,20 @@ $(document).ready(function() {
     $("#events-container").show(1000);
     $("#recent-news-container").show(1000);
     $("#tickets-container").hide(1000);
+    $("#ticket").hide();
   });
 
   $("#purchase-btn").click(function(e) {
     purchaseTicket().then(function(data) {
       $("#purchase-btn").hide();
+      $("#download-ticket-btn").show();
     });
+  });
+
+  $("#download-ticket-btn").click(function(e) {
+    generateTicket();
+    $("#download-ticket-btn").hide();
+    $("#ticket").show();
   });
 
   isLogged();
