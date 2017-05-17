@@ -31,7 +31,7 @@ namespace ShopApplication
                 foreach (Product p in list)
                 {
                     shop.Products.Add(p);
-                    cmbItemName.Items.Add(p);
+                    lbItemName.Items.Add(p);
                 }
             }  
         }
@@ -52,12 +52,12 @@ namespace ShopApplication
 
         private void btnAddToOrder_Click(object sender, EventArgs e)
         {
-            lbOrder.Items.Add(((Product)cmbItemName.SelectedItem));
+            lbOrder.Items.Add(((Product)lbItemName.SelectedItem));
         }
 
-        private void cmbItemName_SelectedIndexChanged(object sender, EventArgs e)
+        private void lbItemName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedIndex = cmbItemName.SelectedIndex;
+            selectedIndex = lbItemName.SelectedIndex;
             this.lblDescription.Text = shop.Products[selectedIndex].Description;
         }
 
