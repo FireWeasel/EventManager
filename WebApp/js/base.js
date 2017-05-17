@@ -84,6 +84,8 @@ $(document).ready(function() {
       if(data.reservation != null) {
         $("#reserve-btn").hide();
         populateReservationDetails(data.reservation);       
+      } else {
+        $("#reservation-details").hide();
       }
     });
   });
@@ -91,7 +93,7 @@ $(document).ready(function() {
   $("#reserve-btn").click(function(e) {
     createReservation().then(function(data) {
       $("#reserve-btn").hide();
-      $("#reservation-details").show();
+      $("#reservation-details, #user-reservation, #finalize-reservation-btn").show();
     });
   });
 
@@ -106,8 +108,7 @@ $(document).ready(function() {
   $("#finalize-reservation-btn").click(function() {
     getUser().then(function(data) {
       payReservation(data.reservation.id).then(function() {
-        $("#user-reservation").hide();
-        $("#finalize-reservation-btn").hide();
+        $("#user-reservation, #finalize-reservation-btn").hide();
       });
     }); 
   });

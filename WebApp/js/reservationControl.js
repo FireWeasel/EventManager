@@ -34,8 +34,7 @@ function populateReservationDetails(reservation) {
     if (!reservation.paid) {
       $("#finalize-reservation-btn").show();
     } else {
-      $("#user-reservation").hide();
-      $("#finalize-reservation-btn").hide();
+      $("#user-reservation, #finalize-reservation-btn").hide();
     }
   });
 }
