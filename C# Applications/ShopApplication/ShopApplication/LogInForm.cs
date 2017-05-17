@@ -14,7 +14,7 @@ namespace ShopApplication
 {
     public partial class LogInForm : Form
     {
-        public static RestClient rClient;
+        private  RestClient rClient;
         Thread thread;
 
         public LogInForm()
@@ -29,6 +29,7 @@ namespace ShopApplication
             {
                 tbUsername.Clear();
                 tbPassword.Clear();
+
                 this.Close();
                 thread = new Thread(OpenNewForm);
                 thread.Start();
@@ -37,7 +38,7 @@ namespace ShopApplication
 
         private void OpenNewForm()
         {
-            Application.Run(new ShopForm());
+            Application.Run(new ShopForm(rClient));
         }
     }
 }

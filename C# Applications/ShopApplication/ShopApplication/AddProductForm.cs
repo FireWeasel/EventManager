@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,9 +14,13 @@ namespace ShopApplication
     public partial class AddProductForm : Form
     {
         private List<ProductType> typesList;
-        public AddProductForm()
+        private RestClient rClient;
+        private ShopForm sForm;
+        public AddProductForm(RestClient rClient, ShopForm sForm)
         {
             InitializeComponent();
+            this.sForm = sForm;
+            this.rClient = rClient;
             #region Putting enums in a list and into the combobox.
             typesList = Enum.GetValues(typeof(ProductType)).Cast<ProductType>().ToList();
             foreach (ProductType pt in typesList)
@@ -26,6 +31,7 @@ namespace ShopApplication
 
 
         }
+
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -43,15 +49,20 @@ namespace ShopApplication
                 Product p = new Product(tbNewProdName.Text, rtbNewDescription.Text, Convert.ToDouble(nudNewPrice.Value),
                     Convert.ToInt32(nudNewQuantity.Value), type);
 
-                if (LogInForm.rClient.AddProduct(p))
+                if (rClient.AddProduct(p))
                 {
-
+                    ShopForm.shop.Products = rClient.GetAllProducts();
+                    this.Close();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void AddProductForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
         }
     }
 }

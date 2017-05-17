@@ -39,9 +39,23 @@ namespace ShopApplication
         }
         public int Quantity
         {
-            get { return quantity; }
-            set { quantity = value; }
-        }
+            get
+            {
+                return quantity;
+            }
+            set
+            {
+                if (value<0)
+                {
+                    quantity = 0;
+                }
+                else
+                {
+                    quantity = value;
+                }
+            }
+        } // can't get below 0
+        public int NrInOrder { get; set; }
         public String Type
         {
             get { return type; }
@@ -69,6 +83,10 @@ namespace ShopApplication
         public override string ToString()
         {
             return this.Name;
+        }
+        public String AsString()
+        {
+            return this.Name + " --- Price for one: " + this.Price + " euros --- Quantity : ";
         }
     }
 }

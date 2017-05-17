@@ -189,7 +189,8 @@ namespace ShopApplication
                 {
                     String responseString = sr.ReadToEnd();
                 }
-
+                ShopForm.shop.Products = GetAllProducts();
+                //Populate(ShopForm.shop.Products);
                 return true;
             }
             catch (WebException we )
@@ -198,6 +199,5 @@ namespace ShopApplication
             }
             return false;
         }
-
     }
 }

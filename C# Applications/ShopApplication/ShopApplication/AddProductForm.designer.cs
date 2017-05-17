@@ -171,6 +171,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AddProductForm";
             this.Text = "Add product";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddProductForm_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNewQuantity)).EndInit();

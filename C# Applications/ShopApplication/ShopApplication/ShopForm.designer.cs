@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblPrice = new System.Windows.Forms.Label();
+            this.lblTotalPrice = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbOrder = new System.Windows.Forms.ListBox();
             this.btnCompleteOrder = new System.Windows.Forms.Button();
@@ -49,20 +49,22 @@
             this.lblDescription = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnAddNewProduct = new System.Windows.Forms.Button();
-            this.btnUpdateQuantity = new System.Windows.Forms.Button();
+            this.btnUpdateNrInStock = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblPriceSingleItem = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblPrice
+            // lblTotalPrice
             // 
-            this.lblPrice.AutoSize = true;
-            this.lblPrice.Location = new System.Drawing.Point(129, 284);
-            this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(40, 18);
-            this.lblPrice.TabIndex = 8;
-            this.lblPrice.Text = "price";
+            this.lblTotalPrice.AutoSize = true;
+            this.lblTotalPrice.Location = new System.Drawing.Point(129, 284);
+            this.lblTotalPrice.Name = "lblTotalPrice";
+            this.lblTotalPrice.Size = new System.Drawing.Size(40, 18);
+            this.lblTotalPrice.TabIndex = 8;
+            this.lblTotalPrice.Text = "price";
             // 
             // label4
             // 
@@ -76,11 +78,12 @@
             // 
             // lbOrder
             // 
+            this.lbOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbOrder.FormattingEnabled = true;
-            this.lbOrder.ItemHeight = 18;
+            this.lbOrder.ItemHeight = 15;
             this.lbOrder.Location = new System.Drawing.Point(20, 45);
             this.lbOrder.Name = "lbOrder";
-            this.lbOrder.Size = new System.Drawing.Size(220, 220);
+            this.lbOrder.Size = new System.Drawing.Size(410, 214);
             this.lbOrder.TabIndex = 0;
             // 
             // btnCompleteOrder
@@ -98,11 +101,11 @@
             this.groupBox3.Controls.Add(this.btnCompleteOrder);
             this.groupBox3.Controls.Add(this.lbOrder);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.lblPrice);
+            this.groupBox3.Controls.Add(this.lblTotalPrice);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(631, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(263, 388);
+            this.groupBox3.Size = new System.Drawing.Size(449, 388);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Currently in the order:";
@@ -117,6 +120,7 @@
             this.rbFood.TabStop = true;
             this.rbFood.Text = "Food";
             this.rbFood.UseVisualStyleBackColor = true;
+            this.rbFood.CheckedChanged += new System.EventHandler(this.rbFood_CheckedChanged);
             // 
             // rbDrinks
             // 
@@ -128,6 +132,7 @@
             this.rbDrinks.TabStop = true;
             this.rbDrinks.Text = "Drinks";
             this.rbDrinks.UseVisualStyleBackColor = true;
+            this.rbDrinks.CheckedChanged += new System.EventHandler(this.rbDrinks_CheckedChanged);
             // 
             // label1
             // 
@@ -162,11 +167,6 @@
             // nudQuantity
             // 
             this.nudQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudQuantity.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.nudQuantity.Location = new System.Drawing.Point(312, 107);
             this.nudQuantity.Name = "nudQuantity";
             this.nudQuantity.Size = new System.Drawing.Size(197, 22);
@@ -201,10 +201,13 @@
             this.rbOthers.TabStop = true;
             this.rbOthers.Text = "Others";
             this.rbOthers.UseVisualStyleBackColor = true;
+            this.rbOthers.CheckedChanged += new System.EventHandler(this.rbOthers_CheckedChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.lblPriceSingleItem);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.lbItemName);
             this.groupBox1.Controls.Add(this.lblCurrentInStock);
             this.groupBox1.Controls.Add(this.label5);
@@ -223,7 +226,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(594, 458);
+            this.groupBox1.Size = new System.Drawing.Size(594, 481);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
@@ -235,11 +238,12 @@
             this.lbItemName.Name = "lbItemName";
             this.lbItemName.Size = new System.Drawing.Size(245, 202);
             this.lbItemName.TabIndex = 21;
+            this.lbItemName.SelectedIndexChanged += new System.EventHandler(this.lbItemName_SelectedIndexChanged);
             // 
             // lblCurrentInStock
             // 
             this.lblCurrentInStock.AutoSize = true;
-            this.lblCurrentInStock.Location = new System.Drawing.Point(152, 329);
+            this.lblCurrentInStock.Location = new System.Drawing.Point(143, 329);
             this.lblCurrentInStock.Name = "lblCurrentInStock";
             this.lblCurrentInStock.Size = new System.Drawing.Size(106, 18);
             this.lblCurrentInStock.TabIndex = 20;
@@ -248,7 +252,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(30, 329);
+            this.label5.Location = new System.Drawing.Point(10, 329);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 18);
             this.label5.TabIndex = 19;
@@ -257,7 +261,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(144, 382);
+            this.lblDescription.Location = new System.Drawing.Point(144, 403);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(20, 18);
             this.lblDescription.TabIndex = 18;
@@ -266,7 +270,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(33, 382);
+            this.label6.Location = new System.Drawing.Point(10, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 18);
             this.label6.TabIndex = 17;
@@ -274,30 +278,47 @@
             // 
             // btnAddNewProduct
             // 
-            this.btnAddNewProduct.Location = new System.Drawing.Point(773, 407);
+            this.btnAddNewProduct.Location = new System.Drawing.Point(842, 407);
             this.btnAddNewProduct.Name = "btnAddNewProduct";
-            this.btnAddNewProduct.Size = new System.Drawing.Size(121, 64);
+            this.btnAddNewProduct.Size = new System.Drawing.Size(183, 64);
             this.btnAddNewProduct.TabIndex = 12;
             this.btnAddNewProduct.Text = "Add a new product";
             this.btnAddNewProduct.UseVisualStyleBackColor = true;
             this.btnAddNewProduct.Click += new System.EventHandler(this.btnAddNewProduct_Click);
             // 
-            // btnUpdateQuantity
+            // btnUpdateNrInStock
             // 
-            this.btnUpdateQuantity.Location = new System.Drawing.Point(631, 407);
-            this.btnUpdateQuantity.Name = "btnUpdateQuantity";
-            this.btnUpdateQuantity.Size = new System.Drawing.Size(122, 64);
-            this.btnUpdateQuantity.TabIndex = 13;
-            this.btnUpdateQuantity.Text = "Update quantity";
-            this.btnUpdateQuantity.UseVisualStyleBackColor = true;
+            this.btnUpdateNrInStock.Location = new System.Drawing.Point(631, 407);
+            this.btnUpdateNrInStock.Name = "btnUpdateNrInStock";
+            this.btnUpdateNrInStock.Size = new System.Drawing.Size(191, 64);
+            this.btnUpdateNrInStock.TabIndex = 13;
+            this.btnUpdateNrInStock.Text = "Update numbers in stock";
+            this.btnUpdateNrInStock.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 370);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(154, 18);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Price for a single item:";
+            // 
+            // lblPriceSingleItem
+            // 
+            this.lblPriceSingleItem.AutoSize = true;
+            this.lblPriceSingleItem.Location = new System.Drawing.Point(170, 370);
+            this.lblPriceSingleItem.Name = "lblPriceSingleItem";
+            this.lblPriceSingleItem.Size = new System.Drawing.Size(0, 18);
+            this.lblPriceSingleItem.TabIndex = 23;
             // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(906, 484);
-            this.Controls.Add(this.btnUpdateQuantity);
+            this.ClientSize = new System.Drawing.Size(1092, 519);
+            this.Controls.Add(this.btnUpdateNrInStock);
             this.Controls.Add(this.btnAddNewProduct);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
@@ -317,7 +338,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblPrice;
+        private System.Windows.Forms.Label lblTotalPrice;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ListBox lbOrder;
         private System.Windows.Forms.Button btnCompleteOrder;
@@ -338,7 +359,9 @@
         private System.Windows.Forms.ListBox lbItemName;
         private System.Windows.Forms.Label lblCurrentInStock;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnUpdateQuantity;
+        private System.Windows.Forms.Button btnUpdateNrInStock;
+        private System.Windows.Forms.Label lblPriceSingleItem;
+        private System.Windows.Forms.Label label7;
     }
 }
 
