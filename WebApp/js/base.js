@@ -83,9 +83,7 @@ $(document).ready(function() {
     getUser().then(function(data) {
       if(data.reservation != null) {
         $("#reserve-btn").hide();
-        if (!data.reservation.paid) {
-          $("#user-reservation, #finalize-reservation-btn").show();
-        }
+        populateReservationDetails(data.reservation);       
       }
     });
   });
@@ -95,6 +93,23 @@ $(document).ready(function() {
       $("#reserve-btn").hide();
       $("#reservation-details").show();
     });
+  });
+
+  $("#add-reservation-btn").click(function() {
+    getUser().then(function(data) {
+      addToReservation(data.reservation.id).then(function() {
+        populateReservationDetails(data.reservation);
+      });
+    });  
+  });
+
+  $("#finalize-reservation-btn").click(function() {
+    getUser().then(function(data) {
+      payReservation(data.reservation.id).then(function() {
+        $("#user-reservation").hide();
+        $("#finalize-reservation-btn").hide();
+      });
+    }); 
   });
 
   isLogged();

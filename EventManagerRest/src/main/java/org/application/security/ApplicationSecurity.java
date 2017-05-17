@@ -39,10 +39,10 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     	http.csrf().disable();
     	http.cors();
         http.authorizeRequests().antMatchers("/users/current/**").authenticated();
-        http.authorizeRequests().antMatchers("/users/reservations/create/**").hasAuthority("USER");
+        http.authorizeRequests().antMatchers("/users/reservations/create/**").hasAuthority("USER");        
         http.authorizeRequests().antMatchers("/users/tickets/create/**").hasAuthority("USER");
-        http.authorizeRequests().antMatchers("/tickets/**").hasAuthority("EMPLOYEE");
-        http.authorizeRequests().antMatchers("/reservations/**").hasAuthority("EMPLOYEE");
+        http.authorizeRequests().antMatchers("/reservations/**").hasAuthority("USER");
+        http.authorizeRequests().antMatchers("/tickets/**").hasAuthority("EMPLOYEE");     
         http.authorizeRequests().antMatchers("/shops/**").hasAuthority("EMPLOYEE");
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.formLogin().successHandler(authenticationSuccessHandler);

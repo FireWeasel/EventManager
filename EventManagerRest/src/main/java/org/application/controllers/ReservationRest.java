@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.application.entities.Reservation;
 import org.application.entities.User;
+import org.application.handlers.AlreadyHasReservationException;
 import org.application.handlers.AlreadyPaidException;
 import org.application.handlers.NotFoundException;
 import org.application.service.ReservationService;
@@ -39,15 +40,17 @@ public class ReservationRest {
         return reservation;
     }
     
-    @RequestMapping(value = "/reservations/{reservationId}/addUser/{userId}", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "/reservations/{reservationId}/add/{email:.+}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
-    public Reservation addUserToReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("userId") Long userId) throws Exception {
-    	// TODO: Check current user participates in the reservation
+    public Reservation addUserToReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("email") String email) throws Exception {
         Reservation reservation = reservationService.getReservation(reservationId);
-        User user = userService.getUser(userId);
+        User user = userService.getUserByEmail(email);
     	if (reservation == null || user == null) {
 			throw new NotFoundException();
 		}
+    	if (user.getReservation() != null) {
+    		throw new AlreadyHasReservationException();
+    	}
         reservation.addReservedBy(user);
         user.setReservation(reservation);
         userService.createUser(user);
