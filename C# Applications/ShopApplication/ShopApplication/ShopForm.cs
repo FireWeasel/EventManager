@@ -21,10 +21,11 @@ namespace ShopApplication
         //private List<Product> drinks;
         //private List<Product> other;
 
-        private String selected;
+        private String selected = "";
+        private int selectedIndexOrder = -1;
         public static Shop shop;
         private RestClient rClient;
-        private double price = 0;
+
 
         public ShopForm(RestClient rClient)
         {
@@ -46,6 +47,7 @@ namespace ShopApplication
             Thread thread = new Thread(OpenAddProductForm);
             thread.Start();
         }
+
         private void OpenAddProductForm()
         {
             AddProductForm addProductForm = new AddProductForm(rClient, this);
@@ -55,93 +57,127 @@ namespace ShopApplication
         private void btnAddToOrder_Click(object sender, EventArgs e)
         {
             //add an item in the order listbox and then if you add an item with the same name
-            //it should just update the quantity in order.
+            //it should just update the quantity.
             try
             {
                 Product temp = (Product)lbItemName.SelectedItem;
-                
-                if (order.Contains(temp))
+                selectedIndexOrder = -1; //so that it doesn't keep the previous 
+                this.nudAddNrInStock.Value = 0;
+                if (temp.Quantity == 0)
+                {
+                    throw new NotInStockException("Currently not in stock!");
+                }
+                else if (order.Contains(temp))
                 {
                     this.order.Remove(temp);
                     temp.NrInOrder += (int)nudQuantity.Value;
                 }
                 else
                 {
+                    if (nudQuantity.Value == 0)
+                    {
+                        throw new Exception("Select a quantity first!");
+                    }
                     temp.NrInOrder = (int)nudQuantity.Value;
                 }
 
-                #region checking for invalid input
-                if (temp.Quantity == 0)
-                {
-                    MessageBox.Show("Currently not in stock!");
-                    return;
-                }
-                else if (temp.NrInOrder == 0)
-                {
-                    MessageBox.Show("Select a quantity first!");
-                    return;
-                }
-                #endregion
-
                 lbOrder.Items.Clear();
-                if (temp.Quantity   <   (int)nudQuantity.Value)
-                {
-                    MessageBox.Show("Not enough items in stock.");
-                    return;
-                }
                 temp.Quantity -= (int)nudQuantity.Value;
-
-                if (this.order.Count != 0)
-                {
-
-                }
-                else
-                {
-                    price = 0;
-                }
-                
 
                 UpdateLabels(temp);
                 this.order.Add(temp);
                 this.lblTotalPrice.Text = CalculatePrice(order).ToString();
-
-                foreach (Product p in order)
-                {
-                    lbOrder.Items.Add(p.AsString() + p.NrInOrder);
-                }
+                OrderListBoxUpdate();
+            }
+            catch (NotInStockException nse)
+            {
+                MessageBox.Show(nse.Message);
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Select an item from the listbox first!");
+                MessageBox.Show("No item selected from the listbox.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnRemoveFromOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (order.Count == 0)
+                {
+                    throw new Exception("Order is empty.Nothing to remove.");
+                }
+                else if (selectedIndexOrder < 0)
+                {
+                    throw new Exception("Select an item from the order listbox first.");
+                }
+                else if (selectedIndexOrder >= 0)
+                {
+                    order[selectedIndexOrder].Quantity += order[selectedIndexOrder].NrInOrder; //reverting quantity
+                    UpdateLabels(order[selectedIndexOrder]);
+
+                    order.RemoveAt(selectedIndexOrder);
+                    lblTotalPrice.Text = CalculatePrice(order).ToString();
+
+                    OrderListBoxUpdate();
+                    this.nudQuantity.Value = 0;
+
+                    selected = "";
+                    ClearLabels();
+                    this.lbItemName.ClearSelected();
+                    selectedIndexOrder = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
-        public double CalculatePrice(List<Product> list)
+        private void OrderListBoxUpdate()
+        {
+            lbOrder.Items.Clear();
+            foreach (Product p in order)
+            {
+                lbOrder.Items.Add(p.AsString() + p.NrInOrder);
+            }
+        }
+        public double CalculatePrice(List<Product> order)
         {
             double price = 0;
-            foreach (Product p in list)
+            foreach (Product p in order)
             {
                 price += p.Price * p.NrInOrder;
             }
             return price;
         }
 
-        //shop class has revenue and id
-        //product class has id,description,name,price,quantity,type and (shop_id)
-
 
         private void lbItemName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.nudQuantity.Value = 0;
-            selected = lbItemName.SelectedItem.ToString();
-            foreach (Product p in shop.Products)
+            if (lbItemName.SelectedIndex != -1) 
             {
-                if (p.ToString()==selected)
+                this.nudQuantity.Value = 0;
+                MessageBox.Show(this.lbItemName.SelectedIndex.ToString());
+                selected = lbItemName.SelectedItem.ToString(); 
+                foreach (Product p in shop.Products)
                 {
-                    UpdateLabels(p);
+                    if (p.ToString() == selected)
+                    {
+                        UpdateLabels(p);
+                        return;
+                    }
                 }
             }
             
+        }
+        private void lbOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndexOrder = lbOrder.SelectedIndex;
+            this.nudAddNrInStock.Value = 0;
         }
 
         public void UpdateLabels(Product p)
@@ -161,7 +197,7 @@ namespace ShopApplication
                 {
                     if (p.Type == pt.ToString())
                     {
-                        lbItemName.Items.Add(p);     
+                        lbItemName.Items.Add(p);
                     }
                 }
             }
@@ -173,6 +209,9 @@ namespace ShopApplication
             {
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.FOODS);
+                this.nudQuantity.Value = 0;
+                this.nudAddNrInStock.Value = 0;
+                ClearLabels();
             }
         }
 
@@ -182,6 +221,9 @@ namespace ShopApplication
             {
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.DRINKS);
+                this.nudQuantity.Value = 0;
+                this.nudAddNrInStock.Value = 0;
+                ClearLabels();
             }
         }
 
@@ -191,7 +233,55 @@ namespace ShopApplication
             {
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.OTHER);
+                this.nudQuantity.Value = 0;
+                this.nudAddNrInStock.Value = 0;
+                ClearLabels();
             }
+        }
+
+        private void btnUpdateNrInStock_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selected == "")
+                {
+                    throw new Exception("Select an item from the listbox first.");
+                }
+
+                foreach (Product p in shop.Products)
+                {
+                    if (p.Name == selected)
+                    {
+                        if (nudAddNrInStock.Value == 0)
+                        {
+                            throw new Exception("Choose valid quantity.");
+                        }
+                        p.Quantity += (int)nudAddNrInStock.Value;
+                        UpdateLabels(p);
+                        break;
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                this.nudAddNrInStock.Value = 0;
+            }
+
+        }
+
+        private void ClearLabels()
+        {
+            selected = "";
+            this.lblCurrentInStock.Text = "";
+            this.lblDescription.Text = "";
+            this.lblPriceSingleItem.Text = "";
+        }
+
+        private void nudQuantity_ValueChanged(object sender, EventArgs e)
+        {
+            this.nudAddNrInStock.Value = 0;
         }
     }
 }

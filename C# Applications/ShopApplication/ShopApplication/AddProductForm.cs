@@ -28,15 +28,11 @@ namespace ShopApplication
                 cbType.Items.Add(pt);
             }
             #endregion
-
-
         }
 
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
-           
-
             try
             {
                 if (tbNewProdName.Text == "" || rtbNewDescription.Text == "" || nudNewQuantity.Value == 0 || nudNewPrice.Value == 0)
