@@ -17,10 +17,6 @@ namespace ShopApplication
         private delegate void PopulatingListBoxHandler(List<Product> list);
         private List<Product> order;
 
-        //private List<Product> foods;
-        //private List<Product> drinks;
-        //private List<Product> other;
-
         private String selected = "";
         private int selectedIndexOrder = -1;
         public static Shop shop;
@@ -31,17 +27,15 @@ namespace ShopApplication
         {
             InitializeComponent();
             this.rClient = rClient;
-            order = new List<Product>(); // adding items to order.
+            order = new List<Product>();
             shop = rClient.GetShop();
             shop.Products = rClient.GetAllProducts();
-            //Populate(shop.Products);
-            //MessageBox.Show(rClient.GetRequest("http://localhost:8080/users/current"));
         }
 
         private void ShopForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             rClient.GetRequest("http://localhost:8080/logout");
-        }
+        } 
         private void btnAddNewProduct_Click(object sender, EventArgs e)
         {
             Thread thread = new Thread(OpenAddProductForm);
@@ -54,6 +48,13 @@ namespace ShopApplication
             Application.Run(addProductForm);
         }
 
+        private void OpenUpdateItemForm()
+        {
+            
+            UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected));
+            Application.Run(uif);
+        }
+
         private void btnAddToOrder_Click(object sender, EventArgs e)
         {
             //add an item in the order listbox and then if you add an item with the same name
@@ -62,7 +63,6 @@ namespace ShopApplication
             {
                 Product temp = (Product)lbItemName.SelectedItem;
                 selectedIndexOrder = -1; //so that it doesn't keep the previous 
-                this.nudAddNrInStock.Value = 0;
                 if (temp.Quantity == 0)
                 {
                     throw new NotInStockException("Currently not in stock!");
@@ -161,7 +161,6 @@ namespace ShopApplication
             if (lbItemName.SelectedIndex != -1) 
             {
                 this.nudQuantity.Value = 0;
-                MessageBox.Show(this.lbItemName.SelectedIndex.ToString());
                 selected = lbItemName.SelectedItem.ToString(); 
                 foreach (Product p in shop.Products)
                 {
@@ -177,7 +176,6 @@ namespace ShopApplication
         private void lbOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndexOrder = lbOrder.SelectedIndex;
-            this.nudAddNrInStock.Value = 0;
         }
 
         public void UpdateLabels(Product p)
@@ -210,7 +208,6 @@ namespace ShopApplication
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.FOODS);
                 this.nudQuantity.Value = 0;
-                this.nudAddNrInStock.Value = 0;
                 ClearLabels();
             }
         }
@@ -222,7 +219,6 @@ namespace ShopApplication
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.DRINKS);
                 this.nudQuantity.Value = 0;
-                this.nudAddNrInStock.Value = 0;
                 ClearLabels();
             }
         }
@@ -234,12 +230,11 @@ namespace ShopApplication
                 lbItemName.Items.Clear();
                 LoadProductsByType(shop.Products, ProductType.OTHER);
                 this.nudQuantity.Value = 0;
-                this.nudAddNrInStock.Value = 0;
                 ClearLabels();
             }
         }
 
-        private void btnUpdateNrInStock_Click(object sender, EventArgs e)
+        private void btnUpdateItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -247,28 +242,27 @@ namespace ShopApplication
                 {
                     throw new Exception("Select an item from the listbox first.");
                 }
+                Thread thread = new Thread(OpenUpdateItemForm);
+                thread.Start();
 
-                foreach (Product p in shop.Products)
-                {
-                    if (p.Name == selected)
-                    {
-                        if (nudAddNrInStock.Value == 0)
-                        {
-                            throw new Exception("Choose valid quantity.");
-                        }
-                        p.Quantity += (int)nudAddNrInStock.Value;
-                        UpdateLabels(p);
-                        break;
-                    }
-                }
-                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                this.nudAddNrInStock.Value = 0;
             }
 
+        }
+
+        private Product GetSelectedProduct(string name)
+        {
+            foreach (Product p in shop.Products)
+            {
+                if (p.Name == selected)
+                {
+                    return p;
+                }
+            }
+            return null;
         }
 
         private void ClearLabels()
@@ -279,9 +273,6 @@ namespace ShopApplication
             this.lblPriceSingleItem.Text = "";
         }
 
-        private void nudQuantity_ValueChanged(object sender, EventArgs e)
-        {
-            this.nudAddNrInStock.Value = 0;
-        }
+        
     }
 }

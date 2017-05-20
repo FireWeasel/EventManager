@@ -43,8 +43,7 @@
             this.btnRemoveFromOrder = new System.Windows.Forms.Button();
             this.rbOthers = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nudAddNrInStock = new System.Windows.Forms.NumericUpDown();
-            this.btnUpdateNrInStock = new System.Windows.Forms.Button();
+            this.btnUpdateItem = new System.Windows.Forms.Button();
             this.lblPriceSingleItem = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbItemName = new System.Windows.Forms.ListBox();
@@ -56,7 +55,6 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAddNrInStock)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalPrice
@@ -174,7 +172,6 @@
             this.nudQuantity.Name = "nudQuantity";
             this.nudQuantity.Size = new System.Drawing.Size(197, 22);
             this.nudQuantity.TabIndex = 6;
-            this.nudQuantity.ValueChanged += new System.EventHandler(this.nudQuantity_ValueChanged);
             // 
             // btnAddToOrder
             // 
@@ -211,8 +208,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.nudAddNrInStock);
-            this.groupBox1.Controls.Add(this.btnUpdateNrInStock);
+            this.groupBox1.Controls.Add(this.btnUpdateItem);
             this.groupBox1.Controls.Add(this.lblPriceSingleItem);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.lbItemName);
@@ -237,22 +233,15 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // nudAddNrInStock
+            // btnUpdateItem
             // 
-            this.nudAddNrInStock.Location = new System.Drawing.Point(290, 411);
-            this.nudAddNrInStock.Name = "nudAddNrInStock";
-            this.nudAddNrInStock.Size = new System.Drawing.Size(120, 24);
-            this.nudAddNrInStock.TabIndex = 24;
-            // 
-            // btnUpdateNrInStock
-            // 
-            this.btnUpdateNrInStock.Location = new System.Drawing.Point(431, 397);
-            this.btnUpdateNrInStock.Name = "btnUpdateNrInStock";
-            this.btnUpdateNrInStock.Size = new System.Drawing.Size(156, 50);
-            this.btnUpdateNrInStock.TabIndex = 13;
-            this.btnUpdateNrInStock.Text = "Update numbers in stock";
-            this.btnUpdateNrInStock.UseVisualStyleBackColor = true;
-            this.btnUpdateNrInStock.Click += new System.EventHandler(this.btnUpdateNrInStock_Click);
+            this.btnUpdateItem.Location = new System.Drawing.Point(431, 397);
+            this.btnUpdateItem.Name = "btnUpdateItem";
+            this.btnUpdateItem.Size = new System.Drawing.Size(156, 50);
+            this.btnUpdateItem.TabIndex = 13;
+            this.btnUpdateItem.Text = "Update item";
+            this.btnUpdateItem.UseVisualStyleBackColor = true;
+            this.btnUpdateItem.Click += new System.EventHandler(this.btnUpdateItem_Click);
             // 
             // lblPriceSingleItem
             // 
@@ -346,7 +335,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAddNrInStock)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -374,10 +362,9 @@
         private System.Windows.Forms.ListBox lbItemName;
         private System.Windows.Forms.Label lblCurrentInStock;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnUpdateNrInStock;
+        private System.Windows.Forms.Button btnUpdateItem;
         private System.Windows.Forms.Label lblPriceSingleItem;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown nudAddNrInStock;
     }
 }
 

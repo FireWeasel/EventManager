@@ -19,3 +19,5 @@ C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\Sho
 C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.LogInForm.resources
 C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.Properties.Resources.resources
 C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.csproj.GenerateResource.Cache
+C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.csprojResolveAssemblyReference.cache
+C:\Users\VasilSirakovPC\Desktop\EventManager\C# Applications\ShopApplication\ShopApplication\obj\Debug\ShopApplication.UpdateItemForm.resources
