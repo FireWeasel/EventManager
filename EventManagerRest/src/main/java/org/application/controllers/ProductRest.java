@@ -7,7 +7,6 @@ import org.application.service.ProductService;
 import org.application.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,22 +35,6 @@ public class ProductRest {
     		throw new NotFoundException();
     	}
 		return product;
-    }
-	
-	@RequestMapping(value = "/products/{productId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-    @ResponseBody
-    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) throws Exception {
-    	Product fromDb = productService.getProduct(id);
-    	if(fromDb == null) {
-    		throw new NotFoundException();
-    	}
-    	fromDb.setName(product.getName());
-    	fromDb.setDescription(product.getDescription());
-    	fromDb.setPrice(product.getPrice());
-    	fromDb.setQuantity(product.getQuantity());
-    	fromDb.setType(product.getType());
-    	fromDb.setShop(product.getShop());
-    	return productService.createProduct(fromDb);
     }
 	
 	@RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE)

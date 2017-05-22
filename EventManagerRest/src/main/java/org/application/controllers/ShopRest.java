@@ -63,4 +63,20 @@ public class ShopRest {
     public List<Product> getShopProducts(@PathVariable("shopId") long shopId) {
     	return shopService.getShop(shopId).getProducts();
     }
+	
+	@RequestMapping(value = "/shops/{shopId}/products/{productId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) throws Exception {
+		Product fromDb = productService.getProduct(id);
+    	if(fromDb == null) {
+			throw new NotFoundException();
+		}
+    	fromDb.setName(product.getName());
+    	fromDb.setDescription(product.getDescription());
+    	fromDb.setPrice(product.getPrice());
+    	fromDb.setQuantity(product.getQuantity());
+    	fromDb.setType(product.getType());
+    	fromDb.setShop(shopService.getShop(id));
+    	return productService.createProduct(fromDb);
+    }
 }

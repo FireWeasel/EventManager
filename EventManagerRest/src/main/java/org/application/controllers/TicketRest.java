@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.application.entities.BorrowedItem;
 import org.application.entities.Item;
+import org.application.entities.LoanStand;
 import org.application.entities.Product;
+import org.application.entities.Shop;
 import org.application.entities.Ticket;
 import org.application.entities.User;
 import org.application.handlers.InsufficientBalanceException;
@@ -17,7 +19,9 @@ import org.application.handlers.TicketAlreadyCheckedOutException;
 import org.application.handlers.TicketNotCheckedInException;
 import org.application.service.BorrowedItemService;
 import org.application.service.ItemService;
+import org.application.service.LoanStandService;
 import org.application.service.ProductService;
+import org.application.service.ShopService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,12 @@ public class TicketRest {
 	
 	@Autowired
 	private BorrowedItemService borrowedItemService;
+	
+	@Autowired
+	private ShopService shopService;
+	
+	@Autowired
+	private LoanStandService loanStandService;
 	
 	@RequestMapping(value = "/tickets", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -110,7 +120,7 @@ public class TicketRest {
     @ResponseBody
     public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
-    	Product product = productService.getProduct(productId);
+    	Product product = productService.getProduct(productId);   	
     	if (ticket == null || product == null) {
     		throw new NotFoundException();
     	}
@@ -120,11 +130,17 @@ public class TicketRest {
     	if (ticket.getBalance() - product.getPrice() < 0) {
     		throw new InsufficientBalanceException();
     	}
+    	Shop shop = product.getShop();
+    	if (shop == null) {
+    		throw new NotFoundException();
+    	}
     	ticket.setBalance(ticket.getBalance()-product.getPrice());
     	product.setQuantity(product.getQuantity()-1);
+    	shop.setRevenue(shop.getRevenue() + product.getPrice());
     	ticket.getPurchases().add(product);
     	product.getPurchasedBy().add(ticket);
     	productService.createProduct(product);
+    	shopService.createShop(shop);
         return ticketService.createTicket(ticket);
     }
     
@@ -170,7 +186,8 @@ public class TicketRest {
     		throw new NotFoundException();
     	}
     	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
-    	if (borrowedItem == null) {
+    	LoanStand loanStand = item.getLoanStand();
+    	if (borrowedItem == null || loanStand == null) {
     		throw new NotFoundException();
     	}
 		Date currentDate = new Date();
@@ -186,8 +203,10 @@ public class TicketRest {
 		item.setQuantity(item.getQuantity() + 1);
 		borrowedItem.setReturned(true);
 		ticket.setBalance(ticket.getBalance() - item.getFee() * days);
+		loanStand.setRevenue(loanStand.getRevenue() + item.getFee() * days);
 		itemService.createItem(item);
 		borrowedItemService.createBorrowedItem(borrowedItem);
+		loanStandService.createLoanStand(loanStand);
 		return ticketService.createTicket(ticket);
     }
 }

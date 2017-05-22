@@ -73,7 +73,7 @@ public class LoanStandRest {
     @ResponseBody
     public Item updateItem(@RequestBody Item item, @PathVariable("itemId") Long id) throws Exception {
     	Item fromDb = itemService.getItem(id);
-    	if(item == null) {
+    	if(fromDb == null) {
 			throw new NotFoundException();
 		}
     	fromDb.setName(item.getName());
