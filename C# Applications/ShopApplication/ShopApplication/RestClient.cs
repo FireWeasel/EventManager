@@ -199,5 +199,43 @@ namespace ShopApplication
             }
             return false;
         }
+
+        public bool UpdateProduct(Product p, long id)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/"+p.Id);
+
+            request.ContentType = "application/json";
+            request.Method = "PUT";
+            request.CookieContainer = cookieContainer;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string jsonOfProduct = serializer.Serialize(new
+            {
+                name = p.Name,
+                description = p.Description,
+                price = p.Price,
+                quantity = p.Quantity,
+                type = p.Type,
+            });
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
+                {
+                    sw.Write(jsonOfProduct);
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    String responseString = sr.ReadToEnd();
+                }
+                ShopForm.shop.Products = this.GetAllProducts();
+                return true;
+            }
+            catch (WebException we)
+            {
+                MessageBox.Show("Error! Could not update this product." + we.Message);
+            }
+            return false;
+        }
     }
 }

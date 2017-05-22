@@ -71,7 +71,7 @@ namespace ShopApplication
 
         public Product() { }
 
-        public Product(String name, String description, double price, int quantity, ProductType type)
+        public Product(String name, String description, double price, int quantity, String type)
         {
             this.Name = name;
             this.Description = description;

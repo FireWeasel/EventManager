@@ -12,18 +12,37 @@ namespace ShopApplication
 {
     public partial class UpdateItemForm : Form
     {
-        public UpdateItemForm(RestClient rClient, Product product)
+        RestClient rClient;
+        Product productToUpdate;
+        ShopForm sForm;
+        public UpdateItemForm(RestClient rClient, Product product, ShopForm sForm)
         {
             InitializeComponent();
+
+            this.rClient = rClient;
+            this.productToUpdate = product;
+            this.sForm = sForm;
+
             lbUpdateType.Items.Add("FOODS");
             lbUpdateType.Items.Add("DRINKS");
-            lbUpdateType.Items.Add("OTHERS");
+            lbUpdateType.Items.Add("OTHER");
             UpdateInfo(product);
         }
 
         private void btnUpdateProduct_Click(object sender, EventArgs e)
         {
-
+            if (rClient.UpdateProduct(GetUpdatedProduct(), GetUpdatedProduct().Id))
+            {
+                if (sForm.selectedType == this.productToUpdate.Type)
+                {
+                    sForm.UpdateLabels(productToUpdate);
+                }
+                sForm.ClearLabels();
+                sForm.LoadProductsByType(ShopForm.shop.Products, sForm.selectedType);
+                MessageBox.Show("Update successful!");
+                
+            }
+            this.Close();
         }
 
         private void UpdateInfo(Product p)
@@ -38,13 +57,21 @@ namespace ShopApplication
                     break;
                 case "DRINKS": lbUpdateType.SelectedItem = lbUpdateType.Items[1];
                     break;
-                case "OTHERS": lbUpdateType.SelectedItem = lbUpdateType.Items[2];
+                case "OTHER": lbUpdateType.SelectedItem = lbUpdateType.Items[2];
                     break;
                 default:
                     break;
             }
-            
+        }
 
+        private Product GetUpdatedProduct()
+        {
+            this.productToUpdate.Name = tbUpdateName.Text;
+            this.productToUpdate.Description = richTextBox1.Text;
+            this.productToUpdate.Price = (double)nudUpdatePrice.Value;
+            this.productToUpdate.Quantity = (int)nudUpdateQuantity.Value ;
+            this.productToUpdate.Type = lbUpdateType.SelectedItem.ToString();
+            return productToUpdate;
         }
     }
 }

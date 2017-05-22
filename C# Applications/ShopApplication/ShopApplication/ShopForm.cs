@@ -14,7 +14,6 @@ namespace ShopApplication
 {
     public partial class ShopForm : Form
     {
-        private delegate void PopulatingListBoxHandler(List<Product> list);
         private List<Product> order;
 
         private String selected = "";
@@ -22,7 +21,9 @@ namespace ShopApplication
         public static Shop shop;
         private RestClient rClient;
 
+        public String selectedType = "FOODS";
 
+       
         public ShopForm(RestClient rClient)
         {
             InitializeComponent();
@@ -38,8 +39,11 @@ namespace ShopApplication
         } 
         private void btnAddNewProduct_Click(object sender, EventArgs e)
         {
-            Thread thread = new Thread(OpenAddProductForm);
-            thread.Start();
+            //Thread thread = new Thread(OpenAddProductForm);
+            //thread.Start();
+
+            AddProductForm apf = new AddProductForm(this.rClient, this);
+            apf.Show();
         }
 
         private void OpenAddProductForm()
@@ -51,7 +55,7 @@ namespace ShopApplication
         private void OpenUpdateItemForm()
         {
             
-            UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected));
+            UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
             Application.Run(uif);
         }
 
@@ -145,7 +149,7 @@ namespace ShopApplication
                 lbOrder.Items.Add(p.AsString() + p.NrInOrder);
             }
         }
-        public double CalculatePrice(List<Product> order)
+        private double CalculatePrice(List<Product> order)
         {
             double price = 0;
             foreach (Product p in order)
@@ -184,16 +188,16 @@ namespace ShopApplication
             this.lblCurrentInStock.Text = p.Quantity.ToString();
             this.nudQuantity.Maximum = p.Quantity;
             this.lblPriceSingleItem.Text = p.Price + " euros.";
-
         }
 
-        public void LoadProductsByType(List<Product> list, ProductType pt)
+        public void LoadProductsByType(List<Product> list, string type)
         {
             if (list != null)
             {
+                lbItemName.Items.Clear();
                 foreach (Product p in list)
                 {
-                    if (p.Type == pt.ToString())
+                    if (p.Type == type)
                     {
                         lbItemName.Items.Add(p);
                     }
@@ -206,9 +210,10 @@ namespace ShopApplication
             if (rbFood.Checked)
             {
                 lbItemName.Items.Clear();
-                LoadProductsByType(shop.Products, ProductType.FOODS);
+                LoadProductsByType(shop.Products, "FOODS");
                 this.nudQuantity.Value = 0;
                 ClearLabels();
+                selectedType = "FOODS";
             }
         }
 
@@ -217,9 +222,10 @@ namespace ShopApplication
             if (rbDrinks.Checked)
             {
                 lbItemName.Items.Clear();
-                LoadProductsByType(shop.Products, ProductType.DRINKS);
+                LoadProductsByType(shop.Products, "DRINKS");
                 this.nudQuantity.Value = 0;
                 ClearLabels();
+                selectedType = "DRINKS";
             }
         }
 
@@ -228,9 +234,10 @@ namespace ShopApplication
             if (rbOthers.Checked)
             {
                 lbItemName.Items.Clear();
-                LoadProductsByType(shop.Products, ProductType.OTHER);
+                LoadProductsByType(shop.Products,"OTHER");
                 this.nudQuantity.Value = 0;
                 ClearLabels();
+                selectedType = "OTHER";
             }
         }
 
@@ -242,8 +249,9 @@ namespace ShopApplication
                 {
                     throw new Exception("Select an item from the listbox first.");
                 }
-                Thread thread = new Thread(OpenUpdateItemForm);
-                thread.Start();
+
+                UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
+                uif.Show();
 
             }
             catch (Exception ex)
@@ -265,7 +273,7 @@ namespace ShopApplication
             return null;
         }
 
-        private void ClearLabels()
+        public void ClearLabels()
         {
             selected = "";
             this.lblCurrentInStock.Text = "";

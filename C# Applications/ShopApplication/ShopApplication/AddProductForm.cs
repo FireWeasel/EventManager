@@ -16,6 +16,7 @@ namespace ShopApplication
         private List<ProductType> typesList;
         private RestClient rClient;
         private ShopForm sForm;
+        Product p;
         public AddProductForm(RestClient rClient, ShopForm sForm)
         {
             InitializeComponent();
@@ -40,14 +41,17 @@ namespace ShopApplication
                     throw new Exception("Fill in the fields with appropriate values. Don't leave empty" +
                         "textboxes or '0' as a value in either of the numeric up and downs.");
                 }
-                ProductType type = typesList[cbType.SelectedIndex];
+                string type = typesList[cbType.SelectedIndex].ToString();
 
-                Product p = new Product(tbNewProdName.Text, rtbNewDescription.Text, Convert.ToDouble(nudNewPrice.Value),
+                p = new Product(tbNewProdName.Text, rtbNewDescription.Text, Convert.ToDouble(nudNewPrice.Value),
                     Convert.ToInt32(nudNewQuantity.Value), type);
 
                 if (rClient.AddProduct(p))
                 {
-                    ShopForm.shop.Products = rClient.GetAllProducts();
+                    if (p.Type == sForm.selectedType )
+                    {
+                        sForm.LoadProductsByType(ShopForm.shop.Products, p.Type);
+                    }
                     this.Close();
                 }
             }
