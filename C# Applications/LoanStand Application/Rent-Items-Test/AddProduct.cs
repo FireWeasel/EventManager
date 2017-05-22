@@ -15,14 +15,16 @@ namespace Rent_Items_Test
         #region Setting objects of class RestClient and Loan_Stand
         RestClient client;
         Loan_Stand newStand;
+        MainApplication mainApp;
         #endregion
         #region Constructor
-        public AddProduct(RestClient newClient, Loan_Stand stand)
+        public AddProduct(RestClient newClient, Loan_Stand stand, MainApplication main)
         {
             InitializeComponent();
 
             newStand = stand;
             client = newClient;
+            mainApp = main;
 
             typeCb.Items.Add(Type.ELECTRONICS);
             typeCb.Items.Add(Type.OTHER);
@@ -37,7 +39,8 @@ namespace Rent_Items_Test
             string type = typeCb.Text;
 
             client.AddData(newStand.Id,name, desciption, fee, quantity, type);
-
+            mainApp.UpdateListMethod();
+            
             ActiveForm.Refresh();
             nameTb.Clear();
             descTb.Clear();

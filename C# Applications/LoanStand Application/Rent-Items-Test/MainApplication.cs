@@ -18,6 +18,7 @@ namespace Rent_Items_Test
         RestClient newClient;
         Loan_Stand stand;
         List<Item> type;
+        Action myDelegate;
         #endregion
         #region Constructor
         public MainApplication(RestClient client)
@@ -27,13 +28,10 @@ namespace Rent_Items_Test
             newClient = client;
             stand = newClient.GetLoanStand();
             type = new List<Item>();
+            myDelegate = new Action(UpdateListMethod);
+            UpdateListMethod();
 
-            stand.GetAllItems(newClient);
             
-            foreach (Item item in stand.Items)
-            {
-                ListItems.Items.Add(item.AsString());
-            }
 
             CategoryCb.Items.Add(Type.ELECTRONICS.ToString());
             CategoryCb.Items.Add(Type.OTHER.ToString());
@@ -43,21 +41,21 @@ namespace Rent_Items_Test
         #region New form (Add and Update)
         private void AddBtn_Click(object sender, EventArgs e)
         {
-            thread = new Thread(openNewForm);
-            thread.Start();
+            AddProduct form = new AddProduct(newClient, stand, this);
+            form.Show();
         }
         public void openNewForm()
         {
-            Application.Run(new AddProduct(newClient,stand));
+            Application.Run(new AddProduct(newClient,stand,this));
         }
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
-            thread = new Thread(openUpdateForm);
-            thread.Start();
+            UpdateItem form2 = new UpdateItem(newClient, stand, this);
+            form2.Show();
         }
         public void openUpdateForm()
         {
-            Application.Run(new UpdateItem(newClient,stand));
+            Application.Run(new UpdateItem(newClient,stand,this));
         }
         #endregion
         #region Methods
@@ -90,6 +88,14 @@ namespace Rent_Items_Test
             stand.GetAllItems(newClient);
             StockNUD.Maximum = type[id].Quantity;
         }
+        public void UpdateListMethod()
+        {
+            ListItems.Items.Clear();
+            foreach (Item item in newClient.RequestItems())
+            {
+                ListItems.Items.Add(item.AsString());
+            }
+        }
         #endregion
         private void CategoryCb_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -105,15 +111,6 @@ namespace Rent_Items_Test
         private void LoanBtn_Click(object sender, EventArgs e)
         {
             //yet to be implemented
-        }
-
-        private void RefreshBtn_Click(object sender, EventArgs e)
-        {
-            ListItems.Items.Clear();
-            foreach(Item item in newClient.RequestItems())
-            {
-                ListItems.Items.Add(item.AsString());
-            }
-        }
+        } 
     }
 }
