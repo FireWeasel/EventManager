@@ -226,7 +226,29 @@ namespace Rent_Items_Test
             {
                 MessageBox.Show(e.Message);
             }
-
+        }
+        public void BorrowItem(int id)
+        {
+            //currently using predefined path, because not many QR codes have been created
+            string endPoint = "http://localhost:8080/tickets/1/items/" + id;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            request.CookieContainer = cookieContainer;
+            using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                string json = new JavaScriptSerializer().Serialize(new
+                {
+                    ticket = 1,
+                    item = id
+                });
+                streamWriter.Write(json);
+            }
+            var httpResponse = (HttpWebResponse)request.GetResponse();
+            using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+            }
         }
     }
 }
