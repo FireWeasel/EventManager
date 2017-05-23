@@ -68,4 +68,10 @@ public class CampRest {
     	reservationService.deleteReservation(reservation.getId());
     	campService.delete(id);
     }
+    
+    @RequestMapping(value = "/camps/free", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Iterable<Camp> getFreeCamps() {
+    	return campService.getFreeCamps();
+    }
 }

@@ -26,6 +26,10 @@ public class CampService {
     public Camp getNextFree() {
     	return campRepository.findFree().get(0);
     }
+    
+    public Iterable<Camp> getFreeCamps() {
+    	return campRepository.findFree();
+    }
 	
 	public void delete(Long id) {
 		campRepository.delete(id);
