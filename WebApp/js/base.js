@@ -33,6 +33,7 @@ $(document).ready(function() {
     getUser().then(function(data) {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
+        $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data.ticket.id);
         $("#download-ticket-btn").show();
       }
     });
@@ -51,12 +52,6 @@ $(document).ready(function() {
       $("#purchase-btn").hide();
       $("#download-ticket-btn").show();
     });
-  });
-
-  $("#download-ticket-btn").click(function(e) {
-    generateTicket();
-    $("#download-ticket-btn").hide();
-    $("#ticket").show();
   });
 
   $("#register-form").submit(function(e) {
