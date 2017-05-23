@@ -39,24 +39,16 @@ namespace ShopApplication
         } 
         private void btnAddNewProduct_Click(object sender, EventArgs e)
         {
-            //Thread thread = new Thread(OpenAddProductForm);
-            //thread.Start();
+            if (shop.Products.Count == 0)
+            {
+                AddProductForm apf = new AddProductForm(this.rClient, this);
+                apf.Show();
 
-            AddProductForm apf = new AddProductForm(this.rClient, this);
-            apf.Show();
-        }
-
-        private void OpenAddProductForm()
-        {
-            AddProductForm addProductForm = new AddProductForm(rClient, this);
-            Application.Run(addProductForm);
-        }
-
-        private void OpenUpdateItemForm()
-        {
-            
-            UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
-            Application.Run(uif);
+            }
+            else
+            {
+                MessageBox.Show("Order isn't empty. Empty it before adding a new product.");
+            }
         }
 
         private void btnAddToOrder_Click(object sender, EventArgs e)
@@ -250,8 +242,15 @@ namespace ShopApplication
                     throw new Exception("Select an item from the listbox first.");
                 }
 
-                UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
-                uif.Show();
+                if (shop.Products.Count == 0)
+                {
+                    UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
+                    uif.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Order isn't empty. Empty it before updating a product.");
+                }
 
             }
             catch (Exception ex)

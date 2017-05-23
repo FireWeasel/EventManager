@@ -25,8 +25,5 @@ namespace ShopApplication
             this.id = id;
             this.revenue = revenue;
         }
-
-
-
     }
 }
