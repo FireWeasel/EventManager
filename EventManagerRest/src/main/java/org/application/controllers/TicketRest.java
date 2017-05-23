@@ -209,4 +209,15 @@ public class TicketRest {
 		loanStandService.createLoanStand(loanStand);
 		return ticketService.createTicket(ticket);
     }
+    
+    
+    @RequestMapping(value = "/tickets/{ticketId}/owner", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public User getOwner(@PathVariable("ticketId") Long id) throws Exception {
+		Ticket ticket = ticketService.getTicket(id);
+		if (ticket == null) {
+			throw new NotFoundException();
+		}
+		return ticket.getOwner();
+	}
 }
