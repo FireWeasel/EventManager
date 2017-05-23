@@ -2,6 +2,8 @@ package org.application.controllers;
 
 import org.application.entities.Camp;
 import org.application.entities.Reservation;
+import org.application.handlers.CampAlreadyCheckedInException;
+import org.application.handlers.CampNotReservedException;
 import org.application.handlers.NotFoundException;
 import org.application.service.CampService;
 import org.application.service.ReservationService;
@@ -73,5 +75,18 @@ public class CampRest {
     @ResponseBody
     public Iterable<Camp> getFreeCamps() {
     	return campService.getFreeCamps();
+    }
+    
+    @RequestMapping(value = "/camps/checkIn/{campId}", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public Camp checkInCamp(@PathVariable("campId") Long id) throws Exception {
+    	Camp camp = campService.getCamp(id);
+    	if(camp.getReservation() == null) {
+    		throw new CampNotReservedException();
+    	}
+    	if(camp.isCheckedIn()) {
+    		throw new CampAlreadyCheckedInException();
+    	}
+    	return campService.checkInCamp(camp);
     }
 }

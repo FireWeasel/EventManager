@@ -44,7 +44,9 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/reservations/**").hasAuthority("USER");
         http.authorizeRequests().antMatchers("/tickets/**").hasAuthority("EMPLOYEE");     
         http.authorizeRequests().antMatchers("/shops/**").hasAuthority("EMPLOYEE");
-        http.authorizeRequests().antMatchers("/camps/**").authenticated();
+        http.authorizeRequests().antMatchers("/camps/create").hasAuthority("EMPLOYEE");
+        http.authorizeRequests().antMatchers("/camps/checkIn/**").hasAuthority("EMPLOYEE");
+        http.authorizeRequests().antMatchers("/camps/*").authenticated();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.formLogin().successHandler(authenticationSuccessHandler);
         http.formLogin().failureHandler(authenticationFailureHandler);

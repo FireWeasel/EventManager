@@ -30,6 +30,11 @@ public class CampService {
     public Iterable<Camp> getFreeCamps() {
     	return campRepository.findFree();
     }
+    
+    public Camp checkInCamp(Camp camp) {
+    	camp.setCheckedIn(true);
+    	return campRepository.save(camp);
+    }
 	
 	public void delete(Long id) {
 		campRepository.delete(id);
