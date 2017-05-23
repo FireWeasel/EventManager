@@ -14,11 +14,9 @@ namespace Rent_Items_Test
     public partial class MainApplication : Form
     {
         #region Setting objects of class Thread, RestClient, Load_Stand and list of type Item
-        Thread thread;
         RestClient newClient;
         Loan_Stand stand;
         List<Item> type;
-        Action myDelegate;
         #endregion
         #region Constructor
         public MainApplication(RestClient client)
@@ -27,9 +25,11 @@ namespace Rent_Items_Test
 
             newClient = client;
             stand = newClient.GetLoanStand();
-            type = new List<Item>();
-            myDelegate = new Action(UpdateListMethod);
-            UpdateListMethod();
+
+            foreach(Item item in stand.GetAllItems(newClient))
+            {
+                ListItems.Items.Add(item.AsString());
+            }
 
             
 
@@ -61,13 +61,14 @@ namespace Rent_Items_Test
         #region Methods
         public void LoadItemByType(int index)
         {
+            type = new List<Item>();
+            ItemCb.Enabled = true;
+
             ListItems.Items.Clear();
             ItemCb.Items.Clear();
 
-            ItemCb.Enabled = true;
-
             stand.GetAllItems(newClient);
-            
+
             foreach (Item item in stand.Items)
             {
                 if (Convert.ToInt32(item.Type) == index)
@@ -110,7 +111,35 @@ namespace Rent_Items_Test
         
         private void LoanBtn_Click(object sender, EventArgs e)
         {
-            //yet to be implemented
+            double value = Convert.ToDouble(StockNUD.Value);
+            double a = 0;
+            try
+            {
+                Item item = type[ItemCb.SelectedIndex];
+                foreach (Item it in stand.Items)
+                {
+                    if (it.Name == item.Name)
+                    {
+                        item = it;
+                    }
+                }
+
+                while (a < value)
+                {
+                    newClient.BorrowItem(item.ID);
+                    a++;
+                }
+                MessageBox.Show("The item has been processed!");
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Item not in stock");
+            }
+            UpdateListMethod();
+            ItemCb.SelectedIndex = -1;
+            CategoryCb.SelectedIndex = -1;
+            StockNUD.Value = 0;
+            
         } 
     }
 }
