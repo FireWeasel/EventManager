@@ -87,7 +87,15 @@ namespace Rent_Items_Test
             StockNUD.Enabled = true;
             LoanBtn.Enabled = true;
             stand.GetAllItems(newClient);
-            StockNUD.Maximum = type[id].Quantity;
+
+            if (id== -1)
+            {
+                StockNUD.Maximum = type[id + 1].Quantity;
+            }
+            else
+            {
+                StockNUD.Maximum = type[id].Quantity;
+            }
         }
         public void UpdateListMethod()
         {
@@ -116,20 +124,27 @@ namespace Rent_Items_Test
             try
             {
                 Item item = type[ItemCb.SelectedIndex];
-                foreach (Item it in stand.Items)
+                if(item.Quantity != 0)
                 {
-                    if (it.Name == item.Name)
+                    foreach (Item it in stand.Items)
                     {
-                        item = it;
+                        if (it.Name == item.Name)
+                        {
+                            item = it;
+                        }
                     }
-                }
 
-                while (a < value)
-                {
-                    newClient.BorrowItem(item.ID);
-                    a++;
+                    while (a < value)
+                    {
+                        newClient.BorrowItem(item.ID);
+                        a++;
+                    }
+                    MessageBox.Show("The item has been processed!");
                 }
-                MessageBox.Show("The item has been processed!");
+                else
+                {
+                    MessageBox.Show("Item not in stock!");
+                }
             }
             catch(Exception)
             {
