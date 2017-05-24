@@ -33,7 +33,7 @@ $(document).ready(function() {
     getUser().then(function(data) {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
-        $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data.ticket.id);
+        $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
         $("#download-ticket-btn").show();
       }
     });
@@ -50,6 +50,7 @@ $(document).ready(function() {
   $("#purchase-btn").click(function(e) {
     purchaseTicket().then(function(data) {
       $("#purchase-btn").hide();
+      $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
       $("#download-ticket-btn").show();
     });
   });
