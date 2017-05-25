@@ -66,7 +66,7 @@ public class ShopRest {
 	
 	@RequestMapping(value = "/shops/{shopId}/products/{productId}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public Product updateProduct(@RequestBody Product product, @PathVariable("productId") Long id) throws Exception {
+    public Product updateProduct(@RequestBody Product product, @PathVariable("shopId") Long shopId, @PathVariable("productId") Long id) throws Exception {
 		Product fromDb = productService.getProduct(id);
     	if(fromDb == null) {
 			throw new NotFoundException();
@@ -76,7 +76,7 @@ public class ShopRest {
     	fromDb.setPrice(product.getPrice());
     	fromDb.setQuantity(product.getQuantity());
     	fromDb.setType(product.getType());
-    	fromDb.setShop(shopService.getShop(id));
+    	fromDb.setShop(shopService.getShop(shopId));
     	return productService.createProduct(fromDb);
     }
 }
