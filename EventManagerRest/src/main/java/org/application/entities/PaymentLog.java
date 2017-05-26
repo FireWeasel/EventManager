@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class PaymentLog {
@@ -20,10 +21,16 @@ public class PaymentLog {
 	@Column(nullable = false)
 	private double amount;
 	
-	@Column(nullable = false)
+	@ManyToOne
 	private Ticket ticket;
 	
 	public PaymentLog() {}
+	
+	public PaymentLog(double amount, Ticket ticket) {
+		this.amount = amount;
+		this.ticket = ticket;
+		this.date = new Date();
+	}
 	
 	public PaymentLog(long id, double amount, Ticket ticket) {
 		this.id = id;
