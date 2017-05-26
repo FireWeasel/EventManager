@@ -1,12 +1,16 @@
 package org.application.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
+import org.application.entities.PaymentLog;
 import org.application.entities.Reservation;
 import org.application.entities.User;
 import org.application.handlers.AlreadyHasReservationException;
 import org.application.handlers.AlreadyPaidException;
 import org.application.handlers.NotFoundException;
+import org.application.service.AuthenticationService;
+import org.application.service.PaymentLogService;
 import org.application.service.ReservationService;
 import org.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,10 @@ public class ReservationRest {
 	private ReservationService reservationService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PaymentLogService paymentLogService;
+	@Autowired
+	private AuthenticationService authenticationService;
     
     @RequestMapping(value = "/reservations", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -74,7 +82,7 @@ public class ReservationRest {
     
     @RequestMapping(value = "/reservations/{reservationId}/payment", method = RequestMethod.PUT)
     @ResponseBody
-    public Reservation reservationPayment(@PathVariable("reservationId") Long id) throws Exception {
+    public Reservation reservationPayment(@PathVariable("reservationId") Long id, Principal principal) throws Exception {
     	Reservation fromDB = reservationService.getReservation(id);
     	if (fromDB == null) {
     		throw new NotFoundException();
@@ -83,6 +91,8 @@ public class ReservationRest {
     		throw new AlreadyPaidException();
     	}
     	fromDB.setPaid(true);
+    	paymentLogService.create(new PaymentLog((30+(fromDB.getReservedBy().size()-1)*20), 
+    								authenticationService.getCurrentlyLoggedInUser(principal).getTicket()));
     	return reservationService.createReservation(fromDB);
     }
 }
