@@ -38,7 +38,7 @@ namespace CheckInApplication
 
         private void OpenNewForm()
         {
-            Application.Run(new CampingForm(rClient));
+            Application.Run(new CheckInForm(rClient));
         }
     }
 }

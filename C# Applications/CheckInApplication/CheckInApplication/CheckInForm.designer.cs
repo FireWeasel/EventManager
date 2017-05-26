@@ -1,6 +1,6 @@
 ﻿namespace CheckInApplication
 {
-    partial class CampingForm
+    partial class CheckInForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CampingForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckInForm));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblReservationNotPayed = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -36,8 +36,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lbUserInformation = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCheckInTicket = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2.SuspendLayout();
@@ -120,37 +118,19 @@
             this.lbUserInformation.Size = new System.Drawing.Size(227, 256);
             this.lbUserInformation.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Enter ticket number:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(216, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(216, 24);
-            this.textBox1.TabIndex = 1;
-            // 
             // btnCheckInTicket
             // 
-            this.btnCheckInTicket.Location = new System.Drawing.Point(449, 20);
+            this.btnCheckInTicket.Location = new System.Drawing.Point(7, 20);
             this.btnCheckInTicket.Name = "btnCheckInTicket";
-            this.btnCheckInTicket.Size = new System.Drawing.Size(129, 47);
+            this.btnCheckInTicket.Size = new System.Drawing.Size(562, 47);
             this.btnCheckInTicket.TabIndex = 2;
-            this.btnCheckInTicket.Text = "Check in";
+            this.btnCheckInTicket.Text = "Click to scan QR code";
             this.btnCheckInTicket.UseVisualStyleBackColor = true;
             this.btnCheckInTicket.Click += new System.EventHandler(this.btnCheckReservation_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnCheckInTicket);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 13);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
@@ -179,7 +159,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -192,8 +171,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox lbUserInformation;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnCheckInTicket;
         private System.Windows.Forms.GroupBox groupBox1;
     }

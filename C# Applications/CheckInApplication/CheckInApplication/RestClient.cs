@@ -111,7 +111,6 @@ namespace CheckInApplication
                         }
                     }
                 }
-                MessageBox.Show(responseValue);
                 serializer = new JavaScriptSerializer();
                 ticketToReturn = serializer.Deserialize<Ticket>(responseValue);
                 return ticketToReturn;
@@ -142,10 +141,47 @@ namespace CheckInApplication
              {
                  result = sr.ReadToEnd();
              }
-            
-            
         }
 
+        public User GetUser(long id)
+        {
+            string responseValue = "";
+            User userToReturn;
+            JavaScriptSerializer serializer;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/" + id + "/owner");
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+                serializer = new JavaScriptSerializer();
+                userToReturn = serializer.Deserialize<User>(responseValue);
+                return userToReturn;
+            }
+            catch (WebException we)
+            {
+                MessageBox.Show(we.Message);
+            }
+            return null;
+
+        }
 
     }
 }
