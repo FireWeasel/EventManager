@@ -3,12 +3,14 @@ package org.application.controllers;
 import java.security.Principal;
 
 import org.application.entities.Camp;
+import org.application.entities.PaymentLog;
 import org.application.entities.Reservation;
 import org.application.entities.Ticket;
 import org.application.entities.User;
 import org.application.handlers.NotFoundException;
 import org.application.service.AuthenticationService;
 import org.application.service.CampService;
+import org.application.service.PaymentLogService;
 import org.application.service.ReservationService;
 import org.application.service.TicketService;
 import org.application.service.UserService;
@@ -34,6 +36,8 @@ public class UserRest {
 	private CampService campService;
 	@Autowired
 	private AuthenticationService authenticationService;
+	@Autowired
+	private PaymentLogService paymentLogService;
 
     @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -123,4 +127,15 @@ public class UserRest {
     	}
 		return user;
     }
+	
+	@RequestMapping(value = "/users/tickets/deposit", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public User depositBalance(@RequestBody Ticket ticket, Principal principal) {
+		User user = authenticationService.getCurrentlyLoggedInUser(principal);
+		Ticket ticketFromDb = user.getTicket();
+		ticketFromDb.setBalance(ticketFromDb.getBalance() + ticket.getBalance());
+		paymentLogService.create(new PaymentLog(ticketFromDb.getBalance(), ticketFromDb));
+		ticketService.createTicket(ticketFromDb);
+		return user;
+	}
 }
