@@ -108,27 +108,27 @@ h1 {
     }
 
     #wrapper.toggled {
-        padding-left: 250px;
+      padding-left: 250px;
     }
 
     #sidebar-wrapper {
-        width: 0;
+      width: 0;
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 250px;
+      width: 250px;
     }
 
     #page-content-wrapper {
-        padding: 20px;
-        position: relative;
-        height: 100vh;
+      padding: 20px;
+      position: relative;
+      height: 100vh;
     }
 
     #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-        height: 100vh;
+      position: relative;
+      margin-right: 0;
+      height: 100vh;
     }
 }
 
@@ -153,22 +153,12 @@ h1 {
   margin: 2%;
   border-radius: 25px;
   padding: 2%;
-  overflow: scroll;
-}
-
-.news-container::-webkit-scrollbar {
-    display: none;
+  overflow: hidden;
 }
 
 .news-container h2 {
   margin-top: 0px;
   text-align: center;
-}
-
-#ticket {
-  width: 80%;
-  position: absolute;
-  background-color: #FFFFFF;
 }
 
 #add-user-email {
@@ -179,4 +169,18 @@ h1 {
 #reservation-users {
   text-align: center;
   list-style-position:inside;
+}
+
+.events-details h3, .events-details h5 {
+  text-align: center;
+}
+
+.news-container-content {
+  height: 95%;
+  padding-bottom: 3%;
+  overflow: scroll;
+}
+
+.news-container-content::-webkit-scrollbar {
+   display: none;
 }

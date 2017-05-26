@@ -16,7 +16,7 @@ public class Event {
 	@Column(nullable = false)
     private String address;
 	
-	@Column(nullable = false)
+	@Lob
 	private String description;
 
 	public Event(){ }

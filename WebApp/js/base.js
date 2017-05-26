@@ -25,10 +25,43 @@ $(document).ready(function() {
     logout();
   });
 
+  $("#dashboard-link").click(function(e) {
+    $("#events-container").show(1000);
+    $("#recent-news-container").show(1000);
+    $("#events-full-container").hide(1000);
+    $("#camps-container").hide(1000);
+    $("#tickets-container").hide(1000);
+  });
+
+  $("#events-link").click(function(e) {
+    $("#events-full-container").show(1000);
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);
+    $("#camps-container").hide(1000);
+    $("#tickets-container").hide(1000);
+  });
+
+  $("#camps-link").click(function(e) {
+    $("#camps-container").show(1000);
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);  
+    $("#events-full-container").hide(1000); 
+    $("#tickets-container").hide(1000);
+    getUser().then(function(data) {
+      if(data.reservation != null) {
+        $("#reserve-btn").hide();
+        populateReservationDetails(data.reservation);       
+      } else {
+        $("#reservation-details").hide();
+      }
+    });
+  });
+
   $("#tickets-link").click(function(e) {
     $("#tickets-container").show(1000);
     $("#events-container").hide(1000);
     $("#recent-news-container").hide(1000);
+    $("#events-full-container").hide(1000);
     $("#camps-container").hide(1000);
     getUser().then(function(data) {
       if(data.ticket != null) {
@@ -37,14 +70,6 @@ $(document).ready(function() {
         $("#download-ticket-btn").show();
       }
     });
-  });
-
-  $("#dashboard-link").click(function(e) {
-    $("#events-container").show(1000);
-    $("#recent-news-container").show(1000);
-    $("#tickets-container").hide(1000);
-    $("#camps-container").hide(1000);
-    $("#ticket").hide();
   });
 
   $("#purchase-btn").click(function(e) {
@@ -68,22 +93,6 @@ $(document).ready(function() {
   $("#login-form").submit(function(e) {
     e.preventDefault();
     loginUser();
-  });
-
-  $("#camps-link").click(function(e) {
-    $("#camps-container").show(1000);
-    $("#tickets-container").hide(1000);
-    $("#events-container").hide(1000);
-    $("#recent-news-container").hide(1000);   
-    $("#ticket").hide();
-    getUser().then(function(data) {
-      if(data.reservation != null) {
-        $("#reserve-btn").hide();
-        populateReservationDetails(data.reservation);       
-      } else {
-        $("#reservation-details").hide();
-      }
-    });
   });
 
   $("#reserve-btn").click(function(e) {
@@ -110,4 +119,5 @@ $(document).ready(function() {
   });
 
   isLogged();
+  populateEventDetails();
 });
