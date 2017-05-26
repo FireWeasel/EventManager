@@ -67,7 +67,7 @@ $(document).ready(function() {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
         $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
-        $("#download-ticket-btn").show();
+        $("#ticket-details").show();
       }
     });
   });
@@ -76,7 +76,7 @@ $(document).ready(function() {
     purchaseTicket().then(function(data) {
       $("#purchase-btn").hide();
       $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
-      $("#download-ticket-btn").show();
+      $("#ticket-details").show();
     });
   });
 
@@ -117,6 +117,10 @@ $(document).ready(function() {
       });
     }); 
   });
+
+  $("#deposit-btn").click(function() {
+    depositToTicket();
+  })
 
   isLogged();
   populateEventDetails();

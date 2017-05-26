@@ -134,7 +134,7 @@ public class UserRest {
 		User user = authenticationService.getCurrentlyLoggedInUser(principal);
 		Ticket ticketFromDb = user.getTicket();
 		ticketFromDb.setBalance(ticketFromDb.getBalance() + ticket.getBalance());
-		paymentLogService.create(new PaymentLog(ticketFromDb.getBalance(), ticketFromDb));
+		paymentLogService.create(new PaymentLog(ticket.getBalance(), ticketFromDb));
 		ticketService.createTicket(ticketFromDb);
 		return user;
 	}

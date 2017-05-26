@@ -184,3 +184,12 @@ h1 {
 .news-container-content::-webkit-scrollbar {
    display: none;
 }
+
+#deposit {
+  width: 40%;
+  margin: 1% auto;
+}
+
+#deposit-btn {
+  margin-bottom: 1%;
+}
