@@ -47,7 +47,15 @@ function addToReservation(id) {
       withCredentials: true
     },
     contentType: "application/json; charset=utf-8",
-    dataType: "json"
+    dataType: "json",
+    success: function() {
+      $("#add-user-email").val("");
+    },
+    error: function(xhr) {
+        $("#modal-title").text("User not found");
+        $("#modal-description").text("User with email: " + email + " not found.");
+        $("#modal-form").modal();
+    }
   });
 }
 
