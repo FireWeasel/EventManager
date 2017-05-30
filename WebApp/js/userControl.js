@@ -26,8 +26,10 @@ function loginUser() {
       location.reload();   
     },
     error: function(xhr) {
-        alert("Error " + xhr.status + ": Check console for details");
-        console.log(xhr.statis + ": " + xhr.responseText);
+        var err = eval("(" + xhr.responseText + ")");
+        $("#modal-title").text(err.error);
+        $("#modal-description").text(err.message);
+        $("#modal-form").modal();
     }
   });
 }
@@ -66,11 +68,6 @@ function logout() {
     },
     success: function() {
       location.reload();   
-    },
-    error: function(xhr) {
-      if (xhr.status == 404) {
-        location.reload();
-      }
     }
   });
 }
