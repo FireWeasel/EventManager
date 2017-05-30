@@ -161,11 +161,6 @@ h1 {
   text-align: center;
 }
 
-#add-user-email {
-  width: 40%;
-  margin: 1% auto;
-}
-
 #reservation-users {
   text-align: center;
   list-style-position:inside;
@@ -185,11 +180,19 @@ h1 {
    display: none;
 }
 
-#deposit {
-  width: 40%;
-  margin: 1% auto;
-}
-
 #deposit-btn {
   margin-bottom: 1%;
+}
+
+#add-user-email, #deposit {
+  width: 40%;
+  margin: 1% auto;
+  background: rgba(255, 255, 255, 0.1);
+  color: #cc8500;
+  border-color: #FFA600;
+  border-width: 1.5px;
+}
+
+#add-user-email::-webkit-input-placeholder, #deposit::-webkit-input-placeholder {
+  color: #cc8500;
 }
