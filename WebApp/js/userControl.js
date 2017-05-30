@@ -9,8 +9,10 @@ function registerUser(user) {
       login_selected();
     },
     error: function(xhr) {
-        alert("Error " + xhr.status + ": Check console for details");
-        console.log(xhr.statis + ": " + xhr.responseText);
+        var err = eval("(" + xhr.responseText + ")");
+        $("#modal-title").text(err.error);
+        $("#modal-description").text("Username taken");
+        $("#modal-form").modal();
     }
   });
 }

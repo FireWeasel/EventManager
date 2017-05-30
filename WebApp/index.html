@@ -13,7 +13,6 @@
     <link href="css/ticket.css" rel="stylesheet">
     <link href="css/user-modal.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=latin' rel='stylesheet' type='text/css'>
-    <script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -196,7 +195,7 @@
                     <hr>
                   </div>
                   <p id="user-reservation" style="display: none;">
-                    <input id="add-user-email" type="text" name="email" class="form-control" placeholder="E-mail">
+                    <input id="add-user-email" type="email" name="email" class="form-control" placeholder="E-mail" required>
                     <a id="add-reservation-btn" href="#" class="btn btn-outlined btn-theme btn-lg" data-wow-delay="0.7s">Add user</a>
                   </p>
                   <p>
@@ -337,6 +336,7 @@
     <script src="js/userControl.js"></script>
     <script src="js/reservationControl.js"></script>
     <script src="js/ticketControl.js"></script>   
-    <script src="js/base.js"></script>    
+    <script src="js/base.js"></script>
+    <script src="js/bootstrap.min.js"></script>  
 </body>
 </html>
