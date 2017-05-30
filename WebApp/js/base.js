@@ -31,6 +31,8 @@ $(document).ready(function() {
     $("#events-full-container").hide(1000);
     $("#camps-container").hide(1000);
     $("#tickets-container").hide(1000);
+    $("#about-container").hide(1000);
+    $("#contact-container").hide(1000);
   });
 
   $("#events-link").click(function(e) {
@@ -39,6 +41,8 @@ $(document).ready(function() {
     $("#recent-news-container").hide(1000);
     $("#camps-container").hide(1000);
     $("#tickets-container").hide(1000);
+    $("#about-container").hide(1000);
+    $("#contact-container").hide(1000);
   });
 
   $("#camps-link").click(function(e) {
@@ -47,6 +51,8 @@ $(document).ready(function() {
     $("#recent-news-container").hide(1000);  
     $("#events-full-container").hide(1000); 
     $("#tickets-container").hide(1000);
+    $("#about-container").hide(1000);
+    $("#contact-container").hide(1000);
     getUser().then(function(data) {
       if(data.reservation != null) {
         $("#reserve-btn").hide();
@@ -63,6 +69,8 @@ $(document).ready(function() {
     $("#recent-news-container").hide(1000);
     $("#events-full-container").hide(1000);
     $("#camps-container").hide(1000);
+    $("#about-container").hide(1000);
+    $("#contact-container").hide(1000);
     getUser().then(function(data) {
       if(data.ticket != null) {
         $("#purchase-btn").hide();
@@ -70,6 +78,26 @@ $(document).ready(function() {
         $("#ticket-details").show();
       }
     });
+  });
+
+  $("#about-link").click(function(e) {
+    $("#about-container").show(1000);    
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);
+    $("#events-full-container").hide(1000);
+    $("#camps-container").hide(1000);
+    $("#tickets-container").hide(1000);
+    $("#contact-container").hide(1000);
+  });
+
+  $("#contact-link").click(function(e) {
+    $("#contact-container").show(1000);   
+    $("#events-container").hide(1000);
+    $("#recent-news-container").hide(1000);
+    $("#events-full-container").hide(1000);
+    $("#camps-container").hide(1000);
+    $("#tickets-container").hide(1000);
+    $("#about-container").hide(1000);
   });
 
   $("#purchase-btn").click(function(e) {
