@@ -6,6 +6,7 @@ import java.util.List;
 import org.application.entities.PaymentLog;
 import org.application.entities.Reservation;
 import org.application.entities.User;
+import org.application.entities.UserRole;
 import org.application.handlers.AlreadyHasReservationException;
 import org.application.handlers.AlreadyPaidException;
 import org.application.handlers.NotFoundException;
@@ -53,11 +54,14 @@ public class ReservationRest {
     public Reservation addUserToReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("email") String email) throws Exception {
         Reservation reservation = reservationService.getReservation(reservationId);
         User user = userService.getUserByEmail(email);
-    	if (reservation == null || user == null) {
+        if (reservation == null || user == null) {
 			throw new NotFoundException();
 		}
     	if (user.getReservation() != null) {
     		throw new AlreadyHasReservationException();
+    	}
+    	if (user.getUserRole() == UserRole.EMPLOYEE) {
+    		throw new NotFoundException();
     	}
         reservation.addReservedBy(user);
         user.setReservation(reservation);
