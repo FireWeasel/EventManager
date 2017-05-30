@@ -14,4 +14,8 @@ public class BorrowedItemService {
 	public BorrowedItem createBorrowedItem(BorrowedItem borrowedItem) {
 		return borrowedItemRepository.save(borrowedItem);
 	}
+
+	public BorrowedItem getBorrowedItem(Long id) {
+		return borrowedItemRepository.findOne(id);
+	}
 }

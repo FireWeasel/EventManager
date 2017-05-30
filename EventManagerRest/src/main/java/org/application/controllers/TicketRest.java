@@ -177,17 +177,20 @@ public class TicketRest {
     	return ticketService.getTicket(ticketId).getBorrowedItems();
     }
     
-    @RequestMapping(value = "/tickets/{ticketId}/items/{itemId}/return", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/tickets/{ticketId}/items/{borrowedItemId}/return", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("itemId") Long itemId) throws Exception {
+    public Ticket returnBorrowedItem(@PathVariable("ticketId") Long ticketId, @PathVariable("borrowedItemId") Long borrowedItemId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
-    	Item item = itemService.getItem(itemId);
-    	if (ticket == null || item == null) {
+    	BorrowedItem borrowedItem = borrowedItemService.getBorrowedItem(borrowedItemId);    	
+    	if (ticket == null || borrowedItem == null) {
     		throw new NotFoundException();
     	}
-    	BorrowedItem borrowedItem = ticketService.getBorrowedItem(ticket, item);
+    	Item item = borrowedItem.getItem();
+    	if (item == null) {
+    		throw new NotFoundException();
+    	}
     	LoanStand loanStand = item.getLoanStand();
-    	if (borrowedItem == null || loanStand == null) {
+    	if (loanStand == null) {
     		throw new NotFoundException();
     	}
 		Date currentDate = new Date();
