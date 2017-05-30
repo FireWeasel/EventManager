@@ -24,7 +24,6 @@ namespace CheckOut
         #region Properties and constructors (empty, 1 parameter, 2 parameters)
         public string EndPoint { get; set; }
         public httpVerb HttpMethod { get; set; }
-        public List<Loan_Stand> Stands { get; set; }
         private CookieContainer cookieContainer = new CookieContainer();
         public RestClient()
         {
@@ -66,7 +65,6 @@ namespace CheckOut
             {
                MessageBox.Show(webExc.Message);
             }
-            //Deserializing response into Item object
              LoanedItems = JsonConvert.DeserializeObject<List<BorrowedItem>>(strResponseValue);
             if(strResponseValue == "[]")
             {
@@ -107,6 +105,26 @@ namespace CheckOut
             }
 
         }
+
+        public void ReturnItems(long id, long itemId)
+        {
+            string endPoint = "http://localhost:8080/tickets/" + id + "/items/" + itemId + "/return";
+            string result = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            request.CookieContainer = cookieContainer;
+
+            using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
+            {
+                sw.Write("");
+            }
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            {
+                result = sr.ReadToEnd();
+            }
+        }
         #endregion
         public Ticket GetTicket(long id)
         {
@@ -141,12 +159,11 @@ namespace CheckOut
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<Ticket>(strResponseValue);
             ticket = item;
             return ticket;
-        }
+            }
             public User GetUser(long id)
             {
             string endPoint = "http://localhost:8080/tickets/" + id + "/owner";
@@ -180,7 +197,6 @@ namespace CheckOut
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<User>(strResponseValue);
             user = item;
@@ -204,88 +220,6 @@ namespace CheckOut
                 {
                      result = sr.ReadToEnd();
           }
-        }
-        public List<Item> RequestItems()
-        {
-            string endPoint = "http://localhost:8080/stands/1/items";
-            List<Item> Items = new List<Item>();
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            //Deserializing response into Item object
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Item>>(strResponseValue);
-            foreach (Item i in item)
-            {
-                Items.Add(i);
-            }
-            return Items;
-        }
-        public Item GetItem(long id)
-        {
-            string endPoint = "http://localhost:8080/items/" + id;
-            Item item = null;
-            string strResponseValue = string.Empty;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-            request.ContentType = "application/json";
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            //Deserializing responce into Loan_Stand object
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var items = serializer.Deserialize<Item>(strResponseValue);
-            item = items;
-            return item;
         }
         public string GetRequest(string url)
         {

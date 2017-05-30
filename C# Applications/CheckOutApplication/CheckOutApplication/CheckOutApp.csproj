@@ -78,7 +78,6 @@
     <Compile Include="Camera.Designer.cs">
       <DependentUpon>Camera.cs</DependentUpon>
     </Compile>
-    <Compile Include="Camp.cs" />
     <Compile Include="Checkout.cs" />
     <Compile Include="CustomDateTimeConverter.cs" />
     <Compile Include="Login.cs">
@@ -93,8 +92,6 @@
     <Compile Include="MainApp.Designer.cs">
       <DependentUpon>MainApp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Item.cs" />
-    <Compile Include="Loan Stand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClient.cs" />
