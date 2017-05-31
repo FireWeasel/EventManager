@@ -32,7 +32,14 @@ namespace CheckOut
         }
         private void openNewForm()
         {
-            Application.Run(new MainApp(client));
+            try
+            {
+                Application.Run(new MainApp(client));
+            }
+            catch(ArgumentException)
+            {
+                MessageBox.Show("Invalid ticket!");
+            }
         }
     }
 }
