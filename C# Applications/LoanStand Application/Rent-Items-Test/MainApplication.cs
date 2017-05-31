@@ -32,7 +32,6 @@ namespace Rent_Items_Test
             }
 
             
-
             CategoryCb.Items.Add(Type.ELECTRONICS.ToString());
             CategoryCb.Items.Add(Type.OTHER.ToString());
             
@@ -43,10 +42,6 @@ namespace Rent_Items_Test
         {
             AddProduct form = new AddProduct(newClient, stand, this);
             form.Show();
-        }
-        public void openNewForm()
-        {
-            Application.Run(new AddProduct(newClient,stand,this));
         }
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
@@ -119,12 +114,18 @@ namespace Rent_Items_Test
         
         private void LoanBtn_Click(object sender, EventArgs e)
         {
+            Camera camera = new Camera(newClient, stand,this);
+            camera.Show();
+            
+        }
+        public void BorrowItem(int id)
+        {
             double value = Convert.ToDouble(StockNUD.Value);
             double a = 0;
             try
             {
                 Item item = type[ItemCb.SelectedIndex];
-                if(item.Quantity != 0)
+                if (item.Quantity != 0)
                 {
                     foreach (Item it in stand.Items)
                     {
@@ -136,17 +137,16 @@ namespace Rent_Items_Test
 
                     while (a < value)
                     {
-                        newClient.BorrowItem(item.ID);
+                        newClient.BorrowItem(id,item.ID);
                         a++;
                     }
-                    MessageBox.Show("The item has been processed!");
                 }
                 else
                 {
                     MessageBox.Show("Item not in stock!");
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Item not in stock");
             }
@@ -154,7 +154,6 @@ namespace Rent_Items_Test
             ItemCb.SelectedIndex = -1;
             CategoryCb.SelectedIndex = -1;
             StockNUD.Value = 0;
-            
-        } 
+        }
     }
 }

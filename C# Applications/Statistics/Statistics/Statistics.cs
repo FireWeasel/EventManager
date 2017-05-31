@@ -14,7 +14,7 @@ namespace Statistics
     {
         RestClient client;
         Loan_Stand stand;
-        Shop shop;
+        List<Shop> shop;
         public Statistics(RestClient client)
         {
             InitializeComponent();
@@ -72,7 +72,12 @@ namespace Statistics
         }
         private double ShopRevenue()
         {
-            return shop.Revenue;
+            double price = 0;
+            foreach(Shop shop in shop)
+            {
+                price += shop.Revenue;
+            }
+            return price;
         }
         private double LoanStandRevenue()
         {
@@ -105,6 +110,10 @@ namespace Statistics
             }
             return counter;
         }
-       
+
+        private void Statistics_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            client.GetRequest("http://localhost:8080/logout");
+        }
     }
 }

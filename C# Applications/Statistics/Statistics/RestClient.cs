@@ -64,7 +64,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing response into Item object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Product>>(strResponseValue);
             foreach (Product i in item)
@@ -107,7 +106,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing response into Item object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Ticket>>(strResponseValue);
             foreach (Ticket i in item)
@@ -115,48 +113,6 @@ namespace Statistics
                 LoanedItems.Add(i);
             }
             return LoanedItems;
-        }
-        public List<Reservation> RequestReservations()
-        {
-            EndPoint = "http://localhost:8080/reservations";
-            List<Reservation> reservations = new List<Reservation>();
-            string strResponseValue = string.Empty;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(EndPoint);
-            request.ContentType = "application/json";
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            //Deserializing responce into Loan_Stand object
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Reservation>>(strResponseValue);
-            foreach (Reservation reserv in item)
-            {
-                reservations.Add(reserv);
-            }
-            return reservations;
         }
         public List<Camp> RequestCamps()
         {
@@ -191,8 +147,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-            
-            //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Camp>>(strResponseValue);
             foreach (Camp camp in item)
@@ -234,8 +188,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-
-            //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Camp>>(strResponseValue);
             foreach (Camp camp in item)
@@ -278,7 +230,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing response into Item object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Item>>(strResponseValue);
             foreach (Item i in item)
@@ -319,7 +270,6 @@ namespace Statistics
             {
                 MessageBox.Show(webExc.Message);
             }
-            //Deserializing response into Item object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Item>>(strResponseValue);
             foreach(Item i in item)
@@ -328,11 +278,11 @@ namespace Statistics
             }
             return Items;
         }
-
-        public Shop GetShop()
+        #region Shop and stand
+        public List<Shop> GetShop()
         {
-            Shop shops = null;
-            EndPoint = "http://localhost:8080/stands";
+            List<Shop> shops = new List<Shop>();
+            EndPoint = "http://localhost:8080/shops";
             string strResponseValue = string.Empty;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(EndPoint);
             request.ContentType = "application/json";
@@ -367,14 +317,14 @@ namespace Statistics
             var item = serializer.Deserialize<List<Shop>>(strResponseValue);
             foreach (Shop shop in item)
             {
-                shops = shop;
+                shops.Add(shop);
             }
             return shops;
         }
         public Loan_Stand GetLoanStand()
         {
             Loan_Stand stand = null;
-            EndPoint = "http://localhost:8080/stands";
+            EndPoint = "http://localhost:8080/stands/1";
             string strResponseValue = string.Empty;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(EndPoint);
             request.ContentType = "application/json";
@@ -405,13 +355,11 @@ namespace Statistics
             }
             //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Loan_Stand>>(strResponseValue);
-            foreach(Loan_Stand stands in item)
-            {
-                stand = stands;
-            }
+            var item = serializer.Deserialize<Loan_Stand>(strResponseValue);
+            stand = item;
             return stand;
         }
+        #endregion
         #region LogIn
         public void LogIn(string url, string username, string password)
         {
@@ -443,5 +391,39 @@ namespace Statistics
 
         }
         #endregion
+        public string GetRequest(string url)
+        {
+            string responseValue = "";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                MessageBox.Show("You've logged out from the server!");
+            }
+
+            return responseValue;
+        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Rent_Items_Test
 {
@@ -26,28 +22,6 @@ namespace Rent_Items_Test
         public int GetId()
         {
             return Id;
-        }
-        public List<Type> GetElectronics()
-        {
-            List<Type> electronics = new List<Type>();
-            foreach(Item item in Items)
-            {
-                if(item.Type == Type.ELECTRONICS)
-                {
-                    electronics.Add(item.Type);
-                }
-            }
-            return electronics;
-        }
-        public List<int> GetItemId(RestClient client)
-        {
-            Items = GetAllItems(client);
-            List<int> ItemId = new List<int>();
-            foreach(Item item in Items)
-            {
-                ItemId.Add(item.ID);
-            }
-            return ItemId;
         }
     }
 }

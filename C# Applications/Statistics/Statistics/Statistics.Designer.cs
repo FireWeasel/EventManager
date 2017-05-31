@@ -95,7 +95,7 @@
             this.itemLoanedLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.itemLoanedLabel.Location = new System.Drawing.Point(152, 103);
             this.itemLoanedLabel.Name = "itemLoanedLabel";
-            this.itemLoanedLabel.Size = new System.Drawing.Size(22, 22);
+            this.itemLoanedLabel.Size = new System.Drawing.Size(18, 18);
             this.itemLoanedLabel.TabIndex = 4;
             this.itemLoanedLabel.Text = "0";
             // 
@@ -105,7 +105,7 @@
             this.loanStandProfitLb.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.loanStandProfitLb.Location = new System.Drawing.Point(82, 43);
             this.loanStandProfitLb.Name = "loanStandProfitLb";
-            this.loanStandProfitLb.Size = new System.Drawing.Size(22, 22);
+            this.loanStandProfitLb.Size = new System.Drawing.Size(18, 18);
             this.loanStandProfitLb.TabIndex = 3;
             this.loanStandProfitLb.Text = "0";
             // 
@@ -115,7 +115,7 @@
             this.label8.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.Location = new System.Drawing.Point(1, 103);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(145, 22);
+            this.label8.Size = new System.Drawing.Size(118, 18);
             this.label8.TabIndex = 2;
             this.label8.Text = "Items loaned:";
             // 
@@ -125,7 +125,7 @@
             this.label9.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.Location = new System.Drawing.Point(6, 43);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 22);
+            this.label9.Size = new System.Drawing.Size(58, 18);
             this.label9.TabIndex = 1;
             this.label9.Text = "Profit:";
             // 
@@ -150,7 +150,7 @@
             this.itemSoldLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.itemSoldLabel.Location = new System.Drawing.Point(135, 110);
             this.itemSoldLabel.Name = "itemSoldLabel";
-            this.itemSoldLabel.Size = new System.Drawing.Size(22, 22);
+            this.itemSoldLabel.Size = new System.Drawing.Size(18, 18);
             this.itemSoldLabel.TabIndex = 4;
             this.itemSoldLabel.Text = "0";
             // 
@@ -160,7 +160,7 @@
             this.profitLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.profitLabel.Location = new System.Drawing.Point(84, 51);
             this.profitLabel.Name = "profitLabel";
-            this.profitLabel.Size = new System.Drawing.Size(22, 22);
+            this.profitLabel.Size = new System.Drawing.Size(18, 18);
             this.profitLabel.TabIndex = 3;
             this.profitLabel.Text = "0";
             // 
@@ -170,7 +170,7 @@
             this.label3.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(8, 110);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 22);
+            this.label3.Size = new System.Drawing.Size(99, 18);
             this.label3.TabIndex = 2;
             this.label3.Text = "Items sold:";
             // 
@@ -180,7 +180,7 @@
             this.label2.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(8, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 22);
+            this.label2.Size = new System.Drawing.Size(58, 18);
             this.label2.TabIndex = 1;
             this.label2.Text = "Profit:";
             // 
@@ -190,7 +190,7 @@
             this.label1.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(3, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(346, 26);
+            this.label1.Size = new System.Drawing.Size(284, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Shop and loan stand revenue:";
             // 
@@ -226,7 +226,7 @@
             this.totalCamps.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.totalCamps.Location = new System.Drawing.Point(80, 103);
             this.totalCamps.Name = "totalCamps";
-            this.totalCamps.Size = new System.Drawing.Size(22, 22);
+            this.totalCamps.Size = new System.Drawing.Size(18, 18);
             this.totalCamps.TabIndex = 4;
             this.totalCamps.Text = "0";
             // 
@@ -236,7 +236,7 @@
             this.campingSitesLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.campingSitesLabel.Location = new System.Drawing.Point(116, 43);
             this.campingSitesLabel.Name = "campingSitesLabel";
-            this.campingSitesLabel.Size = new System.Drawing.Size(22, 22);
+            this.campingSitesLabel.Size = new System.Drawing.Size(18, 18);
             this.campingSitesLabel.TabIndex = 3;
             this.campingSitesLabel.Text = "0";
             // 
@@ -246,7 +246,7 @@
             this.label12.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label12.Location = new System.Drawing.Point(11, 103);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(66, 22);
+            this.label12.Size = new System.Drawing.Size(55, 18);
             this.label12.TabIndex = 2;
             this.label12.Text = "Total:";
             // 
@@ -256,7 +256,7 @@
             this.label13.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label13.Location = new System.Drawing.Point(11, 43);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(106, 22);
+            this.label13.Size = new System.Drawing.Size(84, 18);
             this.label13.TabIndex = 1;
             this.label13.Text = "Available:";
             // 
@@ -281,7 +281,7 @@
             this.totalCampsLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.totalCampsLabel.Location = new System.Drawing.Point(83, 110);
             this.totalCampsLabel.Name = "totalCampsLabel";
-            this.totalCampsLabel.Size = new System.Drawing.Size(22, 22);
+            this.totalCampsLabel.Size = new System.Drawing.Size(18, 18);
             this.totalCampsLabel.TabIndex = 4;
             this.totalCampsLabel.Text = "0";
             // 
@@ -291,7 +291,7 @@
             this.checkedLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.checkedLabel.Location = new System.Drawing.Point(116, 51);
             this.checkedLabel.Name = "checkedLabel";
-            this.checkedLabel.Size = new System.Drawing.Size(22, 22);
+            this.checkedLabel.Size = new System.Drawing.Size(18, 18);
             this.checkedLabel.TabIndex = 3;
             this.checkedLabel.Text = "0";
             // 
@@ -301,7 +301,7 @@
             this.label16.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label16.Location = new System.Drawing.Point(11, 110);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(66, 22);
+            this.label16.Size = new System.Drawing.Size(55, 18);
             this.label16.TabIndex = 2;
             this.label16.Text = "Total:";
             // 
@@ -311,7 +311,7 @@
             this.label17.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label17.Location = new System.Drawing.Point(11, 51);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(99, 22);
+            this.label17.Size = new System.Drawing.Size(81, 18);
             this.label17.TabIndex = 1;
             this.label17.Text = "Checked:";
             // 
@@ -321,7 +321,7 @@
             this.label18.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label18.Location = new System.Drawing.Point(10, 11);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(229, 26);
+            this.label18.Size = new System.Drawing.Size(191, 20);
             this.label18.TabIndex = 0;
             this.label18.Text = "Visitors and camps:";
             // 
@@ -342,6 +342,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Statistics";
             this.Text = "Statistics";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Statistics_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
