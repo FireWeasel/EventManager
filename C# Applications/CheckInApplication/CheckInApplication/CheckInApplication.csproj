@@ -73,12 +73,6 @@
     <Compile Include="CheckInForm.designer.cs">
       <DependentUpon>CheckInForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CameraScanForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CameraScanForm.designer.cs">
-      <DependentUpon>CameraScanForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="LogInForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,9 +86,6 @@
     <Compile Include="User.cs" />
     <EmbeddedResource Include="CheckInForm.resx">
       <DependentUpon>CheckInForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CameraScanForm.resx">
-      <DependentUpon>CameraScanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogInForm.resx">
       <DependentUpon>LogInForm.cs</DependentUpon>
