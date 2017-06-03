@@ -54,11 +54,15 @@ $(document).ready(function() {
     $("#about-container").hide(1000);
     $("#contact-container").hide(1000);
     getUser().then(function(data) {
-      if(data.reservation != null) {
+      if (data.ticket == null) {
         $("#reserve-btn").hide();
-        populateReservationDetails(data.reservation);       
       } else {
-        $("#reservation-details").hide();
+        if(data.reservation != null) {
+          $("#reserve-btn").hide();
+          populateReservationDetails(data.reservation);       
+        } else {
+          $("#reservation-details").hide();
+        }
       }
     });
   });
@@ -105,6 +109,7 @@ $(document).ready(function() {
       $("#purchase-btn").hide();
       $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
       $("#ticket-details").show();
+      $("#reserve-btn").show();
     });
   });
 

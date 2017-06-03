@@ -23,8 +23,7 @@ public class BorrowedItem {
 	@JsonIgnore
 	private Ticket ticket;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Item item;
 	
 	@Column(nullable = false)

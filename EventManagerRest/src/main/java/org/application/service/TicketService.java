@@ -26,14 +26,12 @@ public class TicketService {
 	}
 
 	public Ticket checkInTicket(Long id) {
-		// TODO: check if the ticket is already have been checked in
 		Ticket fromDb = ticketRepository.findOne(id);
 		fromDb.checkIn();
 		return ticketRepository.save(fromDb);
 	}
 	
 	public Ticket checkOutTicket(Long id) {
-		// TODO: check if the ticket is already have been checked out
 		Ticket fromDb = ticketRepository.findOne(id);
 		fromDb.checkOut();
 		return ticketRepository.save(fromDb);
