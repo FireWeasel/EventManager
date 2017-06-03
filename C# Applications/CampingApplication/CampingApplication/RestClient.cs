@@ -96,8 +96,8 @@ namespace CampingApplication
             request.CookieContainer = cookieContainer;
 
 
-            try
-            {
+            //try
+            //{
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     using (Stream responseStream = response.GetResponseStream())
@@ -111,16 +111,15 @@ namespace CampingApplication
                         }
                     }
                 }
-                MessageBox.Show(responseValue);
                 serializer = new JavaScriptSerializer();
                 userToReturn = serializer.Deserialize<User>(responseValue);
                 return userToReturn;
-            }
-            catch (WebException we)
-            {
-                MessageBox.Show(we.Message);
-            }
-            return null;
+            //}
+            //catch (WebException we)
+            //{
+            //    MessageBox.Show(we.Message);
+            //}
+            //return null;
             
         }
 
