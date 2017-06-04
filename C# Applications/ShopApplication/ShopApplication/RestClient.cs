@@ -159,7 +159,7 @@ namespace ShopApplication
             return null;
         }
 
-        public bool AddProduct(Product p)
+        public bool AddProduct(Product p, Shop shop)
         {
             //{ "id":1,"name":"kompir","description":"nai-hubaviq kompir","price":3.5,"quantity":3,"type":"DRINKS"}
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/create");
@@ -174,7 +174,7 @@ namespace ShopApplication
                 price = p.Price,
                 quantity = p.Quantity,
                 type = p.Type,
-                shop= ShopForm.shop.Id
+                shop= shop.Id
             });
 
 
@@ -189,7 +189,7 @@ namespace ShopApplication
                 {
                     String responseString = sr.ReadToEnd();
                 }
-                ShopForm.shop.Products = GetAllProducts();
+                shop.Products = GetAllProducts();
                 //Populate(ShopForm.shop.Products);
                 return true;
             }
@@ -200,7 +200,7 @@ namespace ShopApplication
             return false;
         }
 
-        public bool UpdateProduct(Product p, long id)
+        public bool UpdateProduct(Product p, Shop shop)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/"+p.Id);
 
@@ -216,6 +216,7 @@ namespace ShopApplication
                 quantity = p.Quantity,
                 type = p.Type,
             });
+            MessageBox.Show(jsonOfProduct);
 
             try
             {
@@ -228,7 +229,7 @@ namespace ShopApplication
                 {
                     String responseString = sr.ReadToEnd();
                 }
-                ShopForm.shop.Products = this.GetAllProducts();
+                shop.Products = this.GetAllProducts();
                 return true;
             }
             catch (WebException we)
@@ -236,6 +237,66 @@ namespace ShopApplication
                 MessageBox.Show("Error! Could not update this product." + we.Message);
             }
             return false;
+        }
+
+        public Ticket GetTicket(long id)
+        {
+            string responseValue = "";
+            Ticket ticketToReturn;
+            JavaScriptSerializer serializer;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/" + id);
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        using (StreamReader reader = new StreamReader(responseStream))
+                        {
+                            responseValue = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+
+            serializer = new JavaScriptSerializer();
+            ticketToReturn = serializer.Deserialize<Ticket>(responseValue);
+            return ticketToReturn;
+        }
+
+        public void BuyProduct(long ticketId, long productId)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/"+ticketId+"/products/"+productId);
+
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            request.CookieContainer = cookieContainer;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            
+
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
+                {
+                    sw.Write("");
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    String responseString = sr.ReadToEnd();
+                }
+            }
+            catch (WebException we)
+            {
+                MessageBox.Show("Error! Could not add this product." + we.Message);
+            }
         }
     }
 }

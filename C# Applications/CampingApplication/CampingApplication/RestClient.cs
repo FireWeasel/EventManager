@@ -83,7 +83,7 @@ namespace CampingApplication
 
         } // works
 
-        public User GetTicket(long id)
+        public User GetOwnerOfTicket(long id)
         {
             string responseValue = "";
             User userToReturn;

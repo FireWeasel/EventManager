@@ -15,13 +15,15 @@ namespace ShopApplication
         RestClient rClient;
         Product productToUpdate;
         ShopForm sForm;
-        public UpdateItemForm(RestClient rClient, Product product, ShopForm sForm)
+        Shop shop;
+        public UpdateItemForm(RestClient rClient, Product product, ShopForm sForm, Shop shop)
         {
             InitializeComponent();
 
             this.rClient = rClient;
             this.productToUpdate = product;
             this.sForm = sForm;
+            this.shop = shop;
 
             lbUpdateType.Items.Add("FOODS");
             lbUpdateType.Items.Add("DRINKS");
@@ -31,14 +33,14 @@ namespace ShopApplication
 
         private void btnUpdateProduct_Click(object sender, EventArgs e)
         {
-            if (rClient.UpdateProduct(GetUpdatedProduct(), GetUpdatedProduct().Id))
+            if (rClient.UpdateProduct(GetUpdatedProduct(),shop))
             {
                 if (sForm.selectedType == this.productToUpdate.Type)
                 {
                     sForm.UpdateLabels(productToUpdate);
                 }
                 sForm.ClearLabels();
-                sForm.LoadProductsByType(ShopForm.shop.Products, sForm.selectedType);
+                sForm.LoadProductsByType(shop.Products, sForm.selectedType);
                 MessageBox.Show("Update successful!");
                 
             }

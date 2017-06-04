@@ -139,7 +139,7 @@ namespace CampingApplication
         {
             try
             {
-                user = this.rClient.GetTicket(Convert.ToInt64(decoded));
+                user = this.rClient.GetOwnerOfTicket(Convert.ToInt64(decoded));
                 UpdateListbox(user);
             }
             catch (WebException)

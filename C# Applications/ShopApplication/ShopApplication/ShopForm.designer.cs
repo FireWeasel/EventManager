@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblTotalPrice = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbOrder = new System.Windows.Forms.ListBox();
@@ -43,7 +44,6 @@
             this.btnRemoveFromOrder = new System.Windows.Forms.Button();
             this.rbOthers = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnUpdateItem = new System.Windows.Forms.Button();
             this.lblPriceSingleItem = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbItemName = new System.Windows.Forms.ListBox();
@@ -51,16 +51,23 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnUpdateItem = new System.Windows.Forms.Button();
             this.btnAddNewProduct = new System.Windows.Forms.Button();
+            this.pbCamera = new System.Windows.Forms.PictureBox();
+            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btnStopCamera = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalPrice
             // 
             this.lblTotalPrice.AutoSize = true;
-            this.lblTotalPrice.Location = new System.Drawing.Point(129, 284);
+            this.lblTotalPrice.Location = new System.Drawing.Point(458, 28);
             this.lblTotalPrice.Name = "lblTotalPrice";
             this.lblTotalPrice.Size = new System.Drawing.Size(32, 18);
             this.lblTotalPrice.TabIndex = 8;
@@ -70,7 +77,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(29, 284);
+            this.label4.Location = new System.Drawing.Point(358, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 18);
             this.label4.TabIndex = 7;
@@ -81,24 +88,29 @@
             this.lbOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbOrder.FormattingEnabled = true;
             this.lbOrder.ItemHeight = 15;
-            this.lbOrder.Location = new System.Drawing.Point(20, 45);
+            this.lbOrder.Location = new System.Drawing.Point(20, 24);
             this.lbOrder.Name = "lbOrder";
-            this.lbOrder.Size = new System.Drawing.Size(410, 214);
+            this.lbOrder.Size = new System.Drawing.Size(316, 214);
             this.lbOrder.TabIndex = 0;
             this.lbOrder.SelectedIndexChanged += new System.EventHandler(this.lbOrder_SelectedIndexChanged);
             // 
             // btnCompleteOrder
             // 
-            this.btnCompleteOrder.Location = new System.Drawing.Point(20, 322);
+            this.btnCompleteOrder.Location = new System.Drawing.Point(361, 63);
             this.btnCompleteOrder.Name = "btnCompleteOrder";
-            this.btnCompleteOrder.Size = new System.Drawing.Size(410, 85);
+            this.btnCompleteOrder.Size = new System.Drawing.Size(164, 175);
             this.btnCompleteOrder.TabIndex = 9;
             this.btnCompleteOrder.Text = "Complete order";
             this.btnCompleteOrder.UseVisualStyleBackColor = true;
+            this.btnCompleteOrder.Click += new System.EventHandler(this.btnCompleteOrder_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.groupBox3.Controls.Add(this.btnStopCamera);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.cmbVideoSource);
+            this.groupBox3.Controls.Add(this.pbCamera);
             this.groupBox3.Controls.Add(this.btnCompleteOrder);
             this.groupBox3.Controls.Add(this.lbOrder);
             this.groupBox3.Controls.Add(this.label4);
@@ -106,7 +118,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(631, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(449, 424);
+            this.groupBox3.Size = new System.Drawing.Size(541, 614);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Currently in the order:";
@@ -175,9 +187,9 @@
             // 
             // btnAddToOrder
             // 
-            this.btnAddToOrder.Location = new System.Drawing.Point(312, 172);
+            this.btnAddToOrder.Location = new System.Drawing.Point(312, 149);
             this.btnAddToOrder.Name = "btnAddToOrder";
-            this.btnAddToOrder.Size = new System.Drawing.Size(201, 63);
+            this.btnAddToOrder.Size = new System.Drawing.Size(201, 46);
             this.btnAddToOrder.TabIndex = 12;
             this.btnAddToOrder.Text = "Add to order";
             this.btnAddToOrder.UseVisualStyleBackColor = true;
@@ -185,9 +197,9 @@
             // 
             // btnRemoveFromOrder
             // 
-            this.btnRemoveFromOrder.Location = new System.Drawing.Point(312, 261);
+            this.btnRemoveFromOrder.Location = new System.Drawing.Point(312, 213);
             this.btnRemoveFromOrder.Name = "btnRemoveFromOrder";
-            this.btnRemoveFromOrder.Size = new System.Drawing.Size(201, 65);
+            this.btnRemoveFromOrder.Size = new System.Drawing.Size(201, 46);
             this.btnRemoveFromOrder.TabIndex = 13;
             this.btnRemoveFromOrder.Text = "Remove from order";
             this.btnRemoveFromOrder.UseVisualStyleBackColor = true;
@@ -208,6 +220,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.btnAddNewProduct);
             this.groupBox1.Controls.Add(this.btnUpdateItem);
             this.groupBox1.Controls.Add(this.lblPriceSingleItem);
             this.groupBox1.Controls.Add(this.label7);
@@ -229,19 +242,9 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(594, 493);
+            this.groupBox1.Size = new System.Drawing.Size(594, 613);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            // 
-            // btnUpdateItem
-            // 
-            this.btnUpdateItem.Location = new System.Drawing.Point(431, 397);
-            this.btnUpdateItem.Name = "btnUpdateItem";
-            this.btnUpdateItem.Size = new System.Drawing.Size(156, 50);
-            this.btnUpdateItem.TabIndex = 13;
-            this.btnUpdateItem.Text = "Update item";
-            this.btnUpdateItem.UseVisualStyleBackColor = true;
-            this.btnUpdateItem.Click += new System.EventHandler(this.btnUpdateItem_Click);
             // 
             // lblPriceSingleItem
             // 
@@ -306,35 +309,88 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "Item description:";
             // 
+            // btnUpdateItem
+            // 
+            this.btnUpdateItem.Location = new System.Drawing.Point(312, 274);
+            this.btnUpdateItem.Name = "btnUpdateItem";
+            this.btnUpdateItem.Size = new System.Drawing.Size(201, 44);
+            this.btnUpdateItem.TabIndex = 13;
+            this.btnUpdateItem.Text = "Update item";
+            this.btnUpdateItem.UseVisualStyleBackColor = true;
+            this.btnUpdateItem.Click += new System.EventHandler(this.btnUpdateItem_Click);
+            // 
             // btnAddNewProduct
             // 
-            this.btnAddNewProduct.Location = new System.Drawing.Point(631, 443);
+            this.btnAddNewProduct.Location = new System.Drawing.Point(359, 403);
             this.btnAddNewProduct.Name = "btnAddNewProduct";
-            this.btnAddNewProduct.Size = new System.Drawing.Size(449, 64);
+            this.btnAddNewProduct.Size = new System.Drawing.Size(207, 64);
             this.btnAddNewProduct.TabIndex = 12;
             this.btnAddNewProduct.Text = "Add a new product";
             this.btnAddNewProduct.UseVisualStyleBackColor = true;
             this.btnAddNewProduct.Click += new System.EventHandler(this.btnAddNewProduct_Click);
+            // 
+            // pbCamera
+            // 
+            this.pbCamera.Location = new System.Drawing.Point(20, 365);
+            this.pbCamera.Name = "pbCamera";
+            this.pbCamera.Size = new System.Drawing.Size(323, 196);
+            this.pbCamera.TabIndex = 10;
+            this.pbCamera.TabStop = false;
+            // 
+            // cmbVideoSource
+            // 
+            this.cmbVideoSource.FormattingEnabled = true;
+            this.cmbVideoSource.Location = new System.Drawing.Point(195, 292);
+            this.cmbVideoSource.Name = "cmbVideoSource";
+            this.cmbVideoSource.Size = new System.Drawing.Size(121, 26);
+            this.cmbVideoSource.TabIndex = 11;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(12, 294);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(177, 20);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Available video sources:";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // btnStopCamera
+            // 
+            this.btnStopCamera.Location = new System.Drawing.Point(370, 365);
+            this.btnStopCamera.Name = "btnStopCamera";
+            this.btnStopCamera.Size = new System.Drawing.Size(155, 196);
+            this.btnStopCamera.TabIndex = 13;
+            this.btnStopCamera.Text = "Stop scanning";
+            this.btnStopCamera.UseVisualStyleBackColor = true;
+            this.btnStopCamera.Visible = false;
+            this.btnStopCamera.Click += new System.EventHandler(this.btnStopCamera_Click);
             // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1092, 519);
-            this.Controls.Add(this.btnAddNewProduct);
+            this.ClientSize = new System.Drawing.Size(1179, 639);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ShopForm";
             this.Text = "Shop management Application";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShopForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShopForm_FormClosed);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -365,6 +421,11 @@
         private System.Windows.Forms.Button btnUpdateItem;
         private System.Windows.Forms.Label lblPriceSingleItem;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbVideoSource;
+        private System.Windows.Forms.PictureBox pbCamera;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button btnStopCamera;
     }
 }
 

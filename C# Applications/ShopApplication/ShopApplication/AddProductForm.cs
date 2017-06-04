@@ -16,12 +16,14 @@ namespace ShopApplication
         private List<ProductType> typesList;
         private RestClient rClient;
         private ShopForm sForm;
+        private Shop shop;
         Product p;
-        public AddProductForm(RestClient rClient, ShopForm sForm)
+        public AddProductForm(RestClient rClient, ShopForm sForm, Shop shop)
         {
             InitializeComponent();
             this.sForm = sForm;
             this.rClient = rClient;
+            this.shop = shop;
             #region Putting enums in a list and into the combobox.
             typesList = Enum.GetValues(typeof(ProductType)).Cast<ProductType>().ToList();
             foreach (ProductType pt in typesList)
@@ -46,11 +48,11 @@ namespace ShopApplication
                 p = new Product(tbNewProdName.Text, rtbNewDescription.Text, Convert.ToDouble(nudNewPrice.Value),
                     Convert.ToInt32(nudNewQuantity.Value), type);
 
-                if (rClient.AddProduct(p))
+                if (rClient.AddProduct(p,shop))
                 {
                     if (p.Type == sForm.selectedType )
                     {
-                        sForm.LoadProductsByType(ShopForm.shop.Products, p.Type);
+                        sForm.LoadProductsByType(shop.Products, p.Type);
                     }
                     this.Close();
                 }

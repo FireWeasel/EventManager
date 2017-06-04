@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Reflection;
+using ZXing;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace ShopApplication
 {
@@ -18,12 +21,17 @@ namespace ShopApplication
 
         private String selected = "";
         private int selectedIndexOrder = -1;
-        public static Shop shop;
+        private static Shop shop;
         private RestClient rClient;
+        private Ticket ticket;
 
         public String selectedType = "FOODS";
 
-       
+        private IVideoSource videoSource;
+        private FilterInfoCollection videoDeviceList;
+        private volatile object _locker = new object();
+
+
         public ShopForm(RestClient rClient)
         {
             InitializeComponent();
@@ -31,6 +39,7 @@ namespace ShopApplication
             order = new List<Product>();
             shop = rClient.GetShop();
             shop.Products = rClient.GetAllProducts();
+            PopulateVideoSources();
         }
 
         private void ShopForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -39,22 +48,27 @@ namespace ShopApplication
         } 
         private void btnAddNewProduct_Click(object sender, EventArgs e)
         {
-            if (shop.Products.Count == 0)
+            if (!(videoSource != null && videoSource.IsRunning))
             {
-                AddProductForm apf = new AddProductForm(this.rClient, this);
-                apf.Show();
-
+                if (order.Count == 0)
+                {
+                    AddProductForm apf = new AddProductForm(this.rClient, this, shop);
+                    apf.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Order isn't empty. Empty it before adding a new product.");
+                }
             }
             else
             {
-                MessageBox.Show("Order isn't empty. Empty it before adding a new product.");
+                MessageBox.Show("You are currently scanning.");
             }
+                
         }
 
         private void btnAddToOrder_Click(object sender, EventArgs e)
         {
-            //add an item in the order listbox and then if you add an item with the same name
-            //it should just update the quantity.
             try
             {
                 Product temp = (Product)lbItemName.SelectedItem;
@@ -62,6 +76,10 @@ namespace ShopApplication
                 if (temp.Quantity == 0)
                 {
                     throw new NotInStockException("Currently not in stock!");
+                }
+                else if (videoSource != null && videoSource.IsRunning)
+                {
+                   throw new Exception("You are currently scanning.");
                 }
                 else if (order.Contains(temp))
                 {
@@ -102,7 +120,11 @@ namespace ShopApplication
         {
             try
             {
-                if (order.Count == 0)
+                if (videoSource != null && videoSource.IsRunning)
+                {
+                    throw new Exception("You are currently scanning.");
+                }
+                else if (order.Count == 0)
                 {
                     throw new Exception("Order is empty.Nothing to remove.");
                 }
@@ -110,12 +132,14 @@ namespace ShopApplication
                 {
                     throw new Exception("Select an item from the order listbox first.");
                 }
+                
                 else if (selectedIndexOrder >= 0)
                 {
                     order[selectedIndexOrder].Quantity += order[selectedIndexOrder].NrInOrder; //reverting quantity
                     UpdateLabels(order[selectedIndexOrder]);
 
                     order.RemoveAt(selectedIndexOrder);
+                    UpdateNrInStock(order[selectedIndexOrder]);
                     lblTotalPrice.Text = CalculatePrice(order).ToString();
 
                     OrderListBoxUpdate();
@@ -132,7 +156,10 @@ namespace ShopApplication
                 MessageBox.Show(ex.Message);
             }
         }
-
+        private void UpdateNrInStock(Product p)
+        {
+                p.NrInOrder = 0;
+        }
         private void OrderListBoxUpdate()
         {
             lbOrder.Items.Clear();
@@ -241,23 +268,24 @@ namespace ShopApplication
                 {
                     throw new Exception("Select an item from the listbox first.");
                 }
-
-                if (shop.Products.Count == 0)
+                if (videoSource != null && videoSource.IsRunning)
                 {
-                    UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this);
+                   throw new Exception("You are currently scanning.");
+                }
+                if (order.Count == 0)
+                {
+                    UpdateItemForm uif = new UpdateItemForm(rClient, GetSelectedProduct(selected), this, shop);
                     uif.Show();
                 }
                 else
                 {
                     MessageBox.Show("Order isn't empty. Empty it before updating a product.");
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
         private Product GetSelectedProduct(string name)
@@ -280,6 +308,129 @@ namespace ShopApplication
             this.lblPriceSingleItem.Text = "";
         }
 
-        
+        private void btnCompleteOrder_Click(object sender, EventArgs e)
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                MessageBox.Show("You are already scanning.");
+            }
+            else if (order.Count == 0)
+            {
+                MessageBox.Show("Order is empty!");
+            }
+            else
+            {
+                btnStopCamera.Enabled = true;
+                btnStopCamera.Visible = true;
+                //completing the order!
+                videoSource.Start();
+                timer1.Start();
+            }
+        }
+
+        #region camera stuffs
+        private void PopulateVideoSources() //populates combobox and assigns new frame event
+        {
+            videoDeviceList = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+            foreach (FilterInfo videoDevice in videoDeviceList)
+            {
+                cmbVideoSource.Items.Add(videoDevice.Name);
+            }
+            if (cmbVideoSource.Items.Count > 0)
+            {
+                cmbVideoSource.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("No video sources found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            videoSource = new VideoCaptureDevice(videoDeviceList[cmbVideoSource.SelectedIndex].MonikerString);
+            videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
+        }
+        private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            pbCamera.Image = bitmap;
+        }
+        private void decode_QRtag()
+        {
+            try
+            {
+                Bitmap bitmap = new Bitmap(pbCamera.Image);
+                BarcodeReader reader = new BarcodeReader { AutoRotate = true, TryHarder = true };
+                Result result = reader.Decode(bitmap);
+                string decoded = result.ToString().Trim();
+                long ticketId = Convert.ToInt64(decoded);
+
+                ticket = rClient.GetTicket(ticketId);
+
+                timer1.Stop();
+                videoSource.SignalToStop();
+                pbCamera.Image = null;
+                btnStopCamera.Enabled = false;
+                btnStopCamera.Visible = false;
+
+                if (ticket.Balance >= CalculatePrice(order))
+                {
+                    foreach (Product p in order)
+                    {
+                        for (int i = 0; i < p.NrInOrder; i++)
+                        {
+                            rClient.BuyProduct(ticketId, p.Id);
+                        }
+                    }
+                    MessageBox.Show("Purchase successful.");
+
+                }
+                else
+                {
+                    MessageBox.Show("Balance too low");
+                }
+
+                ClearOrder();
+
+            }
+            catch
+            {
+            }
+        }
+
+        #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            decode_QRtag();
+        }
+
+        private void ShopForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+            }
+        }
+
+        private void btnStopCamera_Click(object sender, EventArgs e)
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+                timer1.Stop();
+                btnStopCamera.Visible = false;
+                btnStopCamera.Enabled = false;
+                pbCamera.Image = null;
+            }
+        }
+        private void ClearOrder()
+        {
+            order.Clear();
+            lbOrder.Items.Clear();
+            ClearLabels();
+            nudQuantity.Value = 0;
+            selectedIndexOrder = -1;
+            lblTotalPrice.Text = "N/A";
+        }
     }
 }
