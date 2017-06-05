@@ -72,14 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BorrowedItem.cs" />
-    <Compile Include="Camera.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Camera.Designer.cs">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Checkout.cs" />
-    <Compile Include="CustomDateTimeConverter.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,9 +90,6 @@
     <Compile Include="RestClient.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="User.cs" />
-    <EmbeddedResource Include="Camera.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

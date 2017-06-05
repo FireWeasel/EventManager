@@ -25,12 +25,21 @@ namespace Rent_Items_Test
 
         private void LoginBtn_Click(object sender, EventArgs e)
         { 
-            client.LogIn("http://localhost:8080/login", textBox1.Text, textBox2.Text);
-            textBox2.Clear();
-            textBox1.Clear();
-            this.Close();
-            thread = new Thread(openNewForm);
-            thread.Start();
+            if(client.LogIn("http://localhost:8080/login", textBox1.Text, textBox2.Text))
+            {
+                textBox2.Clear();
+                textBox1.Clear();
+                if(client.GetUser().UserRole.ToString()!="EMPLOYEE")
+                {
+                    MessageBox.Show("You cannot use that application with that account!");
+                }
+                else
+                {
+                    this.Close();
+                    thread = new Thread(openNewForm);
+                    thread.Start();
+                }
+            }
         }
 
         private void openNewForm()

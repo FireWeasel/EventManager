@@ -1,4 +1,4 @@
-﻿namespace Rent_Items_Test
+﻿namespace CheckOut
 {
     public enum Type
     {
@@ -20,7 +20,7 @@
         }
         public string AsString()
         {
-            return  "Name: " + Name + " Left in stock: " + Quantity;
+            return  "Name: " + Name + " Fee: " + Fee + " Type: " + Type + " Quantity: " + Quantity;
         }
     }
 }

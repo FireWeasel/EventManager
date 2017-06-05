@@ -9,10 +9,9 @@ namespace CheckOut
     public class BorrowedItem
     {
         public int ID { get; set; }
-        //public DateTime DateBorrowed { get; set; }
         public bool Returned { get; set; }
         public int ItemId { get; set; }
-        public int TicketId { get; set; }
+        public Item Item { get; set; }
         public BorrowedItem()
         {
 

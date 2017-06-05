@@ -79,7 +79,7 @@ namespace CheckOut
         public void LogIn(string url, string username, string password)
         {
             var result = "";
-
+      
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
@@ -248,7 +248,7 @@ namespace CheckOut
                     }
                 }
             }
-            catch (WebException we)
+            catch (WebException)
             {
                 MessageBox.Show("You've logged out from the server!");
             }

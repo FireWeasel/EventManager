@@ -16,14 +16,11 @@ namespace Rent_Items_Test
         GET,
         POST,
         PUT
-        //DELETE
     }
     public class RestClient
     {
         #region Properties and constructors (empty, 1 parameter, 2 parameters)
         public string EndPoint { get; set; }
-        public httpVerb HttpMethod { get; set; }
-        public List<Loan_Stand> Stands { get; set; }
         private CookieContainer cookieContainer = new CookieContainer();
         public RestClient()
         {
@@ -71,7 +68,44 @@ namespace Rent_Items_Test
             }
             return Items;
         }
-
+        public Ticket GetTicket(long id)
+        {
+            string endPoint = "http://localhost:8080/tickets/" + id;
+            Ticket ticket = null;
+            string strResponseValue = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new ApplicationException("Error connecting with the server!");
+                    }
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                strResponseValue = reader.ReadLine();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException webExc)
+            {
+                MessageBox.Show(webExc.Message);
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<Ticket>(strResponseValue);
+            ticket = item;
+            return ticket;
+        }
         public Loan_Stand GetLoanStand()
         {
             Loan_Stand stand = null;
@@ -106,11 +140,8 @@ namespace Rent_Items_Test
             }
             //Deserializing responce into Loan_Stand object
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Loan_Stand>>(strResponseValue);
-            foreach(Loan_Stand stands in item)
-            {
-                stand = stands;
-            }
+            var item = serializer.Deserialize<Loan_Stand>(strResponseValue);
+            stand = item;
             return stand;
         }
         public void AddData(int id, string name, string description, double fee, int quantity, string type)
@@ -199,7 +230,7 @@ namespace Rent_Items_Test
                 MessageBox.Show(webExc.Message);
             }
         }
-        public void LogIn(string url, string username, string password)
+        public bool LogIn(string url, string username, string password)
         {
             var result = "";
 
@@ -221,10 +252,12 @@ namespace Rent_Items_Test
                 {
                     result = sr.ReadToEnd();
                 }
+                return true;
             }
             catch (WebException e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show("Login unsuccessful!");
+                return false;
             }
         }
         public void BorrowItem(long id,long itemId)
@@ -250,6 +283,40 @@ namespace Rent_Items_Test
             {
                 MessageBox.Show("Something went wrong when trying to loan item!");
             }
+        }
+        public User GetUser()
+        {
+            string responseValue = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/users/current");
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                MessageBox.Show("You've logged out from the server!");
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<User>(responseValue);
+            return item;
         }
     }
 }
