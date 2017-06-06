@@ -12,6 +12,7 @@ using System.Reflection;
 using ZXing;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Net;
 
 namespace ShopApplication
 {
@@ -302,7 +303,7 @@ namespace ShopApplication
 
         public void ClearLabels()
         {
-            selected = "";
+            selected = ""; //the selected item from the first listbox
             this.lblCurrentInStock.Text = "";
             this.lblDescription.Text = "";
             this.lblPriceSingleItem.Text = "";
@@ -371,8 +372,15 @@ namespace ShopApplication
                 pbCamera.Image = null;
                 btnStopCamera.Enabled = false;
                 btnStopCamera.Visible = false;
-
-                if (ticket.Balance >= CalculatePrice(order))
+                if (!ticket.CheckedIn)
+                {
+                    MessageBox.Show("Ticked is not checked in!");
+                }
+                else if (ticket.CheckedOut)
+                {
+                    MessageBox.Show("Ticked is checked out!");
+                }
+                else if (ticket.Balance >= CalculatePrice(order)) //if ticket is valid we check its balance.
                 {
                     foreach (Product p in order)
                     {
@@ -386,12 +394,13 @@ namespace ShopApplication
                 }
                 else
                 {
-                    MessageBox.Show("Balance too low");
+                    MessageBox.Show("Not enough balance.");
                 }
 
                 ClearOrder();
 
-            }
+            }//if the server returns 404 then we catch it and say it's not found.
+            catch (WebException) { StopCamera(); ClearOrder(); MessageBox.Show("Ticket not found!"); } 
             catch
             {
             }
@@ -414,6 +423,10 @@ namespace ShopApplication
 
         private void btnStopCamera_Click(object sender, EventArgs e)
         {
+            StopCamera();
+        }
+        private void StopCamera()
+        {
             if (videoSource != null && videoSource.IsRunning)
             {
                 videoSource.SignalToStop();
@@ -430,6 +443,7 @@ namespace ShopApplication
             ClearLabels();
             nudQuantity.Value = 0;
             selectedIndexOrder = -1;
+            lbItemName.SelectedIndex = -1; //test
             lblTotalPrice.Text = "N/A";
         }
     }
