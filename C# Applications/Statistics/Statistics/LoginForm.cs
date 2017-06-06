@@ -16,6 +16,7 @@ namespace Statistics
         #region Setting objects of class RestClient and Thread
         RestClient client;
         Thread thread;
+        User user;
         #endregion
         public LoginForm()
         {
@@ -24,13 +25,25 @@ namespace Statistics
         }
 
         private void LoginBtn_Click(object sender, EventArgs e)
-        { 
-            client.LogIn("http://localhost:8080/login", textBox1.Text, textBox2.Text);
-            textBox2.Clear();
-            textBox1.Clear();
-            this.Close();
-            thread = new Thread(openNewForm);
-            thread.Start();
+        {
+            if (client.LogIn("http://localhost:8080/login", textBox1.Text, textBox2.Text))
+            {
+                user = client.GetLoggedUser("http://localhost:8080/users/current");
+                if (user.UserRole.ToString() != "EMPLOYEE")
+                {
+                    MessageBox.Show("You cannot use that application with that account!");
+                    textBox1.Clear();
+                    textBox2.Clear();
+                }
+                else
+                {
+                    textBox1.Clear();
+                    textBox2.Clear();
+                    this.Close();
+                    thread = new Thread(openNewForm);
+                    thread.Start();
+                }
+            }
         }
 
         private void openNewForm()

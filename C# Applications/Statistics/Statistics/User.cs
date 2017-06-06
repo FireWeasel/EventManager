@@ -1,4 +1,4 @@
-﻿namespace CheckOut
+﻿namespace Statistics
 {
     public enum Role
     {

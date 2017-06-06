@@ -15,6 +15,7 @@ namespace CheckOut
     {
         RestClient client;
         Thread thread;
+        User user;
         public Login()
         {
             InitializeComponent();
@@ -23,12 +24,25 @@ namespace CheckOut
 
         private void btnLogIn_Click(object sender, EventArgs e)
         {
-            client.LogIn("http://localhost:8080/login", tbUsername.Text, tbPassword.Text);
-            tbUsername.Clear();
-            tbPassword.Clear();
-            this.Close();
-            thread = new Thread(openNewForm);
-            thread.Start();
+            if(client.LogIn("http://localhost:8080/login", tbUsername.Text, tbPassword.Text))
+            {
+                user = client.GetLoggedUser("http://localhost:8080/users/current");
+                if(user.UserRole.ToString()!= "EMPLOYEE")
+                {
+                    MessageBox.Show("You cannot use that application with that account!");
+                    tbUsername.Clear();
+                    tbPassword.Clear();
+                }
+                else
+                {
+                    tbUsername.Clear();
+                    tbPassword.Clear();
+                    this.Close();
+                    thread = new Thread(openNewForm);
+                    thread.Start();
+                }
+            }
+            
         }
         private void openNewForm()
         {

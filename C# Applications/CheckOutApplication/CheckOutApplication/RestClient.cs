@@ -76,7 +76,7 @@ namespace CheckOut
             }
             }
         #region LogIn
-        public void LogIn(string url, string username, string password)
+        public bool LogIn(string url, string username, string password)
         {
             var result = "";
       
@@ -98,10 +98,12 @@ namespace CheckOut
                 {
                     result = sr.ReadToEnd();
                 }
+                return true;
             }
             catch (WebException e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show("There was an error loging to the server!");
+                return false;
             }
 
         }
@@ -254,6 +256,41 @@ namespace CheckOut
             }
 
             return responseValue;
+        }
+        public User GetLoggedUser(string url)
+        {
+            string responseValue = "";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                MessageBox.Show("You've logged out from the server!");
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<User>(responseValue);
+            return item;
         }
     }
   }
