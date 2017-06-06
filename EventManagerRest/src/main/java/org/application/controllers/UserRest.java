@@ -7,6 +7,7 @@ import org.application.entities.PaymentLog;
 import org.application.entities.Reservation;
 import org.application.entities.Ticket;
 import org.application.entities.User;
+import org.application.handlers.NoTicketException;
 import org.application.handlers.NotFoundException;
 import org.application.service.AuthenticationService;
 import org.application.service.CampService;
@@ -95,6 +96,9 @@ public class UserRest {
 		if (user == null || camp == null) {
     		throw new NotFoundException();
     	}
+		if (user.getTicket() == null) {
+			throw new NoTicketException();
+		}
 		Reservation reservation = new Reservation();
         reservation.addReservedBy(user);
         reservation.setCamp(camp);
