@@ -120,9 +120,12 @@ public class TicketRest {
     @ResponseBody
     public Ticket buyProduct(@PathVariable("ticketId") Long ticketId, @PathVariable("productId") Long productId) throws Exception {
     	Ticket ticket = ticketService.getTicket(ticketId);
-    	Product product = productService.getProduct(productId);   	
+    	Product product = productService.getProduct(productId);
     	if (ticket == null || product == null) {
     		throw new NotFoundException();
+    	}
+    	if (!ticket.getCheckedIn()) {
+    		throw new TicketNotCheckedInException();
     	}
     	if (product.getQuantity() <= 0) {
     		throw new NotInStockException();
