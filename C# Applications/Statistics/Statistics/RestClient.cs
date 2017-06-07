@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 
 namespace Statistics
 {
+    #region Enumerator
     public enum httpVerb
     {
         GET,
         POST,
         PUT
-        //DELETE
     }
+    #endregion
+    #region RestClient class
     public class RestClient
     {
         #region Properties and constructors (empty, 1 parameter, 2 parameters)
@@ -30,48 +28,7 @@ namespace Statistics
 
         }
         #endregion
-        public List<Product> GetSoldProduct()
-        {
-            string endPoint = "http://localhost:8080/tickets/1/products";
-            List<Product> Products = new List<Product>();
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Product>>(strResponseValue);
-            foreach (Product i in item)
-            {
-                Products.Add(i);
-            }
-            return Products;
-        }
+        #region Camp and Ticket
         public List<Ticket> GetTickets()
         {
             string endPoint = "http://localhost:8080/tickets";
@@ -196,88 +153,7 @@ namespace Statistics
             }
             return camps;
         }
-        public List<Item> LoanedItem()
-        {
-            string endPoint = "http://localhost:8080/tickets/1/items";
-            List<Item> LoanedItems = new List<Item>();
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Item>>(strResponseValue);
-            foreach (Item i in item)
-            {
-                LoanedItems.Add(i);
-            }
-            return LoanedItems;
-        }
-        public List<Item> RequestItems()
-        {
-            string endPoint = "http://localhost:8080/stands/1/items";
-            List<Item> Items = new List<Item>();
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try { 
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new ApplicationException("Error connecting with the server!");
-                }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                strResponseValue = reader.ReadLine();
-                            }
-                        }
-                    }
-                }
-            }catch(WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Item>>(strResponseValue);
-            foreach(Item i in item)
-            {
-                Items.Add(i);
-            }
-            return Items;
-        }
+        #endregion
         #region Shop and stand
         public List<Shop> GetShop()
         {
@@ -359,6 +235,132 @@ namespace Statistics
             stand = item;
             return stand;
         }
+        public List<Item> LoanedItem()
+        {
+            string endPoint = "http://localhost:8080/tickets/1/items";
+            List<Item> LoanedItems = new List<Item>();
+            string strResponseValue = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new ApplicationException("Error connecting with the server!");
+                    }
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                strResponseValue = reader.ReadLine();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException webExc)
+            {
+                MessageBox.Show(webExc.Message);
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<List<Item>>(strResponseValue);
+            foreach (Item i in item)
+            {
+                LoanedItems.Add(i);
+            }
+            return LoanedItems;
+        }
+        public List<Item> RequestItems()
+        {
+            string endPoint = "http://localhost:8080/stands/1/items";
+            List<Item> Items = new List<Item>();
+            string strResponseValue = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new ApplicationException("Error connecting with the server!");
+                    }
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                strResponseValue = reader.ReadLine();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException webExc)
+            {
+                MessageBox.Show(webExc.Message);
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<List<Item>>(strResponseValue);
+            foreach (Item i in item)
+            {
+                Items.Add(i);
+            }
+            return Items;
+        }
+        public List<Product> GetSoldProduct()
+        {
+            string endPoint = "http://localhost:8080/tickets/1/products";
+            List<Product> Products = new List<Product>();
+            string strResponseValue = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new ApplicationException("Error connecting with the server!");
+                    }
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                strResponseValue = reader.ReadLine();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException webExc)
+            {
+                MessageBox.Show(webExc.Message);
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<List<Product>>(strResponseValue);
+            foreach (Product i in item)
+            {
+                Products.Add(i);
+            }
+            return Products;
+        }
         #endregion
         #region LogIn
         public bool LogIn(string url, string username, string password)
@@ -427,6 +429,7 @@ namespace Statistics
             return item;
         }
         #endregion
+        #region Server methods
         public string GetRequest(string url)
         {
             string responseValue = "";
@@ -461,5 +464,7 @@ namespace Statistics
 
             return responseValue;
         }
+        #endregion
     }
+    #endregion
 }

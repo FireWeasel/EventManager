@@ -18,11 +18,11 @@ namespace Statistics
         public Statistics(RestClient client)
         {
             InitializeComponent();
-
             this.client = client;
             stand = client.GetLoanStand();
             shop = client.GetShop();
 
+            #region First time initializing statistics
             itemLoanedLabel.Text = CountItems().ToString();
             totalCampsLabel.Text = CountVisitors().ToString();
             itemSoldLabel.Text = CountProducts().ToString();
@@ -31,13 +31,15 @@ namespace Statistics
             totalCamps.Text = CountCamps().ToString();
             checkedLabel.Text = CheckedIn().ToString();
             campingSitesLabel.Text = client.RequestFreeCamps().Count.ToString();
-
+            #endregion
+            #region Setting timer
             timer1.Enabled = true;
             timer1.Interval = 5000;
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Start();
+            #endregion
         }
-
+        #region Form methods
         private void timer1_Tick(object sender, EventArgs e)
         {
             itemLoanedLabel.Text = CountItems().ToString();
@@ -47,8 +49,10 @@ namespace Statistics
             profitLabel.Text = ShopRevenue().ToString();
             totalCamps.Text = CountCamps().ToString();
             checkedLabel.Text = CheckedIn().ToString();
-            campingSitesLabel.Text = client.RequestFreeCamps().Count.ToString();
+            campingSitesLabel.Text = CounteFreeCamps().ToString();
         }
+        #endregion
+        #region Client methods
         private int CheckedIn()
         {
             int counter = 0;
@@ -58,15 +62,6 @@ namespace Statistics
                 {
                     counter++;
                 }
-            }
-            return counter;
-        }
-        private int CountCamps()
-        {
-            int counter = 0;
-            foreach(Camp camp in client.RequestCamps())
-            {
-                counter++;
             }
             return counter;
         }
@@ -82,6 +77,24 @@ namespace Statistics
         private double LoanStandRevenue()
         {
             return stand.Revenue;
+        }
+        private int CountCamps()
+        {
+            int counter = 0;
+            foreach (Camp camp in client.RequestCamps())
+            {
+                counter++;
+            }
+            return counter;
+        }
+        private int CounteFreeCamps()
+        {
+            int counter = 0;
+            foreach(Camp freeCamp in client.RequestFreeCamps())
+            {
+                counter++;
+            }
+            return counter;
         }
         private int CountItems()
         {
@@ -110,10 +123,12 @@ namespace Statistics
             }
             return counter;
         }
-
+        #endregion
+        #region Closing form and logging out
         private void Statistics_FormClosed(object sender, FormClosedEventArgs e)
         {
             client.GetRequest("http://localhost:8080/logout");
         }
+        #endregion
     }
 }
