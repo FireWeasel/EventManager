@@ -25,9 +25,10 @@ function depositToTicket() {
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: JSON.stringify(ticket),
-    success: function() {
+    success: function(data) {
       $("#deposit").val("");
       alert("Deposited " + ticket.balance + " successfully!");
+			$("#ticket-amount").text("Ticket amount: " + data.ticket.balance + "$");
     }
   });
 }

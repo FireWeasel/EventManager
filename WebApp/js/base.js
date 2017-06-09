@@ -48,8 +48,8 @@ $(document).ready(function() {
   $("#camps-link").click(function(e) {
     $("#camps-container").show(1000);
     $("#events-container").hide(1000);
-    $("#recent-news-container").hide(1000);  
-    $("#events-full-container").hide(1000); 
+    $("#recent-news-container").hide(1000);
+    $("#events-full-container").hide(1000);
     $("#tickets-container").hide(1000);
     $("#about-container").hide(1000);
     $("#contact-container").hide(1000);
@@ -59,7 +59,7 @@ $(document).ready(function() {
       } else {
         if(data.reservation != null) {
           $("#reserve-btn").hide();
-          populateReservationDetails(data.reservation);       
+          populateReservationDetails(data.reservation);
         } else {
           $("#reservation-details").hide();
         }
@@ -77,15 +77,17 @@ $(document).ready(function() {
     $("#contact-container").hide(1000);
     getUser().then(function(data) {
       if(data.ticket != null) {
+        $("#ticket-amount").text("Ticket amount: " + data.ticket.balance + "$");
         $("#purchase-btn").hide();
         $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
         $("#ticket-details").show();
+        $("#ticket-amount").show();
       }
     });
   });
 
   $("#about-link").click(function(e) {
-    $("#about-container").show(1000);    
+    $("#about-container").show(1000);
     $("#events-container").hide(1000);
     $("#recent-news-container").hide(1000);
     $("#events-full-container").hide(1000);
@@ -95,7 +97,7 @@ $(document).ready(function() {
   });
 
   $("#contact-link").click(function(e) {
-    $("#contact-container").show(1000);   
+    $("#contact-container").show(1000);
     $("#events-container").hide(1000);
     $("#recent-news-container").hide(1000);
     $("#events-full-container").hide(1000);
@@ -110,6 +112,7 @@ $(document).ready(function() {
       $("#download-ticket-btn").attr("href", "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + data.ticket.id);
       $("#ticket-details").show();
       $("#reserve-btn").show();
+      $("#ticket-amount").show();
     });
   });
 
@@ -140,7 +143,7 @@ $(document).ready(function() {
       addToReservation(data.reservation.id).then(function() {
         populateReservationDetails(data.reservation);
       });
-    });  
+    });
   });
 
   $("#finalize-reservation-btn").click(function() {
@@ -148,12 +151,12 @@ $(document).ready(function() {
       payReservation(data.reservation.id).then(function() {
         $("#user-reservation, #finalize-reservation-btn").hide();
       });
-    }); 
+    });
   });
 
   $("#deposit-btn").click(function() {
     depositToTicket();
-  })
+  });
 
   isLogged();
   populateEventDetails();
