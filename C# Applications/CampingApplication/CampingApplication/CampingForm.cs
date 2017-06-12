@@ -21,6 +21,7 @@ namespace CampingApplication
         private IVideoSource videoSource;
         private FilterInfoCollection videoDeviceList;
         private volatile object _locker = new object();
+        private int countdown;
 
         public CampingForm(RestClient rClient)
         {
@@ -142,9 +143,10 @@ namespace CampingApplication
                 user = this.rClient.GetOwnerOfTicket(Convert.ToInt64(decoded));
                 UpdateListbox(user);
             }
-            catch (WebException)
+            catch (Exception)
             {
-                MessageBox.Show("Reservation not found! ");
+                lblErrorMessage.Text = "No such reservation found. Try again!";
+                errorTimer.Start();
             }
             
         }
@@ -161,6 +163,21 @@ namespace CampingApplication
         private void timer1_Tick(object sender, EventArgs e)
         {
             decode_QRtag();
+        }
+
+        private void errorTimer_Tick(object sender, EventArgs e)
+        {
+            countdown--;
+            if (countdown == 0)
+            {
+                errorTimer.Stop();
+                lblErrorMessage.Text = "";
+            }
+        }
+
+        private void lblErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            countdown = 5;
         }
     }
 }

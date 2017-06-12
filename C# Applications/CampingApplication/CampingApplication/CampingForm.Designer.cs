@@ -41,6 +41,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lbUserInformation = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.errorTimer = new System.Windows.Forms.Timer(this.components);
+            this.lblErrorMessage = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).BeginInit();
@@ -156,12 +158,28 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // errorTimer
+            // 
+            this.errorTimer.Interval = 1000;
+            this.errorTimer.Tick += new System.EventHandler(this.errorTimer_Tick);
+            // 
+            // lblErrorMessage
+            // 
+            this.lblErrorMessage.AutoSize = true;
+            this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorMessage.Location = new System.Drawing.Point(19, 384);
+            this.lblErrorMessage.Name = "lblErrorMessage";
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
+            this.lblErrorMessage.TabIndex = 3;
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_TextChanged);
+            // 
             // CampingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Peru;
-            this.ClientSize = new System.Drawing.Size(889, 371);
+            this.ClientSize = new System.Drawing.Size(889, 421);
+            this.Controls.Add(this.lblErrorMessage);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -177,6 +195,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -193,6 +212,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pbCamera;
+        private System.Windows.Forms.Timer errorTimer;
+        private System.Windows.Forms.Label lblErrorMessage;
     }
 }
 
