@@ -12,10 +12,12 @@ namespace ShopApplication
 {
     public partial class UpdateItemForm : Form
     {
-        RestClient rClient;
-        Product productToUpdate;
-        ShopForm sForm;
-        Shop shop;
+        private RestClient rClient;
+        private Product productToUpdate;
+        private ShopForm sForm;
+        private Shop shop;
+        private int countdown;
+
         public UpdateItemForm(RestClient rClient, Product product, ShopForm sForm, Shop shop)
         {
             InitializeComponent();
@@ -49,21 +51,33 @@ namespace ShopApplication
 
         private void UpdateInfo(Product p)
         {
-            tbUpdateName.Text = p.Name;
-            nudUpdatePrice.Value = (decimal)p.Price;
-            nudUpdateQuantity.Value = (decimal)p.Quantity;
-            richTextBox1.Text = p.Description;
-            switch (p.Type)
+            if (tbUpdateName.Text != "" || nudUpdatePrice.Value < 0 || nudUpdateQuantity.Value < 0 || richTextBox1.Text != "" || lbUpdateType.SelectedIndex < 0)
             {
-                case "FOODS": lbUpdateType.SelectedItem = lbUpdateType.Items[0];
-                    break;
-                case "DRINKS": lbUpdateType.SelectedItem = lbUpdateType.Items[1];
-                    break;
-                case "OTHER": lbUpdateType.SelectedItem = lbUpdateType.Items[2];
-                    break;
-                default:
-                    break;
+                tbUpdateName.Text = p.Name;
+                nudUpdatePrice.Value = (decimal)p.Price;
+                nudUpdateQuantity.Value = (decimal)p.Quantity;
+                richTextBox1.Text = p.Description;
+                switch (p.Type)
+                {
+                    case "FOODS":
+                        lbUpdateType.SelectedItem = lbUpdateType.Items[0];
+                        break;
+                    case "DRINKS":
+                        lbUpdateType.SelectedItem = lbUpdateType.Items[1];
+                        break;
+                    case "OTHER":
+                        lbUpdateType.SelectedItem = lbUpdateType.Items[2];
+                        break;
+                    default:
+                        break;
+                }
             }
+            else
+            {
+                lblErrorMessage.Text = "Make sure to give correct information.";
+                errorTimer.Start();
+            }
+           
         }
 
         private Product GetUpdatedProduct()
@@ -74,6 +88,22 @@ namespace ShopApplication
             this.productToUpdate.Quantity = (int)nudUpdateQuantity.Value ;
             this.productToUpdate.Type = lbUpdateType.SelectedItem.ToString();
             return productToUpdate;
+        }
+
+        private void errorTimer_Tick(object sender, EventArgs e)
+        {
+            countdown--;
+            if (countdown == 0)
+            {
+                errorTimer.Stop();
+                lblErrorMessage.Text = "";
+            }
+
+        }
+
+        private void lblErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            countdown = 5;
         }
     }
 }

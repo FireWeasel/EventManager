@@ -34,6 +34,10 @@
             this.lbOrder = new System.Windows.Forms.ListBox();
             this.btnCompleteOrder = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnStopCamera = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
+            this.pbCamera = new System.Windows.Forms.PictureBox();
             this.rbFood = new System.Windows.Forms.RadioButton();
             this.rbDrinks = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +48,8 @@
             this.btnRemoveFromOrder = new System.Windows.Forms.Button();
             this.rbOthers = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAddNewProduct = new System.Windows.Forms.Button();
+            this.btnUpdateItem = new System.Windows.Forms.Button();
             this.lblPriceSingleItem = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbItemName = new System.Windows.Forms.ListBox();
@@ -51,17 +57,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnUpdateItem = new System.Windows.Forms.Button();
-            this.btnAddNewProduct = new System.Windows.Forms.Button();
-            this.pbCamera = new System.Windows.Forms.PictureBox();
-            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnStopCamera = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblErrorMessage = new System.Windows.Forms.Label();
+            this.errorTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTotalPrice
@@ -122,6 +126,43 @@
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Currently in the order:";
+            // 
+            // btnStopCamera
+            // 
+            this.btnStopCamera.Location = new System.Drawing.Point(370, 365);
+            this.btnStopCamera.Name = "btnStopCamera";
+            this.btnStopCamera.Size = new System.Drawing.Size(155, 196);
+            this.btnStopCamera.TabIndex = 13;
+            this.btnStopCamera.Text = "Stop scanning";
+            this.btnStopCamera.UseVisualStyleBackColor = true;
+            this.btnStopCamera.Visible = false;
+            this.btnStopCamera.Click += new System.EventHandler(this.btnStopCamera_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(12, 294);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(177, 20);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Available video sources:";
+            // 
+            // cmbVideoSource
+            // 
+            this.cmbVideoSource.FormattingEnabled = true;
+            this.cmbVideoSource.Location = new System.Drawing.Point(195, 292);
+            this.cmbVideoSource.Name = "cmbVideoSource";
+            this.cmbVideoSource.Size = new System.Drawing.Size(121, 26);
+            this.cmbVideoSource.TabIndex = 11;
+            // 
+            // pbCamera
+            // 
+            this.pbCamera.Location = new System.Drawing.Point(20, 365);
+            this.pbCamera.Name = "pbCamera";
+            this.pbCamera.Size = new System.Drawing.Size(323, 196);
+            this.pbCamera.TabIndex = 10;
+            this.pbCamera.TabStop = false;
             // 
             // rbFood
             // 
@@ -246,6 +287,26 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
+            // btnAddNewProduct
+            // 
+            this.btnAddNewProduct.Location = new System.Drawing.Point(359, 403);
+            this.btnAddNewProduct.Name = "btnAddNewProduct";
+            this.btnAddNewProduct.Size = new System.Drawing.Size(207, 64);
+            this.btnAddNewProduct.TabIndex = 12;
+            this.btnAddNewProduct.Text = "Add a new product";
+            this.btnAddNewProduct.UseVisualStyleBackColor = true;
+            this.btnAddNewProduct.Click += new System.EventHandler(this.btnAddNewProduct_Click);
+            // 
+            // btnUpdateItem
+            // 
+            this.btnUpdateItem.Location = new System.Drawing.Point(312, 274);
+            this.btnUpdateItem.Name = "btnUpdateItem";
+            this.btnUpdateItem.Size = new System.Drawing.Size(201, 44);
+            this.btnUpdateItem.TabIndex = 13;
+            this.btnUpdateItem.Text = "Update item";
+            this.btnUpdateItem.UseVisualStyleBackColor = true;
+            this.btnUpdateItem.Click += new System.EventHandler(this.btnUpdateItem_Click);
+            // 
             // lblPriceSingleItem
             // 
             this.lblPriceSingleItem.AutoSize = true;
@@ -309,74 +370,43 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "Item description:";
             // 
-            // btnUpdateItem
-            // 
-            this.btnUpdateItem.Location = new System.Drawing.Point(312, 274);
-            this.btnUpdateItem.Name = "btnUpdateItem";
-            this.btnUpdateItem.Size = new System.Drawing.Size(201, 44);
-            this.btnUpdateItem.TabIndex = 13;
-            this.btnUpdateItem.Text = "Update item";
-            this.btnUpdateItem.UseVisualStyleBackColor = true;
-            this.btnUpdateItem.Click += new System.EventHandler(this.btnUpdateItem_Click);
-            // 
-            // btnAddNewProduct
-            // 
-            this.btnAddNewProduct.Location = new System.Drawing.Point(359, 403);
-            this.btnAddNewProduct.Name = "btnAddNewProduct";
-            this.btnAddNewProduct.Size = new System.Drawing.Size(207, 64);
-            this.btnAddNewProduct.TabIndex = 12;
-            this.btnAddNewProduct.Text = "Add a new product";
-            this.btnAddNewProduct.UseVisualStyleBackColor = true;
-            this.btnAddNewProduct.Click += new System.EventHandler(this.btnAddNewProduct_Click);
-            // 
-            // pbCamera
-            // 
-            this.pbCamera.Location = new System.Drawing.Point(20, 365);
-            this.pbCamera.Name = "pbCamera";
-            this.pbCamera.Size = new System.Drawing.Size(323, 196);
-            this.pbCamera.TabIndex = 10;
-            this.pbCamera.TabStop = false;
-            // 
-            // cmbVideoSource
-            // 
-            this.cmbVideoSource.FormattingEnabled = true;
-            this.cmbVideoSource.Location = new System.Drawing.Point(195, 292);
-            this.cmbVideoSource.Name = "cmbVideoSource";
-            this.cmbVideoSource.Size = new System.Drawing.Size(121, 26);
-            this.cmbVideoSource.TabIndex = 11;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(12, 294);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(177, 20);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Available video sources:";
-            // 
             // timer1
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // btnStopCamera
+            // groupBox2
             // 
-            this.btnStopCamera.Location = new System.Drawing.Point(370, 365);
-            this.btnStopCamera.Name = "btnStopCamera";
-            this.btnStopCamera.Size = new System.Drawing.Size(155, 196);
-            this.btnStopCamera.TabIndex = 13;
-            this.btnStopCamera.Text = "Stop scanning";
-            this.btnStopCamera.UseVisualStyleBackColor = true;
-            this.btnStopCamera.Visible = false;
-            this.btnStopCamera.Click += new System.EventHandler(this.btnStopCamera_Click);
+            this.groupBox2.BackColor = System.Drawing.Color.DarkRed;
+            this.groupBox2.Controls.Add(this.lblErrorMessage);
+            this.groupBox2.Location = new System.Drawing.Point(7, 637);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1165, 70);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            // 
+            // lblErrorMessage
+            // 
+            this.lblErrorMessage.AutoSize = true;
+            this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorMessage.Location = new System.Drawing.Point(14, 20);
+            this.lblErrorMessage.Name = "lblErrorMessage";
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
+            this.lblErrorMessage.TabIndex = 0;
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_TextChanged);
+            // 
+            // errorTimer
+            // 
+            this.errorTimer.Interval = 1000;
+            this.errorTimer.Tick += new System.EventHandler(this.errorTimer_Tick);
             // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1179, 639);
+            this.ClientSize = new System.Drawing.Size(1179, 700);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -387,10 +417,12 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShopForm_FormClosed);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -426,6 +458,9 @@
         private System.Windows.Forms.PictureBox pbCamera;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnStopCamera;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label lblErrorMessage;
+        private System.Windows.Forms.Timer errorTimer;
     }
 }
 

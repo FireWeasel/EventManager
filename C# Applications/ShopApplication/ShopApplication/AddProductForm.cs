@@ -17,7 +17,8 @@ namespace ShopApplication
         private RestClient rClient;
         private ShopForm sForm;
         private Shop shop;
-        Product p;
+        private Product p;
+        private int countdown;
         public AddProductForm(RestClient rClient, ShopForm sForm, Shop shop)
         {
             InitializeComponent();
@@ -40,8 +41,7 @@ namespace ShopApplication
             {
                 if (tbNewProdName.Text == "" || rtbNewDescription.Text == "" || nudNewQuantity.Value == 0 || nudNewPrice.Value == 0)
                 {
-                    throw new Exception("Fill in the fields with appropriate values. Don't leave empty" +
-                        "textboxes or '0' as a value in either of the numeric up and downs.");
+                    throw new Exception("Error! Enter valid information in the fields.");
                 }
                 string type = typesList[cbType.SelectedIndex].ToString();
 
@@ -59,12 +59,28 @@ namespace ShopApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                lblErrorMessage.Text = ex.Message;
+                errorTimer.Start();
             }
         }
 
         private void AddProductForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+        }
+
+        private void errorTimer_Tick(object sender, EventArgs e)
+        {
+            countdown--;
+            if (countdown == 0)
+            {
+                errorTimer.Stop();
+                lblErrorMessage.Text = "";
+            }
+        }
+
+        private void lblErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            countdown = 5;
         }
     }
 }

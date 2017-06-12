@@ -28,21 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.btnUpdateProduct = new System.Windows.Forms.Button();
-            this.tbUpdateName = new System.Windows.Forms.TextBox();
-            this.nudUpdatePrice = new System.Windows.Forms.NumericUpDown();
-            this.nudUpdateQuantity = new System.Windows.Forms.NumericUpDown();
-            this.lbUpdateType = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.lbUpdateType = new System.Windows.Forms.ListBox();
+            this.nudUpdateQuantity = new System.Windows.Forms.NumericUpDown();
+            this.nudUpdatePrice = new System.Windows.Forms.NumericUpDown();
+            this.tbUpdateName = new System.Windows.Forms.TextBox();
+            this.btnUpdateProduct = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblErrorMessage = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.errorTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudUpdateQuantity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePrice)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -67,50 +72,43 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Update product:";
             // 
-            // label1
+            // richTextBox1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Name:";
+            this.richTextBox1.Location = new System.Drawing.Point(478, 38);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(242, 116);
+            this.richTextBox1.TabIndex = 10;
+            this.richTextBox1.Text = "";
             // 
-            // label2
+            // lbUpdateType
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 100);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 18);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Price:";
+            this.lbUpdateType.FormattingEnabled = true;
+            this.lbUpdateType.ItemHeight = 18;
+            this.lbUpdateType.Location = new System.Drawing.Point(82, 244);
+            this.lbUpdateType.Name = "lbUpdateType";
+            this.lbUpdateType.Size = new System.Drawing.Size(183, 76);
+            this.lbUpdateType.TabIndex = 9;
             // 
-            // label3
+            // nudUpdateQuantity
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 181);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 18);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Quantity:";
+            this.nudUpdateQuantity.Location = new System.Drawing.Point(98, 179);
+            this.nudUpdateQuantity.Name = "nudUpdateQuantity";
+            this.nudUpdateQuantity.Size = new System.Drawing.Size(120, 24);
+            this.nudUpdateQuantity.TabIndex = 8;
             // 
-            // label4
+            // nudUpdatePrice
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 244);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 18);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Type:";
+            this.nudUpdatePrice.Location = new System.Drawing.Point(98, 98);
+            this.nudUpdatePrice.Name = "nudUpdatePrice";
+            this.nudUpdatePrice.Size = new System.Drawing.Size(120, 24);
+            this.nudUpdatePrice.TabIndex = 7;
             // 
-            // label5
+            // tbUpdateName
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(366, 41);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(87, 18);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Description:";
+            this.tbUpdateName.Location = new System.Drawing.Point(98, 41);
+            this.tbUpdateName.Name = "tbUpdateName";
+            this.tbUpdateName.Size = new System.Drawing.Size(191, 24);
+            this.tbUpdateName.TabIndex = 6;
             // 
             // btnUpdateProduct
             // 
@@ -122,56 +120,91 @@
             this.btnUpdateProduct.UseVisualStyleBackColor = true;
             this.btnUpdateProduct.Click += new System.EventHandler(this.btnUpdateProduct_Click);
             // 
-            // tbUpdateName
+            // label5
             // 
-            this.tbUpdateName.Location = new System.Drawing.Point(98, 41);
-            this.tbUpdateName.Name = "tbUpdateName";
-            this.tbUpdateName.Size = new System.Drawing.Size(191, 24);
-            this.tbUpdateName.TabIndex = 6;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(366, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 18);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Description:";
             // 
-            // nudUpdatePrice
+            // label4
             // 
-            this.nudUpdatePrice.Location = new System.Drawing.Point(98, 98);
-            this.nudUpdatePrice.Name = "nudUpdatePrice";
-            this.nudUpdatePrice.Size = new System.Drawing.Size(120, 24);
-            this.nudUpdatePrice.TabIndex = 7;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(26, 244);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 18);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Type:";
             // 
-            // nudUpdateQuantity
+            // label3
             // 
-            this.nudUpdateQuantity.Location = new System.Drawing.Point(98, 179);
-            this.nudUpdateQuantity.Name = "nudUpdateQuantity";
-            this.nudUpdateQuantity.Size = new System.Drawing.Size(120, 24);
-            this.nudUpdateQuantity.TabIndex = 8;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(26, 181);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 18);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Quantity:";
             // 
-            // lbUpdateType
+            // label2
             // 
-            this.lbUpdateType.FormattingEnabled = true;
-            this.lbUpdateType.ItemHeight = 18;
-            this.lbUpdateType.Location = new System.Drawing.Point(82, 244);
-            this.lbUpdateType.Name = "lbUpdateType";
-            this.lbUpdateType.Size = new System.Drawing.Size(183, 76);
-            this.lbUpdateType.TabIndex = 9;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(24, 100);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 18);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Price:";
             // 
-            // richTextBox1
+            // label1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(478, 38);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(242, 116);
-            this.richTextBox1.TabIndex = 10;
-            this.richTextBox1.Text = "";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(26, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Name:";
+            // 
+            // lblErrorMessage
+            // 
+            this.lblErrorMessage.AutoSize = true;
+            this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorMessage.Location = new System.Drawing.Point(14, 20);
+            this.lblErrorMessage.Name = "lblErrorMessage";
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
+            this.lblErrorMessage.TabIndex = 0;
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_TextChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.DarkRed;
+            this.groupBox2.Controls.Add(this.lblErrorMessage);
+            this.groupBox2.Location = new System.Drawing.Point(12, 402);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(803, 70);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            // 
+            // errorTimer
+            // 
+            this.errorTimer.Interval = 1000;
+            this.errorTimer.Tick += new System.EventHandler(this.errorTimer_Tick);
             // 
             // UpdateItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 408);
+            this.ClientSize = new System.Drawing.Size(827, 481);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "UpdateItemForm";
             this.Text = "UpdateItemForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudUpdateQuantity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePrice)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -190,5 +223,8 @@
         private System.Windows.Forms.NumericUpDown nudUpdatePrice;
         private System.Windows.Forms.TextBox tbUpdateName;
         private System.Windows.Forms.Button btnUpdateProduct;
+        private System.Windows.Forms.Label lblErrorMessage;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Timer errorTimer;
     }
 }

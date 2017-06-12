@@ -18,6 +18,7 @@ namespace ShopApplication
 {
     public partial class ShopForm : Form
     {
+        //lblErrorMessage.Text = 
         private List<Product> order;
 
         private String selected = "";
@@ -32,6 +33,8 @@ namespace ShopApplication
         private FilterInfoCollection videoDeviceList;
         private volatile object _locker = new object();
 
+        private int countdown;
+        
 
         public ShopForm(RestClient rClient)
         {
@@ -58,12 +61,14 @@ namespace ShopApplication
                 }
                 else
                 {
-                    MessageBox.Show("Order isn't empty. Empty it before adding a new product.");
+                    lblErrorMessage.Text = "Order isn't empty. Empty it before adding a new product.";
+                    errorTimer.Start();
                 }
             }
             else
             {
-                MessageBox.Show("You are currently scanning.");
+                lblErrorMessage.Text = "You are currently scanning.";
+                errorTimer.Start();
             }
                 
         }
@@ -106,15 +111,18 @@ namespace ShopApplication
             }
             catch (NotInStockException nse)
             {
-                MessageBox.Show(nse.Message);
+                lblErrorMessage.Text = nse.Message;
+                errorTimer.Start();
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("No item selected from the listbox.");
+                lblErrorMessage.Text = "No item selected from the listbox.";
+                errorTimer.Start();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                lblErrorMessage.Text = ex.Message;
+                errorTimer.Start();
             }
         }
         private void btnRemoveFromOrder_Click(object sender, EventArgs e)
@@ -154,7 +162,8 @@ namespace ShopApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                lblErrorMessage.Text = ex.Message;
+                errorTimer.Start();
             }
         }
         private void UpdateNrInStock(Product p)
@@ -280,12 +289,14 @@ namespace ShopApplication
                 }
                 else
                 {
-                    MessageBox.Show("Order isn't empty. Empty it before updating a product.");
+                    lblErrorMessage.Text = "Order isn't empty. Empty it before updating a product.";
+                    errorTimer.Start();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                lblErrorMessage.Text = ex.Message;
+                errorTimer.Start();
             }
         }
 
@@ -313,11 +324,13 @@ namespace ShopApplication
         {
             if (videoSource != null && videoSource.IsRunning)
             {
-                MessageBox.Show("You are already scanning.");
+                lblErrorMessage.Text = "You are already scanning.";
+                errorTimer.Start();
             }
             else if (order.Count == 0)
             {
-                MessageBox.Show("Order is empty!");
+                lblErrorMessage.Text = "Order is empty!";
+                errorTimer.Start();
             }
             else
             {
@@ -374,11 +387,13 @@ namespace ShopApplication
                 btnStopCamera.Visible = false;
                 if (!ticket.CheckedIn)
                 {
-                    MessageBox.Show("Ticked is not checked in!");
+                    lblErrorMessage.Text = "Ticked is not checked in!";
+                    errorTimer.Start();
                 }
                 else if (ticket.CheckedOut)
                 {
-                    MessageBox.Show("Ticked is checked out!");
+                    lblErrorMessage.Text = "Ticked is checked out!";
+                    errorTimer.Start();
                 }
                 else if (ticket.Balance >= CalculatePrice(order)) //if ticket is valid we check its balance.
                 {
@@ -394,13 +409,14 @@ namespace ShopApplication
                 }
                 else
                 {
-                    MessageBox.Show("Not enough balance.");
+                    lblErrorMessage.Text = "Not enough balance.";
+                    errorTimer.Start();
                 }
 
                 ClearOrder();
 
             }//if the server returns 404 then we catch it and say it's not found.
-            catch (WebException) { StopCamera(); ClearOrder(); MessageBox.Show("Ticket not found!"); } 
+            catch (WebException) { StopCamera(); ClearOrder(); lblErrorMessage.Text = "Ticket not found!"; errorTimer.Start(); } 
             catch
             {
             }
@@ -445,6 +461,17 @@ namespace ShopApplication
             selectedIndexOrder = -1;
             lbItemName.SelectedIndex = -1; //test
             lblTotalPrice.Text = "N/A";
+        }
+
+        private void errorTimer_Tick(object sender, EventArgs e)
+        {
+            countdown--;
+            if (countdown == 0) { errorTimer.Stop(); lblErrorMessage.Text = ""; }
+        }
+
+        private void lblErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            countdown = 5;
         }
     }
 }
