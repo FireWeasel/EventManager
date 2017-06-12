@@ -37,10 +37,12 @@
             this.lbUserInformation = new System.Windows.Forms.ListBox();
             this.btnCheckInTicket = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
             this.pbCamera = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.errorTimer = new System.Windows.Forms.Timer(this.components);
+            this.lblErrorMessage = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -126,6 +128,23 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 238);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(162, 18);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Available video devices:";
+            // 
+            // cmbVideoSource
+            // 
+            this.cmbVideoSource.FormattingEnabled = true;
+            this.cmbVideoSource.Location = new System.Drawing.Point(175, 235);
+            this.cmbVideoSource.Name = "cmbVideoSource";
+            this.cmbVideoSource.Size = new System.Drawing.Size(104, 26);
+            this.cmbVideoSource.TabIndex = 4;
+            // 
             // pbCamera
             // 
             this.pbCamera.Location = new System.Drawing.Point(7, 24);
@@ -139,29 +158,28 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // cmbVideoSource
+            // errorTimer
             // 
-            this.cmbVideoSource.FormattingEnabled = true;
-            this.cmbVideoSource.Location = new System.Drawing.Point(175, 235);
-            this.cmbVideoSource.Name = "cmbVideoSource";
-            this.cmbVideoSource.Size = new System.Drawing.Size(104, 26);
-            this.cmbVideoSource.TabIndex = 4;
+            this.errorTimer.Interval = 1000;
+            this.errorTimer.Tick += new System.EventHandler(this.errorTimer_Tick);
             // 
-            // label1
+            // lblErrorMessage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 238);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(162, 18);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Available video devices:";
+            this.lblErrorMessage.AutoSize = true;
+            this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorMessage.Location = new System.Drawing.Point(38, 412);
+            this.lblErrorMessage.Name = "lblErrorMessage";
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
+            this.lblErrorMessage.TabIndex = 3;
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_TextChanged);
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.ClientSize = new System.Drawing.Size(889, 394);
+            this.ClientSize = new System.Drawing.Size(889, 464);
+            this.Controls.Add(this.lblErrorMessage);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -177,6 +195,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCamera)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -192,6 +211,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbVideoSource;
+        private System.Windows.Forms.Timer errorTimer;
+        private System.Windows.Forms.Label lblErrorMessage;
     }
 }
 

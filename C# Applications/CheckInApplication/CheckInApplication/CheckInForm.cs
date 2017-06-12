@@ -22,6 +22,8 @@ namespace CheckInApplication
         private IVideoSource videoSource;
         private FilterInfoCollection videoDeviceList;
         private volatile object _locker = new object();
+        private int countdown;
+
         public CheckInForm(RestClient rClient)
         {
             this.rClient = rClient;
@@ -104,7 +106,8 @@ namespace CheckInApplication
                 owner = rClient.GetUser(Convert.ToInt64(id));
                 if (ticket.CheckedIn)
                 { //if it was already checked in
-                    MessageBox.Show("Ticket already checked in.");
+                    lblErrorMessage.Text = "Ticket already checked in.";
+                    errorTimer.Start();
                     pictureBox1.Visible = true;
                     lblPaidReservation.Text = "Check in successful!";
                     lblPaidReservation.Visible = true;
@@ -121,7 +124,8 @@ namespace CheckInApplication
             }
             catch (Exception) //web,format,argument
             {
-                MessageBox.Show("Check in unsuccessful!");
+                lblErrorMessage.Text = "Check in unsuccessful!";
+                errorTimer.Start();
                 pictureBox2.Visible = true;
                 lblPaidReservation.Text = "Check in unsuccessful!";
                 lblPaidReservation.Visible = true;
@@ -159,6 +163,21 @@ namespace CheckInApplication
             {
                 videoSource.SignalToStop();
             }
+        }
+
+        private void errorTimer_Tick(object sender, EventArgs e)
+        {
+            countdown--;
+            if (countdown == 0)
+            {
+                timer1.Stop();
+                lblErrorMessage.Text = "";
+            }
+        }
+
+        private void lblErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            countdown = 5;
         }
     }
 }
