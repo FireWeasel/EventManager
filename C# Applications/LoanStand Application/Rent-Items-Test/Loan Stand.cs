@@ -14,15 +14,6 @@ namespace Rent_Items_Test
 
         }
         #endregion
-        public List<Item> GetAllItems(RestClient client)
-        {
-            Items = client.RequestItems();
-            return Items;
-        }
-        public int GetId()
-        {
-            return Id;
-        }
     }
 }
 

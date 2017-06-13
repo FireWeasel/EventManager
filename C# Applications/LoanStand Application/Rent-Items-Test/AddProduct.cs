@@ -16,6 +16,7 @@ namespace Rent_Items_Test
         RestClient client;
         Loan_Stand newStand;
         MainApplication mainApp;
+        private int counter;
         #endregion
         #region Constructor
         public AddProduct(RestClient newClient, Loan_Stand stand, MainApplication main)
@@ -30,23 +31,64 @@ namespace Rent_Items_Test
             typeCb.Items.Add(Type.OTHER);
         }
         #endregion
+        #region Form methods
         private void AddItemBtn_Click(object sender, EventArgs e)
         {
-            string name = nameTb.Text;
-            string desciption = descTb.Text;
-            double fee = Convert.ToDouble(feeNUD.Value);
-            int quantity = Convert.ToInt32(quantNUD.Value);
-            string type = typeCb.Text;
+            if (nameTb.Text == null)
+            {
+                timer1.Start();
+                label6.Text = "Please enter a name for the item!";
+            }
+            else if (descTb.Text == null)
+            {
+                timer1.Start();
+                label6.Text = "Please enter a description for the item!";
+            }
+            else if (quantNUD.Value == 0)
+            {
+                timer1.Start();
+                label6.Text = "Please enter a quantitiy for the item!";
+            }
+            else if (feeNUD.Value == 0)
+            {
+                timer1.Start();
+                label6.Text = "Please enter a fee for the item!";
+            }
+            else if (typeCb.Text == null)
+            {
+                timer1.Start();
+                label6.Text = "Please enter a name for the item!";
+            }
+            else
+            {
+                string name = nameTb.Text;
+                string desciption = descTb.Text;
+                double fee = Convert.ToDouble(feeNUD.Value);
+                int quantity = Convert.ToInt32(quantNUD.Value);
+                string type = typeCb.Text;
 
-            client.AddData(newStand.Id,name, desciption, fee, quantity, type);
-            mainApp.UpdateListMethod();
-            
-            ActiveForm.Refresh();
-            nameTb.Clear();
-            descTb.Clear();
-            typeCb.SelectedIndex = -1;
-            feeNUD.Value = 0;
-            quantNUD.Value = 0;
+                client.AddData(newStand.Id, name, desciption, fee, quantity, type);
+                mainApp.UpdateListMethod();
+                ActiveForm.Refresh();
+                nameTb.Clear();
+                descTb.Clear();
+                typeCb.SelectedIndex = -1;
+                feeNUD.Value = 0;
+                quantNUD.Value = 0;
+                mainApp.ClearGUI();
+            }
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            counter--;
+            if (counter == 0) { label5.Text = ""; timer1.Stop(); }
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            counter = 5;
+        }
+        #endregion
     }
 }

@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using ZXing;
@@ -24,6 +18,7 @@ namespace Rent_Items_Test
         IVideoSource videoSource;
         FilterInfoCollection videoDeviceList;
         private volatile object _locker = new object();
+        private int counter;
         #endregion
         #region Constructor
         public MainApplication(RestClient client)
@@ -81,31 +76,51 @@ namespace Rent_Items_Test
                 btnStopCamera.Enabled = false;
                 btnStopCamera.Visible = false;
 
-                if (item.Quantity != 0)
+                if (ticket.CheckedIn)
                 {
-                    if(ticket.Balance >= (value * item.Fee))
+                    if(!ticket.CheckedOut)
                     {
-                        foreach(Item it in stand.Items)
+                        if (item.Quantity != 0)
                         {
-                            if(it.Name == item.Name)
+                            if (ticket.Balance >= (value * item.Fee))
                             {
-                                for(int i = 0; i < value; i++)
+                                foreach (Item it in newClient.RequestItems())
                                 {
-                                    newClient.BorrowItem(ticketId, it.ID);
+                                    if (it.Name == item.Name)
+                                    {
+                                        for (int i = 0; i < value; i++)
+                                        {
+                                            newClient.BorrowItem(ticketId, it.ID);
+                                        }
+                                    }
                                 }
+                                lblErrorMessage.Text ="Item loaned successfully";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                lblErrorMessage.Text = "Balance too low";
+                                timer2.Start();
                             }
                         }
-                        MessageBox.Show("Item loaned successfully");
+                        else
+                        {
+                            lblErrorMessage.Text = "Item not in stock!";
+                            timer2.Start();
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Balance too low");
+                        lblErrorMessage.Text = "Ticket is already checked out, you cannot borrow an item!";
+                        timer2.Start();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Item not in stock!");
+                    lblErrorMessage.Text = "Ticket is not checked in!";
+                    timer2.Start();
                 }
+
                 UpdateListMethod();
                 StockNUD.Value = 0;
                 label4.Text = "0";
@@ -137,26 +152,26 @@ namespace Rent_Items_Test
             ListItems.Items.Clear();
             ItemCb.Items.Clear();
 
-            stand.GetAllItems(newClient);
+            List <Item> items = newClient.RequestItems();
 
-            foreach (Item item in stand.Items)
+            foreach (Item item in items)
             {
                 if (item.Type.ToString() == name)
                 {
                     type.Add(item);
                 }
             }
-            foreach(Item items in type)
+            foreach(Item item in type)
             {
-                ListItems.Items.Add(items.AsString());
-                ItemCb.Items.Add(items.Name);
+                ListItems.Items.Add(item.AsString());
+                ItemCb.Items.Add(item.Name);
             }
         }
         public void LoadQuantityByItem(int id)
         {
             StockNUD.Enabled = true;
             LoanBtn.Enabled = true;
-            stand.GetAllItems(newClient);
+            stand.Items = newClient.RequestItems();
             
 
             if (id== -1)
@@ -172,11 +187,20 @@ namespace Rent_Items_Test
         }
         public void UpdateListMethod()
         {
+            ItemCb.SelectedIndex = -1;
+            StockNUD.Value = 0;
             ListItems.Items.Clear();
             foreach (Item item in newClient.RequestItems())
             {
                 ListItems.Items.Add(item.AsString());
             }
+        }
+        public void ClearGUI()
+        {
+            ItemCb.SelectedIndex = -1;
+            StockNUD.Value = 0;
+            label4.Text = null;
+            label7.Text = null;
         }
         #endregion
         #region Form methods
@@ -185,12 +209,12 @@ namespace Rent_Items_Test
             int id = ItemCb.SelectedIndex;
             LoadQuantityByItem(id);
         }
-        
         private void LoanBtn_Click(object sender, EventArgs e)
         {
             if (videoSource != null && videoSource.IsRunning)
             {
-                MessageBox.Show("You are already scanning.");
+                lblErrorMessage.Text = "You are already scanning!";
+                timer2.Start();
             }
             else
             {
@@ -202,14 +226,14 @@ namespace Rent_Items_Test
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            ClearGUI();
             LoadItemByType(radioButton1.Text);
         }
-
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            ClearGUI();
             LoadItemByType(radioButton2.Text);
         }
-
         private void StockNUD_ValueChanged(object sender, EventArgs e)
         {
             decimal value = StockNUD.Value;
@@ -220,7 +244,6 @@ namespace Rent_Items_Test
         {
             DecodeQRtag();
         }
-
         private void btnStopCamera_Click(object sender, EventArgs e)
         {
             if (videoSource != null && videoSource.IsRunning)
@@ -231,6 +254,15 @@ namespace Rent_Items_Test
                 btnStopCamera.Enabled = false;
                 pictureBox1.Image = null;
             }
+        }
+        private void lblErrorMessage_Click(object sender, EventArgs e)
+        {
+            counter = 5;
+        }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            counter--;
+            if (counter == 0) { timer2.Stop(); lblErrorMessage.Text = ""; }
         }
         #endregion
     }

@@ -117,7 +117,7 @@ namespace Statistics
         private int CountProducts()
         {
             int counter = 0;
-            foreach(Product product in client.GetSoldProduct())
+            foreach(Classes product in client.GetSoldProduct())
             {
                 counter++;
             }

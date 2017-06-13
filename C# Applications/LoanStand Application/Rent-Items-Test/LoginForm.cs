@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -17,6 +10,7 @@ namespace Rent_Items_Test
         RestClient client;
         Thread thread;
         #endregion
+        #region Constructor and methods
         public LoginForm()
         {
             InitializeComponent();
@@ -46,5 +40,6 @@ namespace Rent_Items_Test
         {
             Application.Run(new MainApplication(client));
         }
+        #endregion
     }
 }

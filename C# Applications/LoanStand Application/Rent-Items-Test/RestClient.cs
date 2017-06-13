@@ -27,6 +27,7 @@ namespace Rent_Items_Test
 
         }
         #endregion
+        #region GET requests
         public List<Item> RequestItems()
         {
             string endPoint = "http://localhost:8080/stands/1/items";
@@ -139,11 +140,51 @@ namespace Rent_Items_Test
                 MessageBox.Show(webExc.Message);
             }
             //Deserializing responce into Loan_Stand object
+            MessageBox.Show(strResponseValue);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<Loan_Stand>(strResponseValue);
-            stand = item;
+            var item = serializer.Deserialize<List<Loan_Stand>>(strResponseValue);
+            foreach(Loan_Stand stands in item)
+            {
+                stand = stands;
+            }
             return stand;
         }
+        public User GetUser()
+        {
+            string responseValue = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/users/current");
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                MessageBox.Show("You've logged out from the server!");
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var item = serializer.Deserialize<User>(responseValue);
+            return item;
+        }
+        #endregion
+        #region POST and UPDATE requests
         public void AddData(int id, string name, string description, double fee, int quantity, string type)
         {
             EndPoint = "http://localhost:8080/stands/1/items/create";
@@ -284,39 +325,6 @@ namespace Rent_Items_Test
                 MessageBox.Show("Something went wrong when trying to loan item!");
             }
         }
-        public User GetUser()
-        {
-            string responseValue = "";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/users/current");
-
-            request.ContentType = "application/json";
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-
-
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
-                        {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                responseValue = reader.ReadToEnd();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WebException)
-            {
-                MessageBox.Show("You've logged out from the server!");
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<User>(responseValue);
-            return item;
-        }
+        #endregion
     }
 }

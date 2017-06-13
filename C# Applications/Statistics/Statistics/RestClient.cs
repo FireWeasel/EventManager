@@ -20,8 +20,6 @@ namespace Statistics
     {
         #region Properties and constructors (empty, 1 parameter, 2 parameters)
         public string EndPoint { get; set; }
-        public httpVerb HttpMethod { get; set; }
-        public List<Loan_Stand> Stands { get; set; }
         private CookieContainer cookieContainer = new CookieContainer();
         public RestClient()
         {
@@ -319,10 +317,10 @@ namespace Statistics
             }
             return Items;
         }
-        public List<Product> GetSoldProduct()
+        public List<Classes> GetSoldProduct()
         {
             string endPoint = "http://localhost:8080/tickets/1/products";
-            List<Product> Products = new List<Product>();
+            List<Classes> Products = new List<Classes>();
             string strResponseValue = string.Empty;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
@@ -354,8 +352,8 @@ namespace Statistics
                 MessageBox.Show(webExc.Message);
             }
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Product>>(strResponseValue);
-            foreach (Product i in item)
+            var item = serializer.Deserialize<List<Classes>>(strResponseValue);
+            foreach (Classes i in item)
             {
                 Products.Add(i);
             }

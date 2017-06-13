@@ -7,6 +7,7 @@
     }
     public class User
     {
+        #region Properties and constructor
         public int ID { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -17,5 +18,6 @@
         {
 
         }
+        #endregion
     }
 }

@@ -35,6 +35,7 @@ namespace Rent_Items_Test
             }
         }
         #endregion
+        #region Form methods
         private void AddItemBtn_Click(object sender, EventArgs e)
         {
             client.UpdateData(IdNameCb.SelectedIndex + 1,NameTb.Text,descTb.Text,Convert.ToDouble(feeNUD.Value),Convert.ToInt32(quantNUD.Value));
@@ -42,6 +43,7 @@ namespace Rent_Items_Test
             mainApp.UpdateListMethod();
             newStand.Items = client.RequestItems();
             IdNameCb.Items.Clear();
+
 
             foreach (Item item in newStand.Items)
             {
@@ -53,7 +55,9 @@ namespace Rent_Items_Test
             IdNameCb.SelectedIndex = -1;
             feeNUD.Value = 0;
             quantNUD.Value = 0;
-            
+
+            mainApp.ClearGUI();
+
         }
 
         private void IdNameCb_SelectedIndexChanged(object sender, EventArgs e)
@@ -75,9 +79,6 @@ namespace Rent_Items_Test
                 }
             }
         }
-        public void UpdateItems()
-        {
-            
-        }
+        #endregion
     }
 }

@@ -22,6 +22,7 @@ namespace CheckOut
         IVideoSource videoSource;
         FilterInfoCollection videoDeviceList;
         private volatile object _locker = new object();
+        private int counter;
         #endregion
         #region Constructor
         public MainApp(RestClient client)
@@ -29,6 +30,7 @@ namespace CheckOut
             InitializeComponent();
             this.client = client;
 
+            #region Set up video settings
             videoDeviceList = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
             foreach (FilterInfo videoDevice in videoDeviceList)
@@ -46,6 +48,7 @@ namespace CheckOut
             }
             videoSource = new VideoCaptureDevice(videoDeviceList[cmbVideoSource.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
+            #endregion
         }
         #endregion
         #region Camera properties
@@ -58,7 +61,6 @@ namespace CheckOut
         {
             DecodeQr();
         }
-
         private void DecodeQr()
         {
             try
@@ -83,7 +85,7 @@ namespace CheckOut
             pictureBox2.Visible = false;
             lblPaidReservation.Visible = false;
             lblReservationNotPayed.Visible = false;
-            if(videoSource!= null && videoSource.IsRunning)
+            if (videoSource != null && videoSource.IsRunning)
             {
                 videoSource.SignalToStop();
                 pbCamera.Image = null;
@@ -121,7 +123,6 @@ namespace CheckOut
         {
             client.GetRequest("http://localhost:8080/loglout");
         }
-
         #endregion
         #region CheckOutMethods
         public void CompleteCheckOut(string text)
@@ -157,18 +158,23 @@ namespace CheckOut
                     }
                     else
                     {
-                        MessageBox.Show("Ticket already checked out!");
+                        lblErrorMessage.Text = "Ticked is already checked out!";
+                        timer2.Start();
                     }
 
                 }
                 else
                 {
-                    MessageBox.Show("Ticket is not checked in!");
+                    lblErrorMessage.Text = "Ticket is not checked in!";
+                    timer2.Start();
                 }
             }
-            catch (WebException web)
+            catch (Exception)
             {
-                MessageBox.Show(web.Message);
+                lblErrorMessage.Text = "Check out unsuccessful!";
+                timer2.Start();
+                pictureBox2.Visible = true;
+                lblReservationNotPayed.Visible = true;
             }
         }
 
@@ -193,5 +199,16 @@ namespace CheckOut
             LbUsers.Items.Add("E-mail: " + user.Email);
         }
         #endregion
+
+        private void lblErrorMessage_Click(object sender, EventArgs e)
+        {
+            counter = 5;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            counter--;
+            if (counter == 0) { timer2.Stop();lblErrorMessage.Text = ""; }
+        }
     }
 }
