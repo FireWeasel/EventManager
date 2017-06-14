@@ -21,7 +21,6 @@ namespace CampingApplication
             this.username = username;
             this.email = email;
             this.reservation = reservation;
-
         }
 
         public long Id
@@ -36,7 +35,6 @@ namespace CampingApplication
                 id = value;
             }
         }
-
         public Reservation Reservation
         {
             get

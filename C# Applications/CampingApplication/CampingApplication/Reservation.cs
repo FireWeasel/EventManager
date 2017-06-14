@@ -44,7 +44,7 @@ namespace CampingApplication
         }
         public override string ToString()
         {
-            return "reservation id: " + this.Id + ". Bool paid - " + this.Paid;
+            return "reservation id: " + this.Id + ". Paid: " + this.Paid;
         }
     }
 }

@@ -74,8 +74,7 @@ namespace CampingApplication
 
         public override string ToString()
         {
-            //return "Ticket id : "+ this.TicketId+". Checked in - "+this.CheckedIn +
-            return "";
+            return "Ticket id : " + this.TicketId + ". Checked in - " + this.CheckedIn;
         }
 
     }

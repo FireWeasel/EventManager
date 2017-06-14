@@ -28,7 +28,7 @@ namespace CampingApplication
             this.rClient = rClient;
             InitializeComponent();
 
-            #region Populate combobox with available cameras and assigning NewFrame Event
+            #region Populate combobox with available cameras and subscribing to NewFrame Event
             videoDeviceList = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
             foreach (FilterInfo videoDevice in videoDeviceList)
@@ -100,13 +100,13 @@ namespace CampingApplication
 
         private void CampingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            rClient.GetRequest("http://localhost:8080/logout");
+            rClient.GetLogOut("http://localhost:8080/logout");
         }
 
 
 
 
-        #region camera stuffs
+        #region camera functionality
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
@@ -123,7 +123,7 @@ namespace CampingApplication
                 string decoded = result.ToString().Trim();
                 timer1.Stop();
                 videoSource.SignalToStop();
-                GetTicket(decoded);
+                GetUser(decoded);
 
 
                 btnCheckReservation.Text = "Start scanning";
@@ -134,9 +134,14 @@ namespace CampingApplication
             {
             }
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            decode_QRtag();
+        }
         #endregion
 
-        private void GetTicket(String decoded)
+        private void GetUser(String decoded)
         {
             try
             {
@@ -148,7 +153,6 @@ namespace CampingApplication
                 lblErrorMessage.Text = "No such reservation found. Try again!";
                 errorTimer.Start();
             }
-            
         }
 
 
@@ -158,11 +162,6 @@ namespace CampingApplication
             {
                 videoSource.SignalToStop();
             }
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            decode_QRtag();
         }
 
         private void errorTimer_Tick(object sender, EventArgs e)

@@ -39,7 +39,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 16);
+            this.label1.Location = new System.Drawing.Point(192, 11);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 20);
@@ -50,7 +50,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(202, 93);
+            this.label2.Location = new System.Drawing.Point(197, 88);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 20);
@@ -60,7 +60,7 @@
             // tbUsername
             // 
             this.tbUsername.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tbUsername.Location = new System.Drawing.Point(99, 59);
+            this.tbUsername.Location = new System.Drawing.Point(94, 54);
             this.tbUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.Size = new System.Drawing.Size(298, 26);
@@ -69,7 +69,7 @@
             // tbPassword
             // 
             this.tbPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tbPassword.Location = new System.Drawing.Point(99, 127);
+            this.tbPassword.Location = new System.Drawing.Point(94, 122);
             this.tbPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
@@ -79,7 +79,7 @@
             // btnLogIn
             // 
             this.btnLogIn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLogIn.Location = new System.Drawing.Point(99, 186);
+            this.btnLogIn.Location = new System.Drawing.Point(94, 181);
             this.btnLogIn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnLogIn.Name = "btnLogIn";
             this.btnLogIn.Size = new System.Drawing.Size(298, 52);
@@ -92,7 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 321);
+            this.ClientSize = new System.Drawing.Size(492, 311);
             this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.tbUsername);

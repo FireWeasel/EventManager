@@ -16,7 +16,7 @@ namespace CampingApplication
 
         public RestClient() { }
 
-        public string GetRequest(string url)
+        public string GetLogOut(string url)
         {
             string responseValue = "";
 
@@ -25,7 +25,6 @@ namespace CampingApplication
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
-
 
             try
             {
@@ -80,8 +79,7 @@ namespace CampingApplication
                 MessageBox.Show("Login unsuccessful!");
                 return false;
             }
-
-        } // works
+        }
 
         public User GetOwnerOfTicket(long id)
         {
@@ -89,41 +87,28 @@ namespace CampingApplication
             User userToReturn;
             JavaScriptSerializer serializer;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/"+id+"/owner");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/" + id + "/owner");
 
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
 
-
-            //try
-            //{
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = response.GetResponseStream())
                 {
-                    using (Stream responseStream = response.GetResponseStream())
+                    if (responseStream != null)
                     {
-                        if (responseStream != null)
+                        using (StreamReader reader = new StreamReader(responseStream))
                         {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                responseValue = reader.ReadToEnd();
-                            }
+                            responseValue = reader.ReadToEnd();
                         }
                     }
                 }
-                serializer = new JavaScriptSerializer();
-                userToReturn = serializer.Deserialize<User>(responseValue);
-                return userToReturn;
-            //}
-            //catch (WebException we)
-            //{
-            //    MessageBox.Show(we.Message);
-            //}
-            //return null;
-            
+            }
+            serializer = new JavaScriptSerializer();
+            userToReturn = serializer.Deserialize<User>(responseValue);
+            return userToReturn;
         }
-
-
-
     }
 }

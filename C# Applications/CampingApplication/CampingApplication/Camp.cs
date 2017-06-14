@@ -88,7 +88,5 @@ namespace CampingApplication
                 checkedIn = value;
             }
         }
-
-        
     }
 }
