@@ -29,7 +29,6 @@ namespace ShopApplication
             {
                 tbUsername.Clear();
                 tbPassword.Clear();
-
                 this.Close();
                 thread = new Thread(OpenNewForm);
                 thread.Start();

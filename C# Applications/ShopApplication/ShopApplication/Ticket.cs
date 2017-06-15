@@ -12,7 +12,6 @@ namespace ShopApplication
         private bool checkedIn;
         private bool checkedOut;
         private double balance;
-
         public long Id
         {
             get
@@ -65,7 +64,7 @@ namespace ShopApplication
             }
         }
 
-        public Ticket() { } //for the js serializer
+        public Ticket() { }
         public Ticket(long id, bool checkedIn, bool checkedOut, double balance)
         {
             this.id = id;

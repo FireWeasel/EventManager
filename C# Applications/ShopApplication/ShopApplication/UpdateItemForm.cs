@@ -35,7 +35,7 @@ namespace ShopApplication
 
         private void btnUpdateProduct_Click(object sender, EventArgs e)
         {
-            if (rClient.UpdateProduct(GetUpdatedProduct(),shop))
+            if (rClient.UpdateProduct(GetUpdatedProduct(), shop)) 
             {
                 if (sForm.selectedType == this.productToUpdate.Type)
                 {
@@ -44,9 +44,13 @@ namespace ShopApplication
                 sForm.ClearLabels();
                 sForm.LoadProductsByType(shop.Products, sForm.selectedType);
                 MessageBox.Show("Update successful!");
-                
+                this.Close();
             }
-            this.Close();
+            else
+            {
+                this.lblErrorMessage.Text = "Update unsuccessful!";
+                errorTimer.Start();
+            }
         }
 
         private void UpdateInfo(Product p)
@@ -68,16 +72,13 @@ namespace ShopApplication
                     case "OTHER":
                         lbUpdateType.SelectedItem = lbUpdateType.Items[2];
                         break;
-                    default:
-                        break;
                 }
             }
             else
             {
-                lblErrorMessage.Text = "Make sure to give correct information.";
+                lblErrorMessage.Text = "Make sure to fill in with correct information.";
                 errorTimer.Start();
             }
-           
         }
 
         private Product GetUpdatedProduct()
@@ -98,7 +99,6 @@ namespace ShopApplication
                 errorTimer.Stop();
                 lblErrorMessage.Text = "";
             }
-
         }
 
         private void lblErrorMessage_TextChanged(object sender, EventArgs e)

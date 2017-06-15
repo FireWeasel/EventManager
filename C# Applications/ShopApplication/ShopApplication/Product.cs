@@ -8,7 +8,6 @@ namespace ShopApplication
 {
     public class Product
     {
-        //todo tickets and list of tickets
         private long id;
         private String name;
         private String description;
@@ -54,20 +53,18 @@ namespace ShopApplication
                     quantity = value;
                 }
             }
-        } // can't get below 0
+        }
         public int NrInOrder { get; set; }
         public String Type
         {
             get { return type; }
             set { type = value; }
         }
-
         public Shop Shop
         {
             get { return shop; }
             set { shop = value; }
         }
-
 
         public Product() { }
 
@@ -86,7 +83,7 @@ namespace ShopApplication
         }
         public String AsString()
         {
-            return this.Name + " --- Price for one: " + this.Price + " euros --- Quantity : ";
+            return this.Name + " | Single price: " + this.Price + " euros | Quantity: ";
         }
     }
 }

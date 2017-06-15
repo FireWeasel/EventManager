@@ -15,7 +15,6 @@ namespace ShopApplication
     {
         private CookieContainer cookieContainer = new CookieContainer();
 
-
         public RestClient() { }
 
         public string GetRequest(string url)
@@ -23,7 +22,6 @@ namespace ShopApplication
             string responseValue = "";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
@@ -82,7 +80,6 @@ namespace ShopApplication
                 MessageBox.Show("Login unsuccessful!");
                 return false;
             }
-           
         }
 
         public List<Product> GetAllProducts()
@@ -90,11 +87,12 @@ namespace ShopApplication
             string json = "";
             List<Product> products = new List<Product>();
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products");
 
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products");
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
+
             try
             {
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
@@ -161,13 +159,13 @@ namespace ShopApplication
 
         public bool AddProduct(Product p, Shop shop)
         {
-            //{ "id":1,"name":"kompir","description":"nai-hubaviq kompir","price":3.5,"quantity":3,"type":"DRINKS"}
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/create");
 
             request.ContentType = "application/json";
             request.Method = "POST";
             request.CookieContainer = cookieContainer;
             JavaScriptSerializer serializer = new JavaScriptSerializer();
+
             string jsonOfProduct = serializer.Serialize(new {
                 name = p.Name,
                 description = p.Description,
@@ -176,7 +174,6 @@ namespace ShopApplication
                 type = p.Type,
                 shop= shop.Id
             });
-
 
             try
             {
@@ -190,23 +187,22 @@ namespace ShopApplication
                     String responseString = sr.ReadToEnd();
                 }
                 shop.Products = GetAllProducts();
-                //Populate(ShopForm.shop.Products);
                 return true;
             }
-            catch (WebException we )
+            catch (WebException)
             {
-                MessageBox.Show("Error! Could not add this product." + we.Message);
+                return false;
             }
-            return false;
+            
         }
 
         public bool UpdateProduct(Product p, Shop shop)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/shops/1/products/"+p.Id);
-
             request.ContentType = "application/json";
             request.Method = "PUT";
             request.CookieContainer = cookieContainer;
+
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string jsonOfProduct = serializer.Serialize(new
             {
@@ -232,11 +228,10 @@ namespace ShopApplication
                 shop.Products = this.GetAllProducts();
                 return true;
             }
-            catch (WebException we)
+            catch (WebException)
             {
-                MessageBox.Show("Error! Could not update this product." + we.Message);
+                return false;
             }
-            return false;
         }
 
         public Ticket GetTicket(long id)

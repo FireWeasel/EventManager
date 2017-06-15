@@ -34,7 +34,6 @@ namespace ShopApplication
             #endregion
         }
 
-
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
             try
@@ -56,16 +55,17 @@ namespace ShopApplication
                     }
                     this.Close();
                 }
+                else
+                {
+                    this.lblErrorMessage.Text = "Error! Could not add this product.";
+                    errorTimer.Start();
+                }
             }
             catch (Exception ex)
             {
                 lblErrorMessage.Text = ex.Message;
                 errorTimer.Start();
             }
-        }
-
-        private void AddProductForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
         }
 
         private void errorTimer_Tick(object sender, EventArgs e)

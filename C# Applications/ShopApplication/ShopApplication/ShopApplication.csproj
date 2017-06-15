@@ -73,7 +73,6 @@
     <Compile Include="AddProductForm.designer.cs">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NotInStockException.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductType.cs" />
     <Compile Include="RestClient.cs" />

@@ -13,13 +13,11 @@ namespace ShopApplication
         private List<Product> products;
 
         public long Id { get { return id; } set { id = value; } }
-
         public double Revenue { get { return revenue; } set { revenue = value; } }
-
         public List<Product> Products { get { return products; } set { products = value; } }
 
         public Shop() { }
-        
+
         public Shop(long id, double revenue)
         {
             this.id = id;
