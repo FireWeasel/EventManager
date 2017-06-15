@@ -61,19 +61,14 @@ namespace CheckInApplication
             }
             else
             {
-                #region Start video and timer
                 btnCheckInTicket.Text = "Stop scanning";
                 videoSource.Start();
                 timer1.Start();
-
-                #endregion
             }
         }
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap  bitmap = (Bitmap)eventArgs.Frame.Clone();
-            //bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            //bitmap.SetResolution(pbCamera.Width, pbCamera.Height);
             pbCamera.Image = bitmap;
         }
 
@@ -81,7 +76,6 @@ namespace CheckInApplication
         {
             try
             {
-                //pictureBox1 shows the web cam video
                 Bitmap bitmap = new Bitmap(pbCamera.Image);
                 BarcodeReader reader = new BarcodeReader { AutoRotate = true, TryHarder = true };
                 Result result = reader.Decode(bitmap);
@@ -105,19 +99,19 @@ namespace CheckInApplication
                 ticket = this.rClient.GetTicket(Convert.ToInt64(id));
                 owner = rClient.GetUser(Convert.ToInt64(id));
                 if (ticket.CheckedIn)
-                { //if it was already checked in
+                {
                     lblErrorMessage.Text = "Ticket already checked in.";
                     errorTimer.Start();
-                    pictureBox1.Visible = true;
+
                     lblPaidReservation.Text = "Check in successful!";
+                    pictureBox1.Visible = true;
                     lblPaidReservation.Visible = true;
                 }
                 else
                 {
-                    //checking in for the first time
                     rClient.CheckInTicket(ticket.Id);
-                    pictureBox1.Visible = true;
                     lblPaidReservation.Text = "Check in successful!";
+                    pictureBox1.Visible = true;
                     lblPaidReservation.Visible = true;
                 }
                 UpdateListbox(owner);
@@ -126,8 +120,9 @@ namespace CheckInApplication
             {
                 lblErrorMessage.Text = "Check in unsuccessful!";
                 errorTimer.Start();
-                pictureBox2.Visible = true;
+
                 lblPaidReservation.Text = "Check in unsuccessful!";
+                pictureBox2.Visible = true;
                 lblPaidReservation.Visible = true;
             }
         }

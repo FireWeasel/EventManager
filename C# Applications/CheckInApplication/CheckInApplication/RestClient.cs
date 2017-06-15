@@ -81,7 +81,7 @@ namespace CheckInApplication
                 return false;
             }
 
-        } // works
+        }
 
         public Ticket GetTicket(long id)
         {
@@ -89,7 +89,7 @@ namespace CheckInApplication
             Ticket ticketToReturn;
             JavaScriptSerializer serializer;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/"+id);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/" + id);
 
             request.ContentType = "application/json";
             request.Method = "GET";
@@ -120,27 +120,27 @@ namespace CheckInApplication
                 MessageBox.Show(we.Message);
             }
             return null;
-            
+
         }
-        
+
         public void CheckInTicket(long id)
         {
             String result;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/checkIn/"+id);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/checkIn/" + id);
             request.ContentType = "application/json";
             request.Method = "POST";
             request.CookieContainer = cookieContainer;
 
-            
-             using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
-             {
-                 sw.Write("");
-             }
-             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-             using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-             {
-                 result = sr.ReadToEnd();
-             }
+            using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
+            {
+                sw.Write("");
+            }
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            {
+                result = sr.ReadToEnd();
+            }
         }
 
         public User GetUser(long id)
@@ -150,38 +150,27 @@ namespace CheckInApplication
             JavaScriptSerializer serializer;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/tickets/" + id + "/owner");
-
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
 
-
-            try
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (Stream responseStream = response.GetResponseStream())
                 {
-                    using (Stream responseStream = response.GetResponseStream())
+                    if (responseStream != null)
                     {
-                        if (responseStream != null)
+                        using (StreamReader reader = new StreamReader(responseStream))
                         {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                responseValue = reader.ReadToEnd();
-                            }
+                            responseValue = reader.ReadToEnd();
                         }
                     }
                 }
-                serializer = new JavaScriptSerializer();
-                userToReturn = serializer.Deserialize<User>(responseValue);
-                return userToReturn;
             }
-            catch (WebException we)
-            {
-                MessageBox.Show(we.Message);
-            }
-            return null;
 
+            serializer = new JavaScriptSerializer();
+            userToReturn = serializer.Deserialize<User>(responseValue);
+            return userToReturn;
         }
-
     }
 }

@@ -12,8 +12,6 @@ namespace CheckInApplication
         private string username;
         private string email;
 
-
-
         public User() { }
         public User(long id,string username, string email)
         {

@@ -70,7 +70,5 @@ namespace CheckInApplication
                 ownerId = value;
             }
         }
-
-
     }
 }
