@@ -5,8 +5,7 @@
         ELECTRONICS ,
         OTHER 
     }
-
-        public class Item
+    public class Item
     {
         public int ID { get; set; }
         public string Description { get; set; }

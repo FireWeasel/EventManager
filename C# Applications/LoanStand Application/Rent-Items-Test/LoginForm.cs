@@ -16,7 +16,6 @@ namespace Rent_Items_Test
             InitializeComponent();
             client = new RestClient();
         }
-
         private void LoginBtn_Click(object sender, EventArgs e)
         { 
             if(client.LogIn("http://localhost:8080/login", textBox1.Text, textBox2.Text))
@@ -35,7 +34,6 @@ namespace Rent_Items_Test
                 }
             }
         }
-
         private void openNewForm()
         {
             Application.Run(new MainApplication(client));

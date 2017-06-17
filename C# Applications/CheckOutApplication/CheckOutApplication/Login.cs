@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -21,28 +14,37 @@ namespace CheckOut
             InitializeComponent();
             client = new RestClient();
         }
-
         private void btnLogIn_Click(object sender, EventArgs e)
         {
-            if(client.LogIn("http://localhost:8080/login", tbUsername.Text, tbPassword.Text))
+            try
             {
-                user = client.GetLoggedUser("http://localhost:8080/users/current");
-                if(user.UserRole.ToString()!= "EMPLOYEE")
+                if (client.LogIn("http://localhost:8080/login", tbUsername.Text, tbPassword.Text))
                 {
-                    MessageBox.Show("You cannot use that application with that account!");
-                    tbUsername.Clear();
-                    tbPassword.Clear();
-                }
-                else
-                {
-                    tbUsername.Clear();
-                    tbPassword.Clear();
-                    this.Close();
-                    thread = new Thread(openNewForm);
-                    thread.Start();
+                    user = client.GetLoggedUser("http://localhost:8080/users/current");
+                    if (user.UserRole.ToString() != "EMPLOYEE")
+                    {
+                        MessageBox.Show("You cannot use that application with that account!");
+                        tbUsername.Clear();
+                        tbPassword.Clear();
+                    }
+                    else
+                    {
+                        tbUsername.Clear();
+                        tbPassword.Clear();
+                        this.Close();
+                        thread = new Thread(openNewForm);
+                        thread.Start();
+                    }
                 }
             }
-            
+            catch(FormatException)
+            {
+                MessageBox.Show("Please input a valid value in the boxes!");
+            }
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("Please input a valid value in the boxes!");
+            }
         }
         private void openNewForm()
         {
@@ -52,7 +54,7 @@ namespace CheckOut
             }
             catch(ArgumentException)
             {
-                MessageBox.Show("Invalid ticket!");
+                MessageBox.Show("Invalid user!");
             }
         }
     }

@@ -140,7 +140,6 @@ namespace Rent_Items_Test
                 MessageBox.Show(webExc.Message);
             }
             //Deserializing responce into Loan_Stand object
-            MessageBox.Show(strResponseValue);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<List<Loan_Stand>>(strResponseValue);
             foreach(Loan_Stand stands in item)

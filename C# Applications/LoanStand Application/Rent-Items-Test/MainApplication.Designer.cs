@@ -70,7 +70,7 @@
             this.ItemCb.FormattingEnabled = true;
             this.ItemCb.Location = new System.Drawing.Point(187, 107);
             this.ItemCb.Name = "ItemCb";
-            this.ItemCb.Size = new System.Drawing.Size(272, 36);
+            this.ItemCb.Size = new System.Drawing.Size(272, 31);
             this.ItemCb.TabIndex = 1;
             this.ItemCb.SelectedIndexChanged += new System.EventHandler(this.ItemCb_SelectedIndexChanged);
             // 
@@ -137,7 +137,7 @@
             this.label7.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.Location = new System.Drawing.Point(182, 302);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 26);
+            this.label7.Size = new System.Drawing.Size(0, 20);
             this.label7.TabIndex = 44;
             // 
             // label6
@@ -146,7 +146,7 @@
             this.label6.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.Location = new System.Drawing.Point(33, 302);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(151, 26);
+            this.label6.Size = new System.Drawing.Size(126, 20);
             this.label6.TabIndex = 43;
             this.label6.Text = "Total for all:";
             // 
@@ -156,7 +156,7 @@
             this.label4.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.Location = new System.Drawing.Point(194, 260);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 26);
+            this.label4.Size = new System.Drawing.Size(0, 20);
             this.label4.TabIndex = 42;
             // 
             // label1
@@ -165,7 +165,7 @@
             this.label1.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(33, 260);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 26);
+            this.label1.Size = new System.Drawing.Size(140, 20);
             this.label1.TabIndex = 41;
             this.label1.Text = "Price for one: ";
             // 
@@ -175,7 +175,7 @@
             this.radioButton2.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton2.Location = new System.Drawing.Point(292, 53);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(155, 28);
+            this.radioButton2.Size = new System.Drawing.Size(124, 23);
             this.radioButton2.TabIndex = 40;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "radioButton2";
@@ -188,7 +188,7 @@
             this.radioButton1.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton1.Location = new System.Drawing.Point(131, 51);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(155, 28);
+            this.radioButton1.Size = new System.Drawing.Size(124, 23);
             this.radioButton1.TabIndex = 39;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "radioButton1";
@@ -200,7 +200,7 @@
             this.StockNUD.Enabled = false;
             this.StockNUD.Location = new System.Drawing.Point(187, 189);
             this.StockNUD.Name = "StockNUD";
-            this.StockNUD.Size = new System.Drawing.Size(70, 35);
+            this.StockNUD.Size = new System.Drawing.Size(70, 30);
             this.StockNUD.TabIndex = 38;
             this.StockNUD.ValueChanged += new System.EventHandler(this.StockNUD_ValueChanged);
             // 
@@ -222,7 +222,7 @@
             this.label3.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(24, 53);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 26);
+            this.label3.Size = new System.Drawing.Size(83, 20);
             this.label3.TabIndex = 8;
             this.label3.Text = "Choose:";
             // 
@@ -232,7 +232,7 @@
             this.label2.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(24, 112);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(141, 26);
+            this.label2.Size = new System.Drawing.Size(116, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Item name:";
             // 
@@ -242,7 +242,7 @@
             this.label5.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.Location = new System.Drawing.Point(24, 193);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 26);
+            this.label5.Size = new System.Drawing.Size(96, 20);
             this.label5.TabIndex = 10;
             this.label5.Text = "Quantity:";
             // 
@@ -251,10 +251,10 @@
             this.ListItems.BackColor = System.Drawing.SystemColors.Menu;
             this.ListItems.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ListItems.FormattingEnabled = true;
-            this.ListItems.ItemHeight = 26;
+            this.ListItems.ItemHeight = 20;
             this.ListItems.Location = new System.Drawing.Point(6, 22);
             this.ListItems.Name = "ListItems";
-            this.ListItems.Size = new System.Drawing.Size(511, 212);
+            this.ListItems.Size = new System.Drawing.Size(511, 204);
             this.ListItems.TabIndex = 3;
             // 
             // pictureBox1
@@ -297,7 +297,7 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(14, 248);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(224, 25);
+            this.label8.Size = new System.Drawing.Size(177, 20);
             this.label8.TabIndex = 41;
             this.label8.Text = "Available video sources:";
             // 
@@ -306,7 +306,7 @@
             this.cmbVideoSource.FormattingEnabled = true;
             this.cmbVideoSource.Location = new System.Drawing.Point(244, 252);
             this.cmbVideoSource.Name = "cmbVideoSource";
-            this.cmbVideoSource.Size = new System.Drawing.Size(121, 24);
+            this.cmbVideoSource.Size = new System.Drawing.Size(121, 21);
             this.cmbVideoSource.TabIndex = 40;
             // 
             // timer1
@@ -330,17 +330,19 @@
             this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorMessage.Location = new System.Drawing.Point(14, 20);
             this.lblErrorMessage.Name = "lblErrorMessage";
-            this.lblErrorMessage.Size = new System.Drawing.Size(0, 31);
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
             this.lblErrorMessage.TabIndex = 0;
-            this.lblErrorMessage.Click += new System.EventHandler(this.lblErrorMessage_Click);
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_Click);
             // 
             // timer2
             // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 1000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // MainApplication
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1092, 633);

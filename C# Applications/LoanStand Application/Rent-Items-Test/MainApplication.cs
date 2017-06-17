@@ -76,11 +76,11 @@ namespace Rent_Items_Test
                 btnStopCamera.Enabled = false;
                 btnStopCamera.Visible = false;
 
-                if (ticket.CheckedIn)
+                if (item.Quantity!= 0)
                 {
-                    if(!ticket.CheckedOut)
+                    if(ticket.CheckedIn)
                     {
-                        if (item.Quantity != 0)
+                        if (!ticket.CheckedOut)
                         {
                             if (ticket.Balance >= (value * item.Fee))
                             {
@@ -105,19 +105,19 @@ namespace Rent_Items_Test
                         }
                         else
                         {
-                            lblErrorMessage.Text = "Item not in stock!";
+                            lblErrorMessage.Text = "Ticket is already checked out, you cannot borrow an item!";
                             timer2.Start();
                         }
                     }
                     else
                     {
-                        lblErrorMessage.Text = "Ticket is already checked out, you cannot borrow an item!";
+                        lblErrorMessage.Text = "Ticket is not checked in!";
                         timer2.Start();
                     }
                 }
                 else
                 {
-                    lblErrorMessage.Text = "Ticket is not checked in!";
+                    lblErrorMessage.Text = "Item not in stock!";
                     timer2.Start();
                 }
 
@@ -194,6 +194,14 @@ namespace Rent_Items_Test
             {
                 ListItems.Items.Add(item.AsString());
             }
+            if(radioButton1.Checked)
+            {
+                LoadItemByType(radioButton1.Text);
+            }
+            if(radioButton2.Checked)
+            {
+                LoadItemByType(radioButton2.Text);
+            }
         }
         public void ClearGUI()
         {
@@ -236,9 +244,12 @@ namespace Rent_Items_Test
         }
         private void StockNUD_ValueChanged(object sender, EventArgs e)
         {
-            decimal value = StockNUD.Value;
-            Item item = type[ItemCb.SelectedIndex];
-            label7.Text = (value * (Convert.ToDecimal(item.Fee))).ToString();
+            if(ItemCb.SelectedIndex!= -1)
+            {
+                decimal value = StockNUD.Value;
+                Item item = type[ItemCb.SelectedIndex];
+                label7.Text = (value * (Convert.ToDecimal(item.Fee))).ToString();
+            }
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -262,7 +273,7 @@ namespace Rent_Items_Test
         private void timer2_Tick(object sender, EventArgs e)
         {
             counter--;
-            if (counter == 0) { timer2.Stop(); lblErrorMessage.Text = ""; }
+            if (counter == 0) { timer2.Stop(); lblErrorMessage.Text = ""; ClearGUI(); }
         }
         #endregion
     }

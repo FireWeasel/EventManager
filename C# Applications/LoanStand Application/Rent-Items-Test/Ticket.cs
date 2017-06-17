@@ -14,10 +14,6 @@
         {
 
         }
-        public string AsString()
-        {
-            return "ID: " + ID + " checkedIN: " + CheckedIn;
-        }
         #endregion
     }
 }

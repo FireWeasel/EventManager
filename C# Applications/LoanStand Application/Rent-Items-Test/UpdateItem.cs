@@ -21,14 +21,10 @@ namespace Rent_Items_Test
         public UpdateItem(RestClient newClient,Loan_Stand stand,MainApplication app)
         {
             InitializeComponent();
-            
-
             client = newClient;
             newStand = stand;
             mainApp = app;
-
             newStand.Items = client.RequestItems();
-
             foreach (Item item in stand.Items)
             {
                 IdNameCb.Items.Add(item.ID + " " + item.Name);
@@ -43,8 +39,6 @@ namespace Rent_Items_Test
             mainApp.UpdateListMethod();
             newStand.Items = client.RequestItems();
             IdNameCb.Items.Clear();
-
-
             foreach (Item item in newStand.Items)
             {
                 IdNameCb.Items.Add(item.ID + " " + item.Name);
@@ -55,11 +49,8 @@ namespace Rent_Items_Test
             IdNameCb.SelectedIndex = -1;
             feeNUD.Value = 0;
             quantNUD.Value = 0;
-
             mainApp.ClearGUI();
-
         }
-
         private void IdNameCb_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = IdNameCb.SelectedIndex;
@@ -67,7 +58,6 @@ namespace Rent_Items_Test
             descTb.Clear();
             feeNUD.Value = 0;
             quantNUD.Value = 0;
-
             foreach(Item ite in newStand.Items)
             {
                 if(ite.ID == index + 1)

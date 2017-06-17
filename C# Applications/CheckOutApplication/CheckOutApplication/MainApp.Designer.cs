@@ -103,7 +103,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(16, 237);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(222, 25);
+            this.label3.Size = new System.Drawing.Size(174, 20);
             this.label3.TabIndex = 7;
             this.label3.Text = "Available video devices:";
             // 
@@ -130,7 +130,7 @@
             this.lblReservationNotPayed.Location = new System.Drawing.Point(363, 237);
             this.lblReservationNotPayed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblReservationNotPayed.Name = "lblReservationNotPayed";
-            this.lblReservationNotPayed.Size = new System.Drawing.Size(214, 25);
+            this.lblReservationNotPayed.Size = new System.Drawing.Size(171, 20);
             this.lblReservationNotPayed.TabIndex = 3;
             this.lblReservationNotPayed.Text = "Check in unsuccessful!";
             this.lblReservationNotPayed.Visible = false;
@@ -154,7 +154,7 @@
             this.lblPaidReservation.Location = new System.Drawing.Point(377, 240);
             this.lblPaidReservation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPaidReservation.Name = "lblPaidReservation";
-            this.lblPaidReservation.Size = new System.Drawing.Size(192, 25);
+            this.lblPaidReservation.Size = new System.Drawing.Size(153, 20);
             this.lblPaidReservation.TabIndex = 1;
             this.lblPaidReservation.Text = "Check in successful!";
             this.lblPaidReservation.Visible = false;
@@ -215,7 +215,7 @@
             this.label2.Location = new System.Drawing.Point(22, 150);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 25);
+            this.label2.Size = new System.Drawing.Size(0, 20);
             this.label2.TabIndex = 2;
             // 
             // label1
@@ -225,7 +225,7 @@
             this.label1.Location = new System.Drawing.Point(5, 114);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 25);
+            this.label1.Size = new System.Drawing.Size(93, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Item status:";
             // 
@@ -249,12 +249,13 @@
             this.lblErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorMessage.Location = new System.Drawing.Point(24, 386);
             this.lblErrorMessage.Name = "lblErrorMessage";
-            this.lblErrorMessage.Size = new System.Drawing.Size(0, 31);
+            this.lblErrorMessage.Size = new System.Drawing.Size(0, 25);
             this.lblErrorMessage.TabIndex = 12;
-            this.lblErrorMessage.Click += new System.EventHandler(this.lblErrorMessage_Click);
+            this.lblErrorMessage.TextChanged += new System.EventHandler(this.lblErrorMessage_Click);
             // 
             // timer2
             // 
+            this.timer2.Interval = 1000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // MainApp
