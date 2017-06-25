@@ -61,6 +61,11 @@ namespace ShopApplication
                     errorTimer.Start();
                 }
             }
+            catch(IndexOutOfRangeException iex)
+            {
+                lblErrorMessage.Text = iex.Message;
+                errorTimer.Start();
+            }
             catch (Exception ex)
             {
                 lblErrorMessage.Text = ex.Message;

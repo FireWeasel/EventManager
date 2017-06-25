@@ -134,8 +134,8 @@ namespace ShopApplication
                     order[selectedIndexOrder].Quantity += order[selectedIndexOrder].NrInOrder; //reverting quantity
                     UpdateLabels(order[selectedIndexOrder]);
 
+                    UpdateNrInOrder(order[selectedIndexOrder]);
                     order.RemoveAt(selectedIndexOrder);
-                    UpdateNrInStock(order[selectedIndexOrder]);
                     lblTotalPrice.Text = CalculatePrice(order).ToString();
 
                     OrderListBoxUpdate();
@@ -205,7 +205,7 @@ namespace ShopApplication
             }
         }
 
-        private void UpdateNrInStock(Product p)
+        private void UpdateNrInOrder(Product p)
         {
                 p.NrInOrder = 0;
         }
@@ -249,6 +249,7 @@ namespace ShopApplication
         private void lbOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndexOrder = lbOrder.SelectedIndex;
+            MessageBox.Show("index is : " + selectedIndexOrder);
         }
 
         private void rbFood_CheckedChanged(object sender, EventArgs e)

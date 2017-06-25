@@ -212,7 +212,6 @@ namespace ShopApplication
                 quantity = p.Quantity,
                 type = p.Type,
             });
-            MessageBox.Show(jsonOfProduct);
 
             try
             {
@@ -274,23 +273,16 @@ namespace ShopApplication
             request.CookieContainer = cookieContainer;
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             
-
-
-            try
+            using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
             {
-                using (StreamWriter sw = new StreamWriter(request.GetRequestStream()))
-                {
-                    sw.Write("");
-                }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-                {
-                    String responseString = sr.ReadToEnd();
-                }
+                sw.Write("");
             }
-            catch (WebException we)
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
             {
-                MessageBox.Show("Error! Could not add this product." + we.Message);
+                String responseString = sr.ReadToEnd();
             }
         }
     }
