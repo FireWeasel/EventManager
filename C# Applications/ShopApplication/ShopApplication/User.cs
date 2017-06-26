@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInApplication
+namespace ShopApplication
 {
     public class User
     {
@@ -13,7 +13,7 @@ namespace CheckInApplication
         private string email;
         private string userRole;
         public User() { }
-        public User(long id,string username, string email, string userRole)
+        public User(long id, string username, string email, string userRole)
         {
             this.id = id;
             this.username = username;

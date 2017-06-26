@@ -122,7 +122,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(631, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(541, 614);
+            this.groupBox3.Size = new System.Drawing.Size(541, 585);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Currently in the order:";
@@ -230,7 +230,7 @@
             // 
             this.btnAddToOrder.Location = new System.Drawing.Point(312, 149);
             this.btnAddToOrder.Name = "btnAddToOrder";
-            this.btnAddToOrder.Size = new System.Drawing.Size(201, 46);
+            this.btnAddToOrder.Size = new System.Drawing.Size(201, 35);
             this.btnAddToOrder.TabIndex = 12;
             this.btnAddToOrder.Text = "Add to order";
             this.btnAddToOrder.UseVisualStyleBackColor = true;
@@ -238,9 +238,9 @@
             // 
             // btnRemoveFromOrder
             // 
-            this.btnRemoveFromOrder.Location = new System.Drawing.Point(312, 213);
+            this.btnRemoveFromOrder.Location = new System.Drawing.Point(312, 190);
             this.btnRemoveFromOrder.Name = "btnRemoveFromOrder";
-            this.btnRemoveFromOrder.Size = new System.Drawing.Size(201, 46);
+            this.btnRemoveFromOrder.Size = new System.Drawing.Size(201, 36);
             this.btnRemoveFromOrder.TabIndex = 13;
             this.btnRemoveFromOrder.Text = "Remove from order";
             this.btnRemoveFromOrder.UseVisualStyleBackColor = true;
@@ -283,15 +283,15 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(594, 613);
+            this.groupBox1.Size = new System.Drawing.Size(594, 561);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
             // btnAddNewProduct
             // 
-            this.btnAddNewProduct.Location = new System.Drawing.Point(359, 403);
+            this.btnAddNewProduct.Location = new System.Drawing.Point(312, 273);
             this.btnAddNewProduct.Name = "btnAddNewProduct";
-            this.btnAddNewProduct.Size = new System.Drawing.Size(207, 64);
+            this.btnAddNewProduct.Size = new System.Drawing.Size(201, 36);
             this.btnAddNewProduct.TabIndex = 12;
             this.btnAddNewProduct.Text = "Add a new product";
             this.btnAddNewProduct.UseVisualStyleBackColor = true;
@@ -299,9 +299,9 @@
             // 
             // btnUpdateItem
             // 
-            this.btnUpdateItem.Location = new System.Drawing.Point(312, 274);
+            this.btnUpdateItem.Location = new System.Drawing.Point(312, 232);
             this.btnUpdateItem.Name = "btnUpdateItem";
-            this.btnUpdateItem.Size = new System.Drawing.Size(201, 44);
+            this.btnUpdateItem.Size = new System.Drawing.Size(201, 35);
             this.btnUpdateItem.TabIndex = 13;
             this.btnUpdateItem.Text = "Update item";
             this.btnUpdateItem.UseVisualStyleBackColor = true;
@@ -337,7 +337,7 @@
             // lblCurrentInStock
             // 
             this.lblCurrentInStock.AutoSize = true;
-            this.lblCurrentInStock.Location = new System.Drawing.Point(148, 417);
+            this.lblCurrentInStock.Location = new System.Drawing.Point(159, 365);
             this.lblCurrentInStock.Name = "lblCurrentInStock";
             this.lblCurrentInStock.Size = new System.Drawing.Size(106, 18);
             this.lblCurrentInStock.TabIndex = 20;
@@ -346,7 +346,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 417);
+            this.label5.Location = new System.Drawing.Point(26, 365);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 18);
             this.label5.TabIndex = 19;
@@ -355,7 +355,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(160, 365);
+            this.lblDescription.Location = new System.Drawing.Point(160, 403);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(20, 18);
             this.lblDescription.TabIndex = 18;
@@ -364,7 +364,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(26, 365);
+            this.label6.Location = new System.Drawing.Point(26, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 18);
             this.label6.TabIndex = 17;
@@ -379,7 +379,7 @@
             // 
             this.groupBox2.BackColor = System.Drawing.Color.DarkRed;
             this.groupBox2.Controls.Add(this.lblErrorMessage);
-            this.groupBox2.Location = new System.Drawing.Point(7, 637);
+            this.groupBox2.Location = new System.Drawing.Point(6, 604);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1165, 70);
             this.groupBox2.TabIndex = 12;
@@ -405,7 +405,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1179, 700);
+            this.ClientSize = new System.Drawing.Size(1179, 677);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);

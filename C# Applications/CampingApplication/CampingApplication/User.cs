@@ -11,15 +11,17 @@ namespace CampingApplication
         private long id;
         private string username;
         private string email;
+        private string userRole;
         private Reservation reservation;
 
 
         public User() { }
-        public User(long id,string username, string email, Reservation reservation)
+        public User(long id,string username, string email,string userRole, Reservation reservation)
         {
             this.id = id;
             this.username = username;
             this.email = email;
+            this.userRole = userRole;
             this.reservation = reservation;
         }
 
@@ -71,6 +73,19 @@ namespace CampingApplication
             set
             {
                 username = value;
+            }
+        }
+
+        public string UserRole
+        {
+            get
+            {
+                return userRole;
+            }
+
+            set
+            {
+                userRole = value;
             }
         }
     }

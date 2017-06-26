@@ -30,9 +30,19 @@ namespace CampingApplication
                 tbUsername.Clear();
                 tbPassword.Clear();
 
-                this.Close();
-                thread = new Thread(OpenNewForm);
-                thread.Start();
+                User currentUser = rClient.GetCurrentUser("http://localhost:8080/users/current");
+                if (currentUser.UserRole != "EMPLOYEE")
+                {
+                    MessageBox.Show("You cannot use that application with that account!");
+                }
+                else
+                {
+                    this.Close();
+                    thread = new Thread(OpenNewForm);
+                    thread.Start();
+                }
+                tbUsername.Clear();
+                tbPassword.Clear();
             }
         }
 

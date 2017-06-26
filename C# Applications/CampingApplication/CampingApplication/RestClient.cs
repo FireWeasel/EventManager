@@ -16,7 +16,7 @@ namespace CampingApplication
 
         public RestClient() { }
 
-        public string GetLogOut(string url)
+        public string LogOut(string url)
         {
             string responseValue = "";
 
@@ -48,6 +48,36 @@ namespace CampingApplication
             }
 
             return responseValue;
+        }
+
+        public User GetCurrentUser(String url)
+        {
+            string responseValue = "";
+            User returnValue;
+            JavaScriptSerializer serializer;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        using (StreamReader reader = new StreamReader(responseStream))
+                        {
+                            responseValue = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            serializer = new JavaScriptSerializer();
+            returnValue = serializer.Deserialize<User>(responseValue);
+            return returnValue;
         }
 
         public bool LogIn(string url, string username, string password)

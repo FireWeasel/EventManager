@@ -100,11 +100,8 @@ namespace CampingApplication
 
         private void CampingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            rClient.GetLogOut("http://localhost:8080/logout");
+            rClient.LogOut("http://localhost:8080/logout");
         }
-
-
-
 
         #region camera functionality
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)

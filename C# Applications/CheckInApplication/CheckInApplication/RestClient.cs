@@ -51,6 +51,36 @@ namespace CheckInApplication
             return responseValue;
         }
 
+        public User GetCurrentUser(String url)
+        {
+            string responseValue = "";
+            User returnValue;
+            JavaScriptSerializer serializer;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        using (StreamReader reader = new StreamReader(responseStream))
+                        {
+                            responseValue = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            serializer = new JavaScriptSerializer();
+            returnValue = serializer.Deserialize<User>(responseValue);
+            return returnValue;
+        }
+
         public bool LogIn(string url, string username, string password)
         {
             String result = "";
@@ -73,6 +103,8 @@ namespace CheckInApplication
                 {
                     result = sr.ReadToEnd();
                 }
+
+
                 return true;
             }
             catch (WebException)
@@ -95,32 +127,22 @@ namespace CheckInApplication
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
 
-
-            try
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (Stream responseStream = response.GetResponseStream())
                 {
-                    using (Stream responseStream = response.GetResponseStream())
+                    if (responseStream != null)
                     {
-                        if (responseStream != null)
+                        using (StreamReader reader = new StreamReader(responseStream))
                         {
-                            using (StreamReader reader = new StreamReader(responseStream))
-                            {
-                                responseValue = reader.ReadToEnd();
-                            }
+                            responseValue = reader.ReadToEnd();
                         }
                     }
                 }
-                serializer = new JavaScriptSerializer();
-                ticketToReturn = serializer.Deserialize<Ticket>(responseValue);
-                return ticketToReturn;
             }
-            catch (WebException we)
-            {
-                MessageBox.Show(we.Message);
-            }
-            return null;
-
+            serializer = new JavaScriptSerializer();
+            ticketToReturn = serializer.Deserialize<Ticket>(responseValue);
+            return ticketToReturn;
         }
 
         public void CheckInTicket(long id)

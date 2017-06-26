@@ -83,7 +83,7 @@ namespace ShopApplication
         }
         public String AsString()
         {
-            return this.Name + " | Single price: " + this.Price + " euros | Quantity: ";
+            return this.Name + " |Price for one: " + this.Price + " € |Quantity: ";
         }
     }
 }

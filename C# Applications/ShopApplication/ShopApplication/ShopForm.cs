@@ -249,7 +249,6 @@ namespace ShopApplication
         private void lbOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndexOrder = lbOrder.SelectedIndex;
-            MessageBox.Show("index is : " + selectedIndexOrder);
         }
 
         private void rbFood_CheckedChanged(object sender, EventArgs e)

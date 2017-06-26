@@ -98,6 +98,7 @@
     <Compile Include="UpdateItemForm.Designer.cs">
       <DependentUpon>UpdateItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
     <EmbeddedResource Include="AddProductForm.resx">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </EmbeddedResource>

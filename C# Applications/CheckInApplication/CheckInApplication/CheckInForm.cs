@@ -91,9 +91,10 @@ namespace CheckInApplication
             }
         }
 
-        public void CompleteCheckIn(String id)
+        private void CompleteCheckIn(String id)
         {
             HidePictures();
+            lbUserInformation.Items.Clear();
             try
             {
                 ticket = this.rClient.GetTicket(Convert.ToInt64(id));
@@ -103,9 +104,9 @@ namespace CheckInApplication
                     lblErrorMessage.Text = "Ticket already checked in.";
                     errorTimer.Start();
 
-                    lblPaidReservation.Text = "Check in successful!";
-                    pictureBox1.Visible = true;
-                    lblPaidReservation.Visible = true;
+                    //lblPaidReservation.Text = "Check in successful!";
+                    //pictureBox1.Visible = true;
+                    //lblPaidReservation.Visible = true;
                 }
                 else
                 {
@@ -115,6 +116,11 @@ namespace CheckInApplication
                     lblPaidReservation.Visible = true;
                 }
                 UpdateListbox(owner);
+            }
+            catch (WebException)
+            {
+                lblErrorMessage.Text = "Ticket not found!";
+                errorTimer.Start();
             }
             catch (Exception) //web,format,argument
             {
