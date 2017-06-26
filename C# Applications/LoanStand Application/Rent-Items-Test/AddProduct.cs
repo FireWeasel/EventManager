@@ -34,30 +34,10 @@ namespace Rent_Items_Test
         #region Form methods
         private void AddItemBtn_Click(object sender, EventArgs e)
         {
-            if (nameTb.Text == null)
+            if (nameTb.Text == null || descTb.Text == null || quantNUD.Value == 0 || typeCb.SelectedIndex == -1 || feeNUD.Value == 0)
             {
                 timer1.Start();
-                label6.Text = "Please enter a name for the item!";
-            }
-            else if (descTb.Text == null)
-            {
-                timer1.Start();
-                label6.Text = "Please enter a description for the item!";
-            }
-            else if (quantNUD.Value == 0)
-            {
-                timer1.Start();
-                label6.Text = "Please enter a quantitiy for the item!";
-            }
-            else if (feeNUD.Value == 0)
-            {
-                timer1.Start();
-                label6.Text = "Please enter a fee for the item!";
-            }
-            else if (typeCb.Text == null)
-            {
-                timer1.Start();
-                label6.Text = "Please enter a name for the item!";
+                label6.Text = "Values for item cannot be empty, please fill every box";
             }
             else
             {
@@ -90,5 +70,10 @@ namespace Rent_Items_Test
             counter = 5;
         }
         #endregion
+
+        private void AddProduct_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            mainApp.ClearGUI();
+        }
     }
 }

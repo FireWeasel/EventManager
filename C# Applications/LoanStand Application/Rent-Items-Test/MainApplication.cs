@@ -55,72 +55,78 @@ namespace Rent_Items_Test
         }
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-            pictureBox1.Image = bitmap;
+            try
+            {
+                Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+                pictureBox1.Image = bitmap;
+            }
+            catch (Exception) {
+                lblErrorMessage.Text = "Something went wrong!";
+                timer2.Start();
+            }
+
         }
         private void DecodeQRtag()
         {
             try
             {
+                double value = Convert.ToDouble(StockNUD.Value);
+                Item item = type[ItemCb.SelectedIndex];
                 Bitmap bitmap = new Bitmap(pictureBox1.Image);
                 BarcodeReader reader = new BarcodeReader { AutoRotate = true, TryHarder = true };
                 Result result = reader.Decode(bitmap);
                 string decoded = result.ToString().Trim();
                 long ticketId = Convert.ToInt64(decoded);
-                double value = Convert.ToDouble(StockNUD.Value);
-                Item item = type[ItemCb.SelectedIndex];
                 ticket = newClient.GetTicket(ticketId);
                 timer1.Stop();
                 videoSource.SignalToStop();
                 pictureBox1.Image = null;
                 btnStopCamera.Enabled = false;
                 btnStopCamera.Visible = false;
-
-                if (item.Quantity!= 0)
-                {
-                    if(ticket.CheckedIn)
+                if (ticket != null)
+                   {
+                   if (ticket.CheckedIn)
                     {
-                        if (!ticket.CheckedOut)
-                        {
-                            if (ticket.Balance >= (value * item.Fee))
-                            {
-                                foreach (Item it in newClient.RequestItems())
-                                {
-                                    if (it.Name == item.Name)
-                                    {
+                      if (!ticket.CheckedOut)
+                         {
+                          if (ticket.Balance >= (value * item.Fee))
+                             {
+                               foreach (Item it in newClient.RequestItems())
+                             {
+                               if (it.Name == item.Name)
+                                 {
                                         for (int i = 0; i < value; i++)
                                         {
                                             newClient.BorrowItem(ticketId, it.ID);
                                         }
+                                 }
+                            }
+                                        lblErrorMessage.Text = "Item loaned successfully";
+                                        timer2.Start();
+                                    }
+                                    else
+                                    {
+                                        lblErrorMessage.Text = "Balance too low";
+                                        timer2.Start();
                                     }
                                 }
-                                lblErrorMessage.Text ="Item loaned successfully";
-                                timer2.Start();
+                                else
+                                {
+                                    lblErrorMessage.Text = "Ticket is already checked out, you cannot borrow an item!";
+                                    timer2.Start();
+                                }
                             }
                             else
                             {
-                                lblErrorMessage.Text = "Balance too low";
+                                lblErrorMessage.Text = "Ticket is not checked in!";
                                 timer2.Start();
                             }
                         }
                         else
                         {
-                            lblErrorMessage.Text = "Ticket is already checked out, you cannot borrow an item!";
+                            lblErrorMessage.Text = "Invalid ticket!";
                             timer2.Start();
                         }
-                    }
-                    else
-                    {
-                        lblErrorMessage.Text = "Ticket is not checked in!";
-                        timer2.Start();
-                    }
-                }
-                else
-                {
-                    lblErrorMessage.Text = "Item not in stock!";
-                    timer2.Start();
-                }
-
                 UpdateListMethod();
                 StockNUD.Value = 0;
                 label4.Text = "0";
@@ -207,6 +213,7 @@ namespace Rent_Items_Test
         {
             ItemCb.SelectedIndex = -1;
             StockNUD.Value = 0;
+            LoanBtn.Enabled = false;
             label4.Text = null;
             label7.Text = null;
         }
@@ -226,12 +233,30 @@ namespace Rent_Items_Test
             }
             else
             {
-                btnStopCamera.Enabled = true;
-                btnStopCamera.Visible = true;
-                videoSource.Start();
-                timer1.Start();
+                double value = Convert.ToDouble(StockNUD.Value);
+                Item item = type[ItemCb.SelectedIndex];
+                if (item.Quantity != 0)
+                {
+                    if (value != 0)
+                    {
+                        btnStopCamera.Enabled = true;
+                        btnStopCamera.Visible = true;
+                        videoSource.Start();
+                        timer1.Start();
+                    }
+                    else
+                    {
+                        lblErrorMessage.Text = "Please select a quantity for the item!";
+                        timer2.Start();
+                    }
+                }
+                else
+                {
+                    lblErrorMessage.Text = "Item not in stock!";
+                    timer2.Start();
+                }
+                }
             }
-        }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             ClearGUI();
@@ -276,5 +301,10 @@ namespace Rent_Items_Test
             if (counter == 0) { timer2.Stop(); lblErrorMessage.Text = ""; ClearGUI(); }
         }
         #endregion
+
+        private void MainApplication_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            newClient.GetRequest("http://localhost:8080/loglout");
+        }
     }
 }

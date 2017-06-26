@@ -101,6 +101,7 @@ namespace Rent_Items_Test
             catch (WebException webExc)
             {
                 MessageBox.Show(webExc.Message);
+                return null;
             }
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<Ticket>(strResponseValue);
@@ -181,6 +182,36 @@ namespace Rent_Items_Test
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<User>(responseValue);
             return item;
+        }
+        public string GetRequest(string url)
+        {
+            string responseValue = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            request.CookieContainer = cookieContainer;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                        {
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                
+            }
+
+            return responseValue;
         }
         #endregion
         #region POST and UPDATE requests

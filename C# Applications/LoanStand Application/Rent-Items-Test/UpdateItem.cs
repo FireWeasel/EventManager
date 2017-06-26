@@ -34,22 +34,28 @@ namespace Rent_Items_Test
         #region Form methods
         private void AddItemBtn_Click(object sender, EventArgs e)
         {
-            client.UpdateData(IdNameCb.SelectedIndex + 1,NameTb.Text,descTb.Text,Convert.ToDouble(feeNUD.Value),Convert.ToInt32(quantNUD.Value));
-            newStand.Items = client.RequestItems();
-            mainApp.UpdateListMethod();
-            newStand.Items = client.RequestItems();
-            IdNameCb.Items.Clear();
-            foreach (Item item in newStand.Items)
+            if(IdNameCb.SelectedIndex == - 1)
             {
-                IdNameCb.Items.Add(item.ID + " " + item.Name);
+                MessageBox.Show("Please select an item before updating!");
             }
-
-            NameTb.Clear();
-            descTb.Clear();
-            IdNameCb.SelectedIndex = -1;
-            feeNUD.Value = 0;
-            quantNUD.Value = 0;
-            mainApp.ClearGUI();
+            else 
+            {
+                client.UpdateData(IdNameCb.SelectedIndex + 1, NameTb.Text, descTb.Text, Convert.ToDouble(feeNUD.Value), Convert.ToInt32(quantNUD.Value));
+                newStand.Items = client.RequestItems();
+                mainApp.UpdateListMethod();
+                newStand.Items = client.RequestItems();
+                IdNameCb.Items.Clear();
+                foreach (Item item in newStand.Items)
+                {
+                    IdNameCb.Items.Add(item.ID + " " + item.Name);
+                }
+                NameTb.Clear();
+                descTb.Clear();
+                IdNameCb.SelectedIndex = -1;
+                feeNUD.Value = 0;
+                quantNUD.Value = 0;
+                mainApp.ClearGUI();
+            }
         }
         private void IdNameCb_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -70,5 +76,10 @@ namespace Rent_Items_Test
             }
         }
         #endregion
+
+        private void UpdateItem_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            mainApp.ClearGUI();
+        }
     }
 }

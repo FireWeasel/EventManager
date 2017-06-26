@@ -43,7 +43,7 @@ namespace CheckOut
             }
             catch (WebException)
             {
-                MessageBox.Show("You've logged out from the server!");
+                
             }
 
             return responseValue;
