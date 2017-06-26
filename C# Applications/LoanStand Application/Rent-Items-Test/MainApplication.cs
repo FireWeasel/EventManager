@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using ZXing;
+using System.Net;
 
 namespace Rent_Items_Test
 {
@@ -83,8 +84,7 @@ namespace Rent_Items_Test
                 pictureBox1.Image = null;
                 btnStopCamera.Enabled = false;
                 btnStopCamera.Visible = false;
-                if (ticket != null)
-                   {
+
                    if (ticket.CheckedIn)
                     {
                       if (!ticket.CheckedOut)
@@ -121,17 +121,12 @@ namespace Rent_Items_Test
                                 lblErrorMessage.Text = "Ticket is not checked in!";
                                 timer2.Start();
                             }
-                        }
-                        else
-                        {
-                            lblErrorMessage.Text = "Invalid ticket!";
-                            timer2.Start();
-                        }
                 UpdateListMethod();
                 StockNUD.Value = 0;
                 label4.Text = "0";
                 label7.Text = "0";
             }
+            catch (WebException) { StopCamera(); ClearGUI(); lblErrorMessage.Text = "Ticket not found!"; timer2.Start(); }
             catch
             {
             }
@@ -216,6 +211,17 @@ namespace Rent_Items_Test
             LoanBtn.Enabled = false;
             label4.Text = null;
             label7.Text = null;
+        }
+        private void StopCamera()
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+                timer1.Stop();
+                btnStopCamera.Visible = false;
+                btnStopCamera.Enabled = false;
+                pictureBox1.Image = null;
+            }
         }
         #endregion
         #region Form methods

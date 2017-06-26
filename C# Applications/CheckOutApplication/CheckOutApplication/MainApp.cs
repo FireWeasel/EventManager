@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using ZXing;
 using AForge.Video;
 using AForge.Video.DirectShow;
-
+using System.Net;
 namespace CheckOut
 {
     public partial class MainApp : Form
@@ -77,6 +77,7 @@ namespace CheckOut
                 button1.Text = "Click to scan ticket";
                 pbCamera.Image = null;
             }
+            catch(WebException) { StopCamera(); lblErrorMessage.Text = "Ticket not found!"; timer2.Start(); }
             catch { }
         }
         #endregion
@@ -207,6 +208,16 @@ namespace CheckOut
             LbUsers.Items.Add("User ID: " + user.Id);
             LbUsers.Items.Add("Username: " + user.Username);
             LbUsers.Items.Add("E-mail: " + user.Email);
+        }
+        private void StopCamera()
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+                timer1.Stop();
+                pbCamera.Image = null;
+                button1.Text = "Click to scan ticket";
+            }
         }
         #endregion
     }

@@ -36,6 +36,11 @@ namespace CheckOut
                         thread.Start();
                     }
                 }
+                else
+                {
+                    tbUsername.Clear();
+                    tbPassword.Clear();
+                }
             }
             catch(FormatException)
             {

@@ -387,7 +387,7 @@ namespace Statistics
             }
             catch (WebException e)
             {
-                MessageBox.Show("Error loging in the server!");
+                MessageBox.Show("Login unsuccessful!");
                 return false;
             }
         }

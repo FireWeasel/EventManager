@@ -44,6 +44,11 @@ namespace Statistics
                     thread.Start();
                 }
             }
+            else
+            {
+                textBox1.Clear();
+                textBox2.Clear();
+            }
         }
 
         private void openNewForm()

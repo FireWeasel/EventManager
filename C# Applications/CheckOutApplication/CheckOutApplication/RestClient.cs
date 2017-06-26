@@ -45,7 +45,6 @@ namespace CheckOut
             {
                 
             }
-
             return responseValue;
         }
         public User GetLoggedUser(string url)
@@ -132,8 +131,6 @@ namespace CheckOut
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
-            try
-            {
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -151,11 +148,6 @@ namespace CheckOut
                         }
                     }
                 }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<Ticket>(strResponseValue);
             ticket = item;
@@ -226,7 +218,7 @@ namespace CheckOut
             }
             catch (WebException e)
             {
-                MessageBox.Show("There was an error loging to the server!");
+                MessageBox.Show("Login unsuccessful!");
                 return false;
             }
         }
@@ -249,7 +241,6 @@ namespace CheckOut
                 result = sr.ReadToEnd();
             }
         }
-
         public void CheckOutTicket(long id)
         {
             String result;

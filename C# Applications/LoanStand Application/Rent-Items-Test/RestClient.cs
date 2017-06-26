@@ -78,8 +78,6 @@ namespace Rent_Items_Test
             request.ContentType = "application/json";
             request.Method = "GET";
             request.CookieContainer = cookieContainer;
-            try
-            {
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -97,12 +95,6 @@ namespace Rent_Items_Test
                         }
                     }
                 }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-                return null;
-            }
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var item = serializer.Deserialize<Ticket>(strResponseValue);
             ticket = item;
