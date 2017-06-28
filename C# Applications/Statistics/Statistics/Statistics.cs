@@ -76,7 +76,7 @@ namespace Statistics
         }
         private double LoanStandRevenue()
         {
-            return client.GetLoanStand().Revenue;
+            return client.GetLoanStand().Revenue    ;
         }
         private int CountCamps()
         {

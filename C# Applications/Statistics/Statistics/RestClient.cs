@@ -235,43 +235,45 @@ namespace Statistics
         }
         public List<Item> LoanedItem()
         {
-            string endPoint = "http://localhost:8080/tickets/1/items";
+            List<Ticket> tickets = GetTickets();
             List<Item> LoanedItems = new List<Item>();
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
-
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
+            foreach (Ticket t in tickets)
             {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                string endPoint = "http://localhost:8080/tickets/" +t.ID +"/items";
+                
+                string strResponseValue = string.Empty;
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+
+                request.Method = "GET";
+                request.CookieContainer = cookieContainer;
+                try
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                     {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
+                        if (response.StatusCode != HttpStatusCode.OK)
                         {
-                            using (StreamReader reader = new StreamReader(responseStream))
+                            throw new ApplicationException("Error connecting with the server!");
+                        }
+                        using (Stream responseStream = response.GetResponseStream())
+                        {
+                            if (responseStream != null)
                             {
-                                strResponseValue = reader.ReadLine();
+                                using (StreamReader reader = new StreamReader(responseStream))
+                                {
+                                    strResponseValue = reader.ReadLine();
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Item>>(strResponseValue);
-            foreach (Item i in item)
-            {
-                LoanedItems.Add(i);
+                catch (WebException webExc)
+                {
+                    MessageBox.Show(webExc.Message);
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var item = serializer.Deserialize<List<Item>>(strResponseValue);
+                LoanedItems.AddRange(item);
             }
             return LoanedItems;
         }
@@ -457,7 +459,7 @@ namespace Statistics
             }
             catch (WebException)
             {
-                MessageBox.Show("You've logged out from the server!");
+                
             }
 
             return responseValue;
