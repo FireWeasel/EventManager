@@ -321,43 +321,45 @@ namespace Statistics
         }
         public List<Classes> GetSoldProduct()
         {
-            string endPoint = "http://localhost:8080/tickets/1/products";
+            List<Ticket> tickets = GetTickets();
             List<Classes> Products = new List<Classes>();
-            string strResponseValue = string.Empty;
+            foreach (Ticket t in tickets)
+            {   
+                string endPoint = "http://localhost:8080/tickets/ " + t.ID + "/products";
+                
+                string strResponseValue = string.Empty;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
 
-            request.Method = "GET";
-            request.CookieContainer = cookieContainer;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                request.Method = "GET";
+                request.CookieContainer = cookieContainer;
+                try
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                     {
-                        throw new ApplicationException("Error connecting with the server!");
-                    }
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        if (responseStream != null)
+                        if (response.StatusCode != HttpStatusCode.OK)
                         {
-                            using (StreamReader reader = new StreamReader(responseStream))
+                            throw new ApplicationException("Error connecting with the server!");
+                        }
+                        using (Stream responseStream = response.GetResponseStream())
+                        {
+                            if (responseStream != null)
                             {
-                                strResponseValue = reader.ReadLine();
+                                using (StreamReader reader = new StreamReader(responseStream))
+                                {
+                                    strResponseValue = reader.ReadLine();
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch (WebException webExc)
-            {
-                MessageBox.Show(webExc.Message);
-            }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var item = serializer.Deserialize<List<Classes>>(strResponseValue);
-            foreach (Classes i in item)
-            {
-                Products.Add(i);
+                catch (WebException webExc)
+                {
+                    MessageBox.Show(webExc.Message);
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var item = serializer.Deserialize<List<Classes>>(strResponseValue);
+                Products.AddRange(item);
             }
             return Products;
         }
