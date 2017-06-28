@@ -68,7 +68,7 @@ namespace Statistics
         private double ShopRevenue()
         {
             double price = 0;
-            foreach(Shop shop in shop)
+            foreach(Shop shop in client.GetShop())
             {
                 price += shop.Revenue;
             }
@@ -76,7 +76,7 @@ namespace Statistics
         }
         private double LoanStandRevenue()
         {
-            return stand.Revenue;
+            return client.GetLoanStand().Revenue;
         }
         private int CountCamps()
         {
